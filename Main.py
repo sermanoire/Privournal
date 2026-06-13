@@ -5,6 +5,30 @@ NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER '''
 
 #DATABASE
 
+#DATA Fetchall -- List of different records and each column's info in a tuple.
+
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
+load_dotenv()
+import mysql.connector as sql
+
+mycon = sql.connect(host=os.getenv("DB_HOST"),
+                    user=os.getenv("DB_USER"),
+                    database=os.getenv("DB_NAME"),
+                    password=os.getenv("DB_PASSWORD"))
+
+if mycon.is_connected():
+    print("Connection's strong!")
+else:
+    print("Not connected.")
+
+cursor = mycon.cursor()
+
+cursor.execute("SELECT * FROM records")
+print(cursor.fetchall())
+
 from datetime import date
 
 today = date.today()
@@ -44,6 +68,8 @@ def feed():
 
 
 def start():
+    print()
+    print()
     print("Welcome to Privournal!")
     print("We help your Journals stay Private and Safe :) ")
     Menu()
@@ -187,14 +213,13 @@ def signup():
             data = cursor.fetchall()
             user_id = len(data)
             print("Your user_id is ",user_id)
-            if m = 1:
+            if m == 1:
                 encryptionmode = "Adv. Encryption with Swiption"
 
-            elif m = 2:
+            elif m == 2:
                 encryptionmode = "Adv. Encryption"
                 encryptiondetails = str(cover_dict)
-            else:
-                continue
+
 
             date = today
 
