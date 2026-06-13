@@ -5,34 +5,48 @@ NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER '''
 
 #DATABASE
 
-import mysql.connector as sql
+from datetime import date
 
-mycon = sql.connect(host="localhost",
-                    user="root",
-                    database="privournal",
-                    password="manimonit09")
+today = date.today()
 
-if mycon.is_connectedd():
-    print("Connection's strong!")
-else:
-    print("Not connected.")
+def optional():
+    print("Do you want to save encryption details on our database for future decryptions and referencing records?")
+    ch4 = input("(Y/N) : ")
 
-cursor = mycon.cursor()
+    if ch4 == "Y" or ch3 == "y":
+        basic()
+    elif ch4 == "N" or ch4 == "n":
+        print("Please have all the encryption details saved with you!")
+        print(str(cover_dict))
+        exit()
+    else:
+        print("Invalid input!")
+        optional()
 
-cursor.execute("CREATE TABLE records (Name VARCHAR(255) NOTNULL, pswd VARCHAR(255) NOTNULL, email VARCHAT(255) NOTNULL, userid INT NOT NULL);")
+def exit():
+    print()
+    print("Thank you for using Privournal!")
+    print("Be sure to keep your encrytion details in your memory or on some paper! \n(If you do not have an account)")
+    print("Bye!")
+    print()
+    print()
+    print()
+    Menu()
+
 def feed():
-    journal = input("Please feed the Journal : ")
+    journal = input("Please feed the Journal for Encryption : ")
 
-    if journal == "":
+    if journal:
         print("Empty Journal!")
     else:
         print("Journal Uploaded!")
 
 
+
 def start():
     print("Welcome to Privournal!")
     print("We help your Journals stay Private and Safe :) ")
-    basic()
+    Menu()
 
 
 
@@ -43,15 +57,22 @@ def Menu():
     print()
     print("1. Encrypt a Journal Entry")
     print("2. Decrypt a Journal Entry")
-    print("(Enter just 1 OR 2)")
+    print("3. Exit")
+    print("(Enter just 1 OR 2 OR 3)")
     print()
     ch = int(input("I want to : "))
+
 
 
     if ch == 1:
         En()
     elif ch == 2:
         De()
+    elif ch == 3:
+        exit()
+    else:
+        print("Invalid Choice")
+        Menu()
 
 
 def basic():
@@ -91,10 +112,14 @@ def En():
         ask = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
 
         if ask == "Y" or ask == "y":
-            swiptionEn()
+            m = 1
+            print("swiptionEn()")
+
 
         elif ask == "N" or ask == "n":
+            m = 2
             AdvEn()
+
 
         else:
             print("Invalid choice")
@@ -158,7 +183,26 @@ def signup():
             print("Account made succesfully!")
             print()
             print()
+            input("Name your Journal --> ")
+            data = cursor.fetchall()
+            user_id = len(data)
+            print("Your user_id is ",user_id)
+            if m = 1:
+                encryptionmode = "Adv. Encryption with Swiption"
+
+            elif m = 2:
+                encryptionmode = "Adv. Encryption"
+                encryptiondetails = str(cover_dict)
+            else:
+                continue
+
+            date = today
+
+            #ADD TO DATABASE!
+
+            print("Successfully added to Database!")
             Menu()
+
 
         else:
             print("The passwords don't match.")
@@ -167,6 +211,53 @@ def signup():
 
 def De():
     print("Let's start Decryption!")
+    ch5 = input("Do you have an Account on Privournal? (Y/N) : ")
+    if ch5 == "y" or ch5 == "Y":
+        login()
+    elif ch5 == "n" or ch5 == "N":
+        ch6 = input("Do you remember the encryption detail or have it ritten down? (Y/N) ")
+        if ch6 == "y" or ch6 == "Y":
+            print("Select one. (1 or 2)")
+            print('''
+            1. Basic Encryption
+            2. Advanced Ecryption 
+            ''')
+
+            ch7 = input("Enter Choice : ")
+            if ch7 == 1:
+                print("Choose an Ecryption : ")
+                print()
+                print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
+                print("2. ASCII Version")
+                print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+                print(
+                    "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. And a to z from 1 to 51, odd numbers only.)")
+                print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
+                print()
+
+            elif ch7 == 2:
+                encryptedjournal = input("Please enter the raw encrypted Journal in text format : ")
+                enjournal = list(encryptedjournal)
+                encryptiondetails = input("Enter the encryption details provided by Privournal :")
+
+                cover_dict1 = dict(encryptiondetails)
+
+                if len(cover_dict1)>26:
+                    for k in enjournal:
+                        y = cover_dict1[ord(k)]
+
+                        index = enjournal.index(k)
+                        enjournal[index] = y
+
+                    finaloutput = "".join(enjournal)
+                    print()
+                    print("Here is your decrypted text :)")
+                    print(finaloutput)
+                    print()
+                    print("Thank you so much for using Privournal.")
+                    print("You'll be redirected to the menu...")
+                    Menu()
+
 
 
 def Endet():
@@ -174,19 +265,17 @@ def Endet():
     print("Should contain Date, ID, Name, Type of Encryption, Additional Password Protection (Optional)")
 
 
-
 def login():
 
     username1 = input("Enter Username : ")
     pswd1 = input("Enter Password : ")
 
+    #TO MATCH WITH DATABASE, GET matching username and cross check pass.
+
     print("Seach for username1 in db using traversing and check if it's pass is same as pswd1")
 
     if pswd1 == pswd:
         print("Logged in Successfully!")
-        print()
-        print()
-        Endet()
         print()
         print()
         Menu()
@@ -201,8 +290,40 @@ def login():
     login()
 
 
+
 def exit():
     basic()
+
+def AdvEn():
+
+    enlist = []
+    feed()
+    print("Choose cover for each letter!")
+    ch3 = input("Do you want to keep capitals and smalls seperate? (Y/N) ")
+
+    if ch3 == "Y" or ch3 == "y":
+        for i in range(65,91,1):
+            cover_dict = {i: "" for i in range(65, 91)}
+        for j in range(97,123,1):
+            cover_dict.update({i: "" for i in range(97, 123)})
+
+        for x in journal:
+            if text.isalpha():
+                x1 = ord(x)
+                m = cover_dict[x1]
+                enlist.append(m)
+            else:
+                enlist.append(m)
+
+    finalenlist = "".join(enlist)
+    print()
+    print("Successfully Encrypted!")
+    print()
+    print("Here's the encrypted Journal : ")
+    print(finalenlist)
+    print()
+    print()
+    optional()
 
 start()
 basic()
