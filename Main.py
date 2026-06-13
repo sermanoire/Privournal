@@ -2,6 +2,24 @@
 ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
 ENCRYPTION DATA CAN BE ALSO PASSWORD PROTECTED.
 NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER '''
+
+#DATABASE
+
+import mysql.connector as sql
+
+mycon = sql.connect(host="localhost",
+                    user="root",
+                    database="privournal",
+                    password="manimonit09")
+
+if mycon.is_connectedd():
+    print("Connection's strong!")
+else:
+    print("Not connected.")
+
+cursor = mycon.cursor()
+
+cursor.execute("CREATE TABLE records (Name VARCHAR(255) NOTNULL, pswd VARCHAR(255) NOTNULL, email VARCHAT(255) NOTNULL, userid INT NOT NULL);")
 def feed():
     journal = input("Please feed the Journal : ")
 
@@ -58,12 +76,29 @@ def En():
     ch2 = int(input("I choose : "))
 
     if ch2 == 1:
-        print("Basic Encryption in progress.")
+        print("Welcome to Basic Encryption!")
+        print("Please choose one of the following : ")
         print()
+        print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
+        print("2. ASCII Version")
+        print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+        print("4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. And a to z from 1 to 51, odd numbers only.)")
+        print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
 
     elif ch2 == 2:
         print("Advanced Encryption in progress.")
         print()
+        ask = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
+
+        if ask == "Y" or ask == "y":
+            swiptionEn()
+
+        elif ask == "N" or ask == "n":
+            AdvEn()
+
+        else:
+            print("Invalid choice")
+
 
 
 def signup():
@@ -171,3 +206,6 @@ def exit():
 
 start()
 basic()
+
+cursor.close()
+mycon.close()
