@@ -114,6 +114,8 @@ def basic():
         basic()
 
 def En():
+
+
     print("Choose Mode of Encryption :) ")
     print("1. Basic (Weak but holds well if you have dummies tryna read your Journal)")
     print(
@@ -174,7 +176,7 @@ def signup():
         signup()
 
     else:
-        username = tusername
+        username2 = tusername
 
 
     tpswd = input("Set a password : ")
@@ -204,7 +206,7 @@ def signup():
         t_conf_pswd = input("Confrim password : ")
 
         if t_conf_pswd == tpswd:
-            pswd = tpswd
+            pswd2 = tpswd
             print()
             print("Account made succesfully!")
             print()
@@ -236,6 +238,9 @@ def signup():
 
 def De():
     print("Let's start Decryption!")
+
+    if status == 1:
+
     ch5 = input("Do you have an Account on Privournal? (Y/N) : ")
     if ch5 == "y" or ch5 == "Y":
         login()
@@ -267,8 +272,8 @@ def De():
 
                 cover_dict1 = dict(encryptiondetails)
 
-                if len(cover_dict1)>26:
-                    for k in enjournal:
+
+                for k in enjournal:
                         y = cover_dict1[ord(k)]
 
                         index = enjournal.index(k)
@@ -295,14 +300,26 @@ def login():
     username1 = input("Enter Username : ")
     pswd1 = input("Enter Password : ")
 
-    #TO MATCH WITH DATABASE, GET matching username and cross check pass.
+    cursor.execute(
+        "SELECT password FROM records WHERE username = %s",
+        (username,)
+    )
 
-    print("Seach for username1 in db using traversing and check if it's pass is same as pswd1")
+    result = cursor.fetchone()
+
+    if result == None:
+        print("No such Username in our database found!")
+    else:
+
+
+      pswd = result[0]
+
 
     if pswd1 == pswd:
         print("Logged in Successfully!")
         print()
         print()
+        status = 1
         Menu()
 
 
@@ -311,8 +328,13 @@ def login():
         print("Wrong Password.")
 
     print()
-    print()
-    login()
+    exch = int(input("Exit or login again? (1/2) : "))
+    if exch == 1:
+        exit()
+    elif exch = 2:
+        login()
+    else:
+        print("Wrong.")
 
 
 

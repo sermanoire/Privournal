@@ -25,3 +25,4 @@ cursor.execute("SELECT * FROM records")
 print(cursor.fetchall())
 
 
+
