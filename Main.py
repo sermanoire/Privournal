@@ -1,12 +1,6 @@
-''' PRIVOURNAL STORES NO DATA EXCEPT ACCOUNT DETAILS.
-ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
-ENCRYPTION DATA CAN BE ALSO PASSWORD PROTECTED.
-NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER '''
 
-#DATABASE
-
-#DATA Fetchall -- List of different records and each column's info in a tuple.
-
+#This is a round, unpolished scattered version
+#I coded most of the things here first, but moved them to FirstCompiledCode (Even that has errors but i'm actively fixing them)
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -377,3 +371,4 @@ basic()
 
 cursor.close()
 mycon.close()
+

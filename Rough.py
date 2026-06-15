@@ -5,16 +5,6 @@ import time
 from datetime import date
 
 
-
-d = {
-    "name": "Manonit",
-    "age": 17
-}
-
-s = json.dumps(d)      # dict -> string
-
-d2 = json.loads(s)     # string -> dict
-
 #RANDOM AS SEPERATE, RANDOMLY ADV AND SWIPTION
 
 def randomEe():
@@ -45,4 +35,5 @@ print(finalenlistrandom)
 print()
 
 def randomDn():
+
 
