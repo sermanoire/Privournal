@@ -84,34 +84,26 @@ def start():
 
 
 def Menu():
-    while True:
-        print()
-        print("\nWhat would you like to do today?")
-        print("1. Encrypt a Journal Entry")
-        print("2. Decrypt a Journal Entry")
-        print("3. Exit")
-        print()
+    print()
+    print()
+    print("What would you like to do today?")
+    print()
+    print("1. Encrypt a Journal Entry")
+    print("2. Decrypt a Journal Entry")
+    print("3. Exit")
+    print("(Enter just 1 OR 2 OR 3)")
+    print()
+    ch = int(input("I want to : "))
 
-        try:
-            ch = int(input("I want to (1 OR 2 OR 3) : "))
-            print()
-        except ValueError:
-            print("Please enter a number (1, 2, or 3) * :")
-            print()
-            print()
-            continue
-
-        if ch == 1:
-            En()
-        elif ch == 2:
-            De()
-        elif ch == 3:
-            print("Thank you! Byeeee :)")
-            break
-        else:
-            print("Invalid Choice")
-            print()
-            print()
+    if ch == 1:
+        En()
+    elif ch == 2:
+        De()
+    elif ch == 3:
+        exit()
+    else:
+        print("Invalid Choice")
+        Menu()
 
 def exit():
     print("Thank you so much for using Privournal, Have a nice day!")
@@ -175,48 +167,49 @@ def De():
         for j in en_date:
             print("Date Created : ",j)
             print()
-            print()
 
-            which_j()
 
-            print("Starting Decryption!")
-            print()
+        which_j()
 
-            og_dict_key = json.loads(KEY)
-            RAW = input("Enter the raw encrypted journal : ")
-            RAWlist = RAW.split(" ")
+        print("Starting Decryption!")
+        print()
 
-            tempstore = []
-            for i in RAWlist:
-                for key, value in og_dict_key.items():
-                    if i == "":
-                        tempstore.append(" ")
-                        break
+        og_dict_key = json.loads(KEY)
 
-                    elif not i.isalnum():
-                        tempstore.append(i)
-                        break
+        RAW = input("Enter the raw encrypted journal : ")
+        RAWlist = RAW.split(" ")
 
-                    elif (str(i)+" ") == value:
-                        tempstore.append(key)
-                        break
-                    else:
-                        continue
+        tempstore = []
+        for i in RAWlist:
+            for key, value in og_dict_key.items():
+                if i == "":
+                    tempstore.append(" ")
+                    break
 
-            decrypted = "".join(tempstore)
+                elif not i.isalnum():
+                    tempstore.append(i)
+                    break
 
-            print()
-            print("Decrypted Successfully!")
-            print("Here's your Journal --> ",decrypted)
-            print()
-            print()
-            print("You will be redirect to Menu in 10 seconds :) ")
-            print()
-            time.sleep(1)
-            print("You can copy your decrypted journal and save it somewhere safe!")
-            print()
-            time.sleep(10)
-            Menu()
+                elif (str(i) + " ") == value:
+                    tempstore.append(key)
+                    break
+                else:
+                    continue
+
+        decrypted = "".join(tempstore)
+
+        print()
+        print("Decrypted Successfully!")
+        print("Here's your Journal --> ", decrypted)
+        print()
+        print()
+        print("You will be redirect to Menu in 10 seconds :) ")
+        print()
+        time.sleep(1)
+        print("You can copy your decrypted journal and save it somewhere safe!")
+        print()
+        time.sleep(10)
+        Menu()
 
     elif status != 1:
         Ch3 = input("Do you have an Account on Privournal? (Y/N) : ")
@@ -237,39 +230,25 @@ def De():
             print()
             if Ch4 == 1:
 
-                Ch10 = input("Do you have the Encryption Key? (Y/N) : ")
-
-                if Ch10 == "y" or Ch10 == "Y":
-
-
+                    global RAW2
+                    RAW2 = input("Enter the Encrypted text : ")
+                    delist = []
+                    global Ch5
+                    print()
                     print()
                     print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
                     print("2. ASCII Version")
                     print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
-                    print("4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
+                    print(
+                        "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
                     print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                     print()
-                    print()
-
-                    RAW = input("Enter the Encrypted text : ")
-                    delist = []
-                    global Ch5
                     Ch5 = input("Which one out of these? (1-5) : ")
                     print()
                     print("Decrypting...")
                     print()
                     time.sleep(3)
-                    basicEn()
-
-
-
-                elif Ch10 == "n" or Ch10 == "N":
-                    print("We're sorry, we cannot Decryption without the Key. \nBe sure to make an account on Privournal if you have trouble keeping Keys.")
-                    print()
-                    print("You will be redirected to the Menu Shortly.")
-                    print()
-                    time.sleep(3)
-                    Menu()
+                    basicDe()
 
             elif Ch4 == 2:
 
@@ -399,6 +378,8 @@ def login():
 
 def basicDe():
 
+    dakey = {}
+
     if Ch5 == 1:
         dakey = mark1
     elif Ch5 == 2:
@@ -413,7 +394,7 @@ def basicDe():
         print("Invalid Option!")
 
     delist = []
-    for i in RAW:
+    for i in RAW2:
         if i in dakey:
             for keys, values in dakey.items():
                 if keys == i:
@@ -428,7 +409,7 @@ def basicDe():
     print()
     print()
     time.sleep(1)
-    print("Here's you Decrypted text --> ",textwrap.fill(decrypted, width=80))
+    print("Here's you Decrypted text --> ",decrypted)
     print()
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
@@ -482,9 +463,6 @@ def En():
                     print("Please have all the encryption details saved with you then!")
                     print()
 
-                    RAW = input("Please feed the Journal for Encryption : ")
-                    print()
-
                     if Ch5 == 1:
                         dakey = mark1
                     elif Ch5 == 2:
@@ -498,8 +476,12 @@ def En():
                     else:
                         print("Invalid Option!")
 
+                    j = input("Please feed the Journal for Encryption : ")
+                    print()
+                    journal = list(j)
                     delist = []
-                    for i in RAW:
+
+                    for i in journal:
                         if i in dakey:
                             for keys, values in dakey.items():
                                 if keys == i:
@@ -509,12 +491,12 @@ def En():
                         else:
                             delist.append(i)
 
-                    decrypted = "".join(delist)
-                    print("Succesfully Decrypted!")
+                    encrypted = "".join(delist)
+                    print("Succesfully Encrypted!")
                     time.sleep(1)
                     print()
                     print()
-                    print("Here's you Decrypted text --> ",decrypted)
+                    print("Here's you Encrypted text --> ",encrypted)
                     print()
                     print("Thank you for using Privournal!")
                     print("Be sure to make an account for smoother experience in future :) ")
@@ -529,7 +511,8 @@ def En():
 
         else:
 
-            RAW = input("Please feed the Journal for Encryption : ")
+            j = input("Please feed the Journal for Encryption : ")
+            journal = list(j)
             jname = input("Please name your Journal : ")
 
             if Ch5 == 1:
@@ -546,7 +529,7 @@ def En():
                 print("Invalid Option!")
 
             delist = []
-            for i in RAW:
+            for i in journal:
                 if i in dakey:
                     for keys, values in dakey.items():
                         if keys == i:
