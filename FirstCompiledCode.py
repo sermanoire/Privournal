@@ -112,7 +112,6 @@ def Menu():
             print()
             print()
 
-
 def exit():
     print("Thank you so much for using Privournal, Have a nice day!")
     print("Byeeeeee :)")
