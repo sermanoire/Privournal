@@ -146,3 +146,45 @@ for i in JOURNAL:
 finalnormal_journal = "".join(normal_journal)
 print(textwrap.fill(finalnormal_journal, width=50))
 Menu()
+
+
+elif ch2 == 2:
+        print("Advanced Encryption it is then!")
+        print()
+        ask = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
+
+        if ask == "Y" or ask == "y":
+            m = 1
+            print("swiptionEn()")
+            #IN PROGRESS
+        elif ask == "N" or ask == "n":
+            m = 2
+            AdvEn()
+        else:
+            print("Invalid choice")
+            En()
+
+
+
+
+
+
+
+
+
+
+
+
+
+def cover():
+         print("What should be the cover for",x,"?")
+         cover = input("Cover = ")
+         if cover not in trackHEH:
+                    print()
+                    cover = cover + " "
+                    cover_dict[x] = cover
+                    enlist.append(cover)
+                    trackHEH.append(cover)
+         else:
+            print("2 letters can't have the same cover na! ")
+            cover()
