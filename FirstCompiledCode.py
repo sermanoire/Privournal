@@ -230,9 +230,10 @@ def De():
             print()
             if Ch4 == 1:
 
-                    global RAW2
                     RAW2 = input("Enter the Encrypted text : ")
-                    delist = []
+                    global RAW2list
+                    RAW2list = RAW2.split(" ")
+
                     global Ch5
                     print()
                     print()
@@ -243,7 +244,7 @@ def De():
                         "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
                     print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                     print()
-                    Ch5 = input("Which one out of these? (1-5) : ")
+                    Ch5 = int(input("Which one out of these? (1-5) : "))
                     print()
                     print("Decrypting...")
                     print()
@@ -395,15 +396,20 @@ def basicDe():
         print("Invalid Option!")
 
     delist = []
-    for i in RAW2:
-        if i in dakey:
+
+    for i in RAW2list:
+        if i == "":
+            delist.append(" ")
+        else:
             for keys, values in dakey.items():
-                if keys == i:
-                    delist.append(values)
+                if values.strip() == i:
+                    delist.append(keys)
                 else:
                     continue
-        else:
-            delist.append(i)
+            if not i.isalnum() and i != "":
+                delist.append(i)
+
+
 
     decrypted = "".join(delist)
     print("Succesfully Decrypted!")
