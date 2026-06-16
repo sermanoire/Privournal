@@ -391,6 +391,7 @@ def basicDe():
     elif Ch5 == 5:
         dakey = mark4
     else:
+
         print("Invalid Option!")
 
     delist = []
