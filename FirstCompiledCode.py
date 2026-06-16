@@ -81,27 +81,37 @@ def start():
     print("We help your Journals stay Private and Safe :) ")
     Menu()
 
-def Menu():
-    print()
-    print()
-    print("What would you like to do today?")
-    print()
-    print("1. Encrypt a Journal Entry")
-    print("2. Decrypt a Journal Entry")
-    print("3. Exit")
-    print()
-    ch = int(input("I want to (1 OR 2 OR 3) : "))
 
-    if ch == 1:
-        En()
-    elif ch == 2:
-        De()
-    elif ch == 3:
-        exit()
-    else:
+def Menu():
+    while True:
         print()
-        print("Invalid Choice")
-        Menu()
+        print("\nWhat would you like to do today?")
+        print("1. Encrypt a Journal Entry")
+        print("2. Decrypt a Journal Entry")
+        print("3. Exit")
+        print()
+
+        try:
+            ch = int(input("I want to (1 OR 2 OR 3) : "))
+            print()
+        except ValueError:
+            print("Please enter a number (1, 2, or 3) * :")
+            print()
+            print()
+            continue
+
+        if ch == 1:
+            En()
+        elif ch == 2:
+            De()
+        elif ch == 3:
+            print("Thank you! Byeeee :)")
+            break
+        else:
+            print("Invalid Choice")
+            print()
+            print()
+
 
 def exit():
     print("Thank you so much for using Privournal, Have a nice day!")
@@ -197,7 +207,7 @@ def De():
 
             print()
             print("Decrypted Successfully!")
-            print("Here's your Journal --> ", textwrap.fill(decrypted, width=80))
+            print("Here's your Journal --> ",decrypted)
             print()
             print()
             print("You will be redirect to Menu in 10 seconds :) ")
@@ -293,7 +303,7 @@ def De():
                     print()
                     print()
                     print("Decrypted!")
-                    print("Here's your Journal --> ", textwrap.fill(decrypted, width=80))
+                    print("Here's your Journal --> ", decrypted)
                     print()
                     print()
                     print("You will be redirect to Menu in 15 seconds :) ")
@@ -335,7 +345,7 @@ def login():
 
         fetchedetails = cursor.fetchall()
 
-        if fetchedetails == None:
+        if fetchedetails == []:
             print()
             print("No such Username found in our database!")
         else:
@@ -504,7 +514,7 @@ def En():
                     time.sleep(1)
                     print()
                     print()
-                    print("Here's you Decrypted text --> ",textwrap.fill(decrypted, width=80))
+                    print("Here's you Decrypted text --> ",decrypted)
                     print()
                     print("Thank you for using Privournal!")
                     print("Be sure to make an account for smoother experience in future :) ")
@@ -566,7 +576,7 @@ def En():
 
             print()
             print()
-            print("Here's you Encrypted Journal --> ",textwrap.fill(encrypted, width=80))
+            print("Here's you Encrypted Journal --> ",encrypted)
             print()
             print("Thank you for using Privournal!")
             print("You'll be redirected to the menu.")
@@ -652,7 +662,7 @@ def AdvEn():
                 print()
                 print("Successfully Encrypted!")
                 print()
-                print("Here's the encrypted Journal --> ",textwrap.fill(finalenlist, width=80))
+                print("Here's the encrypted Journal --> ",finalenlist)
                 print()
                 print()
                 print("You'll be redirected to the a new page.")
@@ -713,7 +723,7 @@ def AdvEn():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's the encrypted Journal --> ", textwrap.fill(finalenlist, width=80))
+        print("Here's the encrypted Journal --> ", finalenlist)
         print()
         print()
         print("You'll be redirected to the a new page.")
