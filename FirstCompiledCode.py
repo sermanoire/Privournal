@@ -12,6 +12,38 @@ import json
 import time
 from datetime import date
 status = 0
+import textwrap
+
+
+mark1 = {}
+for i in range(26):
+  mark1[chr(65 + i)] = str(i + 1)+" "
+  mark1[chr(97 + i)] = str(27 + i)+" "
+
+# ASCII Version!
+asciiv = {}
+for i in range(65, 91):
+        asciiv[chr(i)] = str(i)+" "
+for j in range(97, 123):
+        asciiv[chr(i)] = str(i)+" "
+
+# Mark 2
+mark2 = {}
+for i in range(26):
+        mark2[chr(65 + i)] = str(26 - i)+" "
+        mark2[chr(97 + i)] = str(52 - i)+" "
+
+# Mark 3
+mark3 = {}
+for i in range(26):
+        mark3[chr(65 + i)] = str(2 * (i + 1))+" "
+        mark3[chr(97 + i)] = str((2 * i) + 1)+" "
+
+# Mark 4
+mark4 = {}
+for i in range(26):
+        mark4[chr(65 + i)] = chr(90 - i)+" "
+        mark4[chr(97 + i)] = chr(122 - i)+" "
 
 
 
@@ -92,58 +124,62 @@ def De():
         WHERE ur.username = %s
         ''', (username,))
 
-
         j_data = cursor.fetchall()
 
-        user_id.append(j_data[0][0])
+
+        global user_id
+        user_id = (j_data[0][1])
         print("User_ID is",user_id)
 
+
+        global j_id
         j_id = []
-        for i in j_data:
-            j_id.append(j_data[i][1])
+        for i in range(len(j_data)):
+            j_id.append((j_data[i][0]))
             print("Journal_ID",i+1, j_id)
 
+        global j_name
         j_name = []
-        for i in j_data:
+        for i in range(len(j_data)):
             j_name.append(j_data[i][2])
-            print("Journal_Name", i + 1, j_id)
+            print("Journal_Name", i + 1,j_name)
 
+
+        global en_key
         en_key = []
-        for i in j_data:
+        for i in range(len(j_data)):
             en_key.append(j_data[i][3])
-            print("Encryption_Key", i + 1, j_id)
+            print("Encryption_Key", i + 1,en_key)
 
+
+        global en_date
         en_date = []
-        for i in j_data:
+        for i in range(len(j_data)):
             en_date.append(j_data[i][4])
-            print("Encryption_Date", i + 1, j_id)
+            print("Encryption_Date",i + 1,en_date)
 
-            Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
-
-            if Ch not in en_key:
-                print("Journal not found. Check the ID again!")
-                which_j()
-
-            for i in en_key:
-
-                if en_key[i] == Ch:
-                    KEY = en_key[i]
-                else:
-                    continue
+            which_j()
 
             print("Starting Decryption!")
 
             og_dict_key = json.loads(KEY)
             RAW = input("Enter the raw encrypted journal : ")
+            RAWlst = RAW.split(" ")
 
             tempstore = []
-            for i in RAW:
+            for i in RAWlst:
                 for key, value in og_dict_key.items():
-                    if not i.isalnum():
-                        tempstore.append(i)
+                    if i == "":
+                        tempstore.append(" ")
+                        break
 
-                    elif i == value:
+                    elif not i.isalnum():
+                        tempstore.append(i)
+                        break
+
+                    elif (str(i)+" ") == value:
                         tempstore.append(key)
+                        break
                     else:
                         continue
 
@@ -160,7 +196,7 @@ def De():
             time.sleep(15)
             Menu()
 
-        elif status != 1:
+    elif status != 1:
         Ch3 = input("Do you have an Account on Privournal? (Y/N) : ")
 
         if Ch3 == "y" or Ch3 == "Y":
@@ -173,43 +209,13 @@ def De():
                     2. Advanced Encryption 
                                         ''')
 
-            Ch4 = input("Which Encryption does your Journal have? (1 OR 2) : ")
+            Ch4 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
             if Ch4 == 1:
 
                 Ch10 = input("Do you have the Encryption Key? (Y/N) : ")
 
-                if Ch6 == "y" or Ch6 == "Y":
+                if Ch10 == "y" or Ch10 == "Y":
 
-                    # Mark 1
-                    mark1 = {}
-                    for i in range(26):
-                        mark1[chr(65 + i)] = i + 1
-                        mark1[chr(97 + i)] = 27 + i
-
-                    # ASCII Version!
-                    asciiv = {}
-                    for i in range(65, 91):
-                        asciiv[chr(i)] = i
-                    for j in range(97, 123):
-                        ascivv[chr(i)] = i
-
-                        # Mark 2
-                    mark2 = {}
-                    for i in range(26):
-                        mark2[chr(65 + i)] = (26 - i)
-                        mark2[chr(97 + i)] = 52 - i
-
-                    # Mark 3
-                    mark3 = {}
-                    for i in range(26):
-                        mark3[chr(65 + i)] = str(2 * (i + 1))+" "
-                        mark3[chr(97 + i)] = str((2 * i) + 1)+" "
-
-                    # Mark 4
-                    mark4 = {}
-                    for i in range(26):
-                        mark4[chr(65 + i)] = chr(90 - i)+" "
-                        mark4[chr(97 + i)] = chr(122 - i)+" "
 
                     print()
                     print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
@@ -221,14 +227,12 @@ def De():
                     print()
                     print()
 
+                    RAW = input("Enter the Encrypted text : ")
+                    delist = []
                     Ch5 = input("Which one out of these? : ")
-
-                    if Ch5 == 1:
-
-                        RAW = input("Enter the Encrypted text : ")
-
-                        for i in RAW:
-                            if i in mark1:
+                    print("Decrypting...")
+                    time.sleep(3)
+                    basicEn()
 
 
 
@@ -240,42 +244,35 @@ def De():
                     time.sleep(3)
                     Menu()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             elif Ch4 == 2:
 
                 Ch6 = input("Do you have the Encryption Key? (Y/N) : ")
 
                 if Ch6 == "y" or Ch6 == "Y":
                     given_dict_key = input("Enter the Encryption Key please : ")
-                    og_dict_key = json.loads(given_dict_key)
 
-                    RAW = input("Enter the raw encrypted journal please : ")
+                    RAW = input("Enter the raw encrypted journal : ")
+                    RAWlst = RAW.split(" ")
 
                     tempstore = []
-                    for i in RAW:
-                        for key, value in og_dict_key.items():
-                            if not i.isalnum():
-                                tempstore.append(i)
+                    for i in RAWlst:
+                        for key, value in given_dict_key.items():
+                            if i == "":
+                                tempstore.append(" ")
+                                break
 
-                            elif i == value:
+                            elif not i.isalnum():
+                                tempstore.append(i)
+                                break
+
+                            elif (str(i) + " ") == value:
                                 tempstore.append(key)
+                                break
+
                             else:
                                 continue
 
                     decrypted = "".join(tempstore)
-
                     print()
                     print("Decrypted!")
                     print("Here's your Journal --> ", decrypted)
@@ -298,10 +295,6 @@ def De():
                     time.sleep(3)
                     Menu()
 
-                    og_dict_key = json.loads(KEY)
-
-
-
 
                 else:
                     print("Invalid choice!")
@@ -310,7 +303,8 @@ def De():
 
 
 def login():
-
+        global username
+        global pswd
         username1 = input("Enter Username : ")
         pswd1 = input("Enter Password : ")
 
@@ -325,7 +319,7 @@ def login():
             print("No such Username in our database found!")
         else:
 
-            if pswd1 == result[0][0]:
+            if pswd1 == fetchedetails[0][0]:
                 print("Logged in Successfully!")
 
                 cursor.execute(
@@ -335,6 +329,12 @@ def login():
 
                 fetchedetails = cursor.fetchall()
 
+                global user_id
+                global username
+                global pswd
+                global email
+                global account_created
+
                 user_id = fetchedetails[0][0]
                 name = fetchedetails[0][1]
                 username = fetchedetails[0][2]
@@ -343,9 +343,10 @@ def login():
                 password = fetchedetails[0][5]
                 print()
                 print()
+                global status
                 status = 1
                 print("You will be redirected to the menu shortly.")
-                time.sleep(3)
+                time.sleep(1)
                 Menu()
 
 
@@ -362,6 +363,45 @@ def login():
                     print("Invalid Choice!")
 
 
+def basicDe():
+
+
+
+    if Ch5 == 1:
+        dakey = mark1
+    elif Ch5 == 2:
+        dakey = asciiv
+    elif Ch5 == 3:
+        dakey = mark2
+    elif Ch5 == 4:
+        dakey = mark3
+    elif Ch5 == 5:
+        dakey = mark4
+    else:
+        print("Invalid Option!")
+
+    delist = []
+    for i in RAW:
+        if i in dakey:
+            for keys, values in dakey.items():
+                if keys == i:
+                    delist.append(values)
+                else:
+                    continue
+        else:
+            delist.append(i)
+
+    decrypted = "".join(delist)
+    print("Succesfully Decrypted!")
+    time.sleep(1)
+    print()
+    print(decrypted)
+    print()
+    print("Thank you for using Privournal!")
+    print("Be sure to make an account for smoother experience in future :)")
+    print("You will be redirected to the Menu in 10 seconds")
+    time.sleep(10)
+    Menu()
 
 
 
@@ -376,7 +416,6 @@ def En():
 
     if ch2 == 1:
         print("Welcome to Basic Encryption!")
-        print("Please choose one of the following : ")
         print()
         print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
         print("2. ASCII Version")
@@ -384,7 +423,132 @@ def En():
         print("4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. And a to z from 1 to 51, odd numbers only.)")
         print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
 
-        #HEHE GOTTA FILL THIS THING
+        global Ch5
+        Ch5 = int(input("Choose one of these : "))
+
+        if status != 1:
+
+            Ch8 = input("Do you have an Account? (Y/N) : ")
+
+            if Ch8 == "Y" or Ch8 == "y":
+                print("You'll be redirected to Login page, please complete the login first :) ")
+                time.sleep(3)
+                login()
+
+            elif Ch8 == "N" or Ch8 == "n":
+
+                print(
+                    "Do you want to save encryption details on our database for future decryptions and referencing records?")
+                Ch7 = input("(Y/N) : ")
+
+                if Ch7 == "Y" or Ch7 == "y":
+                    signup()
+
+                elif Ch7 == "N" or Ch7 == "n":
+                    print("Please have all the encryption details saved with you then!")
+
+                    RAW = input("Please feed the Journal for Encryption : ")
+
+                    if Ch5 == 1:
+                        dakey = mark1
+                    elif Ch5 == 2:
+                        dakey = asciiv
+                    elif Ch5 == 3:
+                        dakey = mark2
+                    elif Ch5 == 4:
+                        dakey = mark3
+                    elif Ch5 == 5:
+                        dakey = mark4
+                    else:
+                        print("Invalid Option!")
+
+                    delist = []
+                    for i in RAW:
+                        if i in dakey:
+                            for keys, values in dakey.items():
+                                if keys == i:
+                                    delist.append(values)
+                                else:
+                                    continue
+                        else:
+                            delist.append(i)
+
+                    decrypted = "".join(delist)
+                    print("Succesfully Decrypted!")
+                    time.sleep(1)
+                    print()
+                    print(decrypted)
+                    print()
+                    print("Thank you for using Privournal!")
+                    print("Be sure to make an account for smoother experience in future :)")
+                    print("You will be redirected to the Menu in 10 seconds")
+                    time.sleep(10)
+                    Menu()
+
+                else:
+                    print("Invalid input!")
+                    AdvEn()
+
+        else:
+
+            RAW = input("Please feed the Journal for Encryption : ")
+            jname = input("Please name your Journal : ")
+
+            if Ch5 == 1:
+                dakey = mark1
+            elif Ch5 == 2:
+                dakey = asciiv
+            elif Ch5 == 3:
+                dakey = mark2
+            elif Ch5 == 4:
+                dakey = mark3
+            elif Ch5 == 5:
+                dakey = mark4
+            else:
+                print("Invalid Option!")
+
+            delist = []
+            for i in RAW:
+                if i in dakey:
+                    for keys, values in dakey.items():
+                        if keys == i:
+                            delist.append(values)
+                        else:
+                            continue
+                else:
+                    delist.append(i)
+
+            decrypted = "".join(delist)
+            print("Succesfully Decrypted!")
+            time.sleep(1)
+
+            journal_name = jname
+
+            encryption_key = json.dumps(dakey)
+            encryption_date = date.today()
+
+            cursor.execute(
+                """
+                INSERT INTO journal_details
+                (user_id, journal_name, encryption_key, encryption_date)
+                VALUES (%s, %s, %s, %s)
+                """,
+                (user_id, journal_name, encryption_key, encryption_date))
+            mycon.commit()
+
+            print()
+            print("Here's the encrypted Journal : ")
+            print()
+            print(decrypted)
+            print()
+            print("Thank you for using Privournal!")
+            print("You'll be redirected to the menu.")
+
+            print()
+            print()
+            time.sleep(5)
+            Menu()
+
 
     elif ch2 == 2:
         print("Advanced Encryption it is then!")
@@ -431,32 +595,43 @@ def AdvEn():
 
                 enlist = []
                 cover_dict = {}
-                feed()
-                print("Choose cover for each letter!")
 
-                for i in range(65, 91, 1):
-                    cover_dict = {i: "" for i in range(65, 91)}
-                for j in range(97, 123, 1):
-                    cover_dict.update({i: "" for i in range(97, 123)})
+                journal = input("Please feed the Journal for Encryption : ")
+                jname = input("Please name your Journal : ")
+
+                if not journal:
+                    print("Empty Journal!")
+                    feed()
+                else:
+                    print("Journal Uploaded!")
+
+                print("Choose cover for each letter man!")
+                print()
 
                 for x in journal:
-                    if text.isalpha():
-                        x1 = ord(x)
-                        m = cover_dict[x1]
-                        enlist.append(m)
+                    if x.isalpha() and x not in cover_dict:
+                        print("What should be the cover for",x,"?")
+                        cover = input("Cover = ")
+                        cover = cover + " "
+                        cover_dict[x] = cover
+                        enlist.append(cover)
+                    elif x in cover_dict:
+                        cover = cover_dict[x]
+                        enlist.append(cover)
                     else:
-                        enlist.append(m)
+                        enlist.append(x)
 
                 finalenlist = "".join(enlist)
                 print()
                 print("Successfully Encrypted!")
                 print()
                 print("Here's the encrypted Journal : ")
-                print(finalenlist)
+                print("--->", finalenlist)
                 print("You'll be redirected to the a new page.")
                 print()
                 print()
                 time.sleep(5)
+                Menu()
 
 
 
@@ -465,35 +640,44 @@ def AdvEn():
                 print("Invalid input!")
                 AdvEn()
 
-
     else:
+
         enlist = []
         cover_dict = {}
-        feed()
-        print("Choose cover for each letter!")
 
-        for i in range(65, 91, 1):
-            cover_dict = {i: "" for i in range(65, 91)}
-        for j in range(97, 123, 1):
-            cover_dict.update({i: "" for i in range(97, 123)})
+        journal = input("Please feed the Journal for Encryption : ")
+        jname = input("Please name your Journal : ")
+
+        if not journal:
+            print("Empty Journal!")
+            feed()
+        else:
+            print("Journal Uploaded!")
+
+        print("Choose cover for each letter man!")
+        print()
 
         for x in journal:
-            if text.isalpha():
-                x1 = ord(x)
-                m = cover_dict[x1]
-                enlist.append(m)
+            if x.isalpha() and x not in cover_dict:
+                print("What should be the cover for", x, "?")
+                cover = input("Cover = ")
+                cover = cover + " "
+                cover_dict[x] = cover
+                enlist.append(cover)
+            elif x in cover_dict:
+                cover = cover_dict[x]
+                enlist.append(cover)
             else:
-                enlist.append(m)
+                enlist.append(x)
 
         finalenlist = "".join(enlist)
         print()
         print("Successfully Encrypted!")
 
-        cursor.execute("Select user_id from user_records where ")
 
-        user_id
         journal_name = jname
-        encryption_key = json.dumps(key_dict)
+
+        encryption_key = json.dumps(cover_dict)
         encryption_date = date.today()
 
         cursor.execute(
@@ -502,7 +686,8 @@ def AdvEn():
             (user_id, journal_name, encryption_key, encryption_date)
             VALUES (%s, %s, %s, %s)
             """,
-            (userid, journal_name, encryption_key, encryption_date))
+            (user_id, journal_name, encryption_key, encryption_date))
+        mycon.commit()
 
 
         print()
@@ -516,21 +701,7 @@ def AdvEn():
         print()
         print()
         time.sleep(5)
-        menu()
-
-
-def feed():
-    journal = input("Please feed the Journal for Encryption : ")
-    jname = input("Please name your Journal : ")
-
-
-    if journal:
-        print("Empty Journal!")
-        feed()
-    else:
-        print("Journal Uploaded!")
-
-
+        Menu()
 
 def optional():
     print("Do you want to save encryption details on our database for future decryptions and referencing records?")
@@ -617,30 +788,44 @@ def signup():
             print()
             cursor.execute(
                 """
-                INSERT INTO journal_details
+                INSERT INTO user_records
                 (user_id, first_name, username, email, account_created, password)
                 VALUES (%s, %s, %s, %s, %s, %s)
                 """,
                 (user_id, name, username, email, account_created, password))
+            mycon.commit()
             print()
             print("Account made succesfully!")
             print()
             print("You'll be redirected to the menu, you can now start Encrypting and Decrypting without hassle! ")
             time.sleep(3)
             print()
-            menu()
-
+            Menu()
 
 
         else:
             print("The passwords don't match.")
             signup()
 
+def which_j():
+ Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
+
+ if Ch not in j_id:
+            print("Journal not found. Check the ID again!")
+            which_j()
+
+ for i in range(len(j_id)):
+
+        if j_id[i] == Ch:
+                global KEY
+                KEY = en_key[i]
+        else:
+                continue
 
 start()
-basic()
 
 cursor.close()
 mycon.close()
+
 
 
