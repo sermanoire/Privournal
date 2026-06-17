@@ -19,7 +19,7 @@ import textwrap
 status = 0
 
 
-# Mark 1!
+# Mark 1
 mark1 = {}
 for i in range(26):
   mark1[chr(65 + i)] = str(i + 1)+" "
