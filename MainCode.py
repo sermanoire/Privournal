@@ -22,8 +22,8 @@ status = 0
 # Mark 1!
 mark1 = {}
 for i in range(26):
-  mark1[chr(65 + i)] = str(i + 1)+" "
-  mark1[chr(97 + i)] = str(27 + i)+" "
+  mark1[chr(65 + i)] = ""
+  mark1[chr(97 + i)] = ""
 
 # ASCII Version!
 asciiv = {}
@@ -115,98 +115,104 @@ def De():
     print("Let's start Decryption!")
     if status == 1:
 
-        cursor.execute('''
-        SELECT jd.*
-        FROM journal_details jd
-        JOIN user_records ur
-        ON jd.user_id = ur.user_id
-        WHERE ur.username = %s
-        ''', (username,))
+        CH = input("Do you want to Decrypt a Swiption-based Journal? (Y/N) : ")
 
-        j_data = cursor.fetchall() #Fetching Journal Data
+        if CH == "y" or CH == "Y":
+            SwipDe()
+        elif CH == "n" or CH == "N":
+            cursor.execute('''
+                    SELECT jd.*
+                    FROM journal_details jd
+                    JOIN user_records ur
+                    ON jd.user_id = ur.user_id
+                    WHERE ur.username = %s
+                    ''', (username,))
 
+            j_data = cursor.fetchall()  # Fetching Journal Data
 
-        global user_id
-        user_id = (j_data[0][1])
-        print("User_ID is",user_id)
-        print()
-        print()
-
-
-        global j_id
-        j_id = []
-        for i in range(len(j_data)):
-            j_id.append((j_data[i][0]))
-        print("Journal_IDs : ", j_id)
-        print()
-        print()
-
-        global j_name
-        j_name = []
-        for i in range(len(j_data)):
-            j_name.append(j_data[i][2])
-        print("Journal_Names : ",j_name)
-        print()
-        print()
-
-        global en_key
-        en_key = []
-        for i in range(len(j_data)):
-            en_key.append(j_data[i][3])
-        for j in en_key:
-            print("Encryption Key : ",textwrap.fill(j,width=60))
+            global user_id
+            user_id = (j_data[0][1])
+            print("User_ID is", user_id)
             print()
             print()
 
-        global en_date
-        en_date = []
-        for i in range(len(j_data)):
-            en_date.append(j_data[i][4])
-        for j in en_date:
-            print("Date Created : ",j)
+            global j_id
+            j_id = []
+            for i in range(len(j_data)):
+                j_id.append((j_data[i][0]))
+            print("Journal_IDs : ", j_id)
+            print()
             print()
 
-        which_j()
+            global j_name
+            j_name = []
+            for i in range(len(j_data)):
+                j_name.append(j_data[i][2])
+            print("Journal_Names : ", j_name)
+            print()
+            print()
 
-        print("Starting Decryption!")
-        print()
+            global en_key
+            en_key = []
+            for i in range(len(j_data)):
+                en_key.append(j_data[i][3])
+            for j in en_key:
+                print("Encryption Key : ", textwrap.fill(j, width=60))
+                print()
+                print()
 
-        og_dict_key = json.loads(EN_KEY)
+            global en_date
+            en_date = []
+            for i in range(len(j_data)):
+                en_date.append(j_data[i][4])
+            for j in en_date:
+                print("Date Created : ", j)
+                print()
 
-        RAW = input("Enter the raw encrypted journal : ")
-        RAWlist = RAW.split(" ")
+            which_j()
 
-        tempstore = []
-        for i in RAWlist:
-            for key, value in og_dict_key.items():
-                if i == "":
-                    tempstore.append(" ")
-                    break
+            print("Starting Decryption!")
+            print()
 
-                elif not i.isalnum():
-                    tempstore.append(i)
-                    break
+            og_dict_key = json.loads(EN_KEY)
 
-                elif (str(i) + " ") == value:
-                    tempstore.append(key)
-                    break
-                else:
-                    continue
+            RAW = input("Enter the raw encrypted journal : ")
+            RAWlist = RAW.split(" ")
 
-        decrypted = "".join(tempstore)
+            tempstore = []
+            for i in RAWlist:
+                for key, value in og_dict_key.items():
+                    if i == "":
+                        tempstore.append(" ")
+                        break
 
-        print()
-        print("Decrypted Successfully!")
-        print("Here's your Journal -> ", decrypted)
-        print()
-        print()
-        print("You will be redirect to Menu in 10 seconds :) ")
-        print()
-        print("You can copy your decrypted journal and save it somewhere safe!")
-        print()
-        time.sleep(10)
-        print("\n" * 100)
-        Menu()
+                    elif not i.isalnum():
+                        tempstore.append(i)
+                        break
+
+                    elif (str(i) + " ") == value:
+                        tempstore.append(key)
+                        break
+                    else:
+                        continue
+
+            decrypted = "".join(tempstore)
+
+            print()
+            print("Decrypted Successfully!")
+            print("Here's your Journal -> ", decrypted)
+            print()
+            print()
+            print("You will be redirect to Menu in 10 seconds :) ")
+            print()
+            print("You can copy your decrypted journal and save it somewhere safe!")
+            print()
+            time.sleep(10)
+            print("\n" * 100)
+            Menu()
+
+        else:
+            print("Invalid Choice!")
 
     elif status != 1:
         Ch2 = input("Do you have an Account on Privournal? (Y/N) : ")
@@ -451,7 +457,7 @@ def En():
 
                     print("Choose Mode of Encryption : ")
                     print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
-                    print("2. Advanced (Includes Swiption - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
+                    print("2. Advanced (Includes Swiption And Randomised Mode - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
                     print()
                     print()
 
@@ -513,8 +519,21 @@ def En():
                         Menu()
 
                     elif Ch6 == 2:
-                        AdvEn()
+                        print("Advanced Encryption it is then!")
                         print()
+
+                        swiption = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
+
+                        print()
+                        if swiption == "Y" or swiption == "y":
+                            Swiption()
+
+                        elif swiption == "N" or swiption == "n":
+                            AdvEn()
+
+                        else:
+                            print("Invalid choice")
+                            En()
 
                     else:
                         print("Invalid input!")
@@ -525,7 +544,7 @@ def En():
 
             print("Choose Mode of Encryption : ")
             print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
-            print("2. Advanced (Includes Swiption - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
+            print("2. Advanced (Includes Swiption And Randomised Mode - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
             print()
             print()
 
@@ -616,11 +635,9 @@ def En():
 
                 print()
                 if swiption == "Y" or swiption == "y":
-                    m = 1
-                    print("SwiptionEn() in progress.")
+                    Swiption()
 
                 elif swiption == "N" or swiption == "n":
-                    m = 2
                     AdvEn()
 
                 else:
@@ -878,6 +895,219 @@ def which_j():
                 EN_KEY = en_key[i]
         else:
                 continue
+
+def Swiption():
+
+    print("Welcome to Swiption Encryption - Our most secure form of Encryption!")
+    print()
+    print("Note that Swiption by default takes use of Randomised Mode.")
+    print()
+
+    if status != 1:
+        print("For Swiption, having an account is mandatory!")
+        Ch20 = input("Do you have an Account (Y/N) : ")
+
+        if Ch20 == "Y" or Ch20 == "y":
+            print("Then first please Login :) ")
+            print()
+            login()
+        elif Ch20 == "N" or Ch20 == "n":
+            print("Please Signup or continue without Swiption :) ")
+            print("You'll be redirected to the menu ")
+            print()
+            time.sleep(3)
+            Menu()
+        else:
+            print("Invalid Choice!")
+            Swiption()
+
+    else:
+        print("A life is at what occurrence would the letter's cover be changed.")
+        global l
+        l = int(input("Choose life : "))
+        print()
+
+        enlist = []
+
+        cover_dict = []
+        for i in range(l+10):
+            cover_dict.append({})
+
+        journal = input("Please feed the Journal for Encryption : ")
+        j_name = input("Please name your Journal : ")
+
+        if not journal:
+            print("Empty Journal!")
+            feed()
+        else:
+            print("Journal Uploaded!")
+
+        m = 0
+        global ldict2
+        ldict2 = {}
+
+        global ldict
+        ldict = {}
+        for i in range(26):
+            ldict[chr(65 + i)] = 0
+            ldict[chr(97 + i)] = 0
+
+        for i in journal:
+
+            if i.isalpha():
+                place = ldict[i] // l
+
+                if i.isalpha() and i not in cover_dict[place]:
+
+                    ldict[i] += 1
+
+                    if (place*l)+1 == ldict[i] and ldict[i] != 0 :
+                        cover_dict.append({})
+
+                    cover = "".join(
+                        random.choices(string.ascii_letters + string.digits, k=6)
+                    )
+                    cover = cover + " "
+                    ldict2[cover]=0
+
+                    cover_dict[place][i] = cover
+                    enlist.append(cover)
+
+
+                elif i in cover_dict[place]:
+
+                    cover = cover_dict[place][i]
+                    enlist.append(cover)
+
+                    ldict[i] += 1
+            else:
+                enlist.append(i)
+
+        finalenlist = "".join(enlist)
+
+        journal_name = j_name
+
+        encryption_key = json.dumps(cover_dict)
+        encryption_date = date.today()
+
+        cursor.execute(
+            """
+            INSERT INTO journal_details
+            (user_id, journal_name, encryption_key, encryption_date)
+            VALUES (%s, %s, %s, %s)
+            """,
+            (user_id, journal_name, encryption_key, encryption_date))
+        mycon.commit()
+
+        print()
+        print("Successfully Encrypted!")
+        print()
+        print("Here's the encrypted Journal --> ", finalenlist)
+        print()
+        print()
+        print("You'll be redirected to the a new page.")
+        print()
+        print()
+        time.sleep(5)
+        print("\n" * 100)
+        Menu()
+
+
+def SwipDe():
+    cursor.execute('''
+                    SELECT jd.*
+                    FROM journal_details jd
+                    JOIN user_records ur
+                    ON jd.user_id = ur.user_id
+                    WHERE ur.username = %s
+                    ''', (username,))
+
+    j_data = cursor.fetchall()  # Fetching Journal Data
+
+    global user_id
+    user_id = (j_data[0][1])
+    print("User_ID is", user_id)
+    print()
+    print()
+
+    global j_id
+    j_id = []
+    for i in range(len(j_data)):
+        j_id.append((j_data[i][0]))
+    print("Journal_IDs : ", j_id)
+    print()
+    print()
+
+    global j_name
+    j_name = []
+    for i in range(len(j_data)):
+        j_name.append(j_data[i][2])
+    print("Journal_Names : ", j_name)
+    print()
+    print()
+
+    global en_key
+    en_key = []
+    for i in range(len(j_data)):
+        en_key.append(j_data[i][3])
+    for j in en_key:
+        print("Encryption Key : ", textwrap.fill(j, width=60))
+        print()
+        print()
+
+    global en_date
+    en_date = []
+    for i in range(len(j_data)):
+        en_date.append(j_data[i][4])
+    for j in en_date:
+        print("Date Created : ", j)
+        print()
+
+    which_j()
+
+    print("Starting Decryption!")
+    print()
+
+    og_dict_key = json.loads(EN_KEY)
+
+    RAW = input("Enter the raw encrypted journal : ")
+    RAWlist = RAW.split(" ")
+
+    tempstore = []
+    for i in RAWlist:
+
+        place = ldict2[i] // l
+
+        for key, value in og_dict_key[place].items():
+            if i == "":
+                tempstore.append(" ")
+                break
+
+            elif not i.isalnum():
+                tempstore.append(i)
+                break
+
+            elif (str(i) + " ") == value:
+                tempstore.append(key)
+                ldict2[value] += 1
+                break
+            else:
+                continue
+
+    decrypted = "".join(tempstore)
+
+    print()
+    print("Decrypted Successfully!")
+    print("Here's your Journal -> ", decrypted)
+    print()
+    print()
+    print("You will be redirect to Menu in 10 seconds :) ")
+    print()
+    print("You can copy your decrypted journal and save it somewhere safe!")
+    print()
+    time.sleep(10)
+    print("\n" * 100)
+    Menu()
 
 
 start()
