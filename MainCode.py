@@ -58,7 +58,7 @@ load_dotenv()
 
 import mysql.connector as sql
 
-#DB_CONNECTIONN
+#DB_CONNECTION
 mycon = sql.connect(host=os.getenv("DB_HOST"),
                     user=os.getenv("DB_USER"),
                     database=os.getenv("DB_NAME"),
