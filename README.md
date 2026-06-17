@@ -2,18 +2,23 @@
 
 Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! Write your journal anywhere like Notes, Notion, whatever - and then paste it into Privournal, and get back text that's unreadable to anyone. You can then paste that text back into your journaling app, only now even if anyone opens that app, the encrypted journals are unreadable :)
 
+
 And if you wanna read it? No problem! Open terminal (No internet required) and decrypt the whole thing in under a minute using Privournal. 
 
 It's as easy as that, plus you can make an account on Privournal so that your encryption details can be stored on our database, making the process of decryption much smoother!
 And if you want to continue without an account - You absolutely can! 
 
+
 NOTE : PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
+
 
 Every time you encrypt, you will be given an Encryption Key that you need to copy and paste somewhere handy. However for users with an account - the Encryption Key is automatically upoloaded to the database and there's no need to store it seperately.
 
 While decrypting, if you don't have an account - you must paste the Encryption Key that was provided to you. For users with an account, the Encryption Key will be automatically fetched from the database once you choose which jounal you need to decrypt.
 
+
 NOTE : Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
+
 
 ## Demo + Try it yourself!
 
