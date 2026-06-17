@@ -107,6 +107,7 @@ For example, "A" initially points to a207n4 and the life has been set to 4 by th
 Initially "A" could point to a207n4 and towards the end it could point to something entirely different! A dynamic Encryption :) 
 
 
+
 ## Accounts
 
 Every time you encrypt, you will be given an Encryption Key that you need to copy and paste somewhere handy. However for users with an account - the Encryption Key is automatically upoloaded to the database and there's no need to store it seperately :) 
@@ -165,6 +166,7 @@ python MainCode.py
 - Built as part of [Stardance](https://stardance.hackclub.com), summer 2026.
 - Uses mysql-connector-python.
 - Uses python-dotenv (Thanks to GPT for telling me abt that!)
+- Thanks to my brother too, he pointed out 2 major flaws that sneaked past my eyes.  
 - Thanks to the Python and MySQL documentation.
 - Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 800+ liner code Hehe)
 
