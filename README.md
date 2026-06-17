@@ -102,7 +102,7 @@ Instead of one fixed cover for each letter, Swiption lets a single letter rotate
 
 You control exactly when the rotation happens by choosing a "life" value! (Life is the number of occurances after which the cover will be switched to something else) 
 
-For example, "A" initially points to a207n4 and the life has been set to 4 by the user - Now this means that at every 4th occurance of "A" in your journal, the cover be replaced!
+For example, "A" initially points to a207n4 and the life has been set to 4 by the user - Now this means that at every 4th occurance of "A" in your journal, the cover will be replaced!
 
 Initially "A" could point to a207n4 and towards the end it could point to something entirely different! A dynamic Encryption :) 
 
