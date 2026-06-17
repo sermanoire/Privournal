@@ -11,7 +11,7 @@ And if you want to continue without an account - You absolutely can!
 
 ---
 
-NOTE : PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
+> **NOTE:**  PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
 
 ---
 
@@ -21,7 +21,7 @@ While decrypting, if you don't have an account - you must paste the Encryption K
 
 ---
 
-NOTE : Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
+> **NOTE:**  Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
 
 ---
 
@@ -29,9 +29,28 @@ NOTE : Each letter's mapping is reffered to as a cover. For example, if A maps t
 
 I have also uploaded a commercial style demo video too, Hehe, it might help you see how the flow looks like in action. See the video - **[link to your video]**.
 
-Even better would be that you try it yourself! I'd really love that :) (PYPI)
+Even better would be that you try it yourself! I'd really love that :) (Look at the PyPI section below!) 
 
-NOTE : Although if you want to run it completely locally, you absolutely can! Please scroll and find the guide on how to run it locally :)
+> **NOTE:**  Although if you want to run it completely locally, you absolutely can! Please scroll towards the end and find the guide on how to run it locally :)
+
+
+## Install via PyPI
+
+Want to try Privournal yourself?
+
+Just open the terminal and run these commands :)
+
+```bash
+pip install privournal
+```
+
+Then launch it using:
+
+```bash
+privournal
+```
+
+No need to clone the repository manually this way!
 
 
 ## How did the idea stumble upon me?
@@ -82,13 +101,13 @@ Initially "A" could point to a207n4 and towards the end it could point to someth
 
 ## Accounts
 
-NOTE : PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
+> **NOTE:**  PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
 
 Every time you encrypt, you will be given an Encryption Key that you need to copy and paste somewhere handy. However for users with an account - the Encryption Key is automatically upoloaded to the database and there's no need to store it seperately :) 
 
 While decrypting, if you don't have an account - you must paste the Encryption Key that was provided to you. For users with an account, the Encryption Key will be automatically fetched from the database once you choose which jounal you need to decrypt.
 
-NOTE : Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
+> **NOTE:**  Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
 
 
 ## Technology behind it
