@@ -30,7 +30,7 @@ While decrypting, if you don't have an account - you must paste the Encryption K
 
 ## Demo + Try it yourself!
 
-I will also be uploadeding a commercial style demo video too, Hehe, it might help you see how the flow looks like in action.
+I will also be uploading a commercial style demo video too, Hehe, it might help you see how the flow looks like in action.
 (It will be uploaded on Privournal's Youtube chaneel and don't worry i'll add the link here too!
 
 For now,
@@ -155,11 +155,10 @@ python MainCode.py
 
 ## What's next!
 
-- Finish Swiption and ship it as part of Advanced Encryption
-- A "Random Mode" where covers are auto-assigned instead of chosen manually
-- Eventually: a real GUI, possibly a menu-bar app, so this doesn't live only in the terminal
-- ENCRYPTION DATA CAN BE ALSO PASSWORD PROTECTED.
-- CHAT BUILT IN
+- Introduce Swiption among Basic Encryption
+- Password protection on Encryption Keys
+- Eventually a real GUI, possibly a website, so Privournal doesn't live only in the terminal :) 
+- Privournal Extension that encrypts chat messages in real time and decrypts them when you tap on messages. (Biggest upgrade!)
 
 ## Acknowledgements
 
