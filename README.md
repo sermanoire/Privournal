@@ -2,6 +2,9 @@
 
 Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! Write your journal anywhere like Notes, Notion, whatever - and then paste it into Privournal, and get back text that's unreadable to anyone. You can then paste that text back into your journaling app, only now even if anyone opens that app, the encrypted journals are unreadable :)
 
+<img width="1280" height="722" alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/ec2c3190-62b2-480d-a93f-a67abfcd9f4a" />
+(This GIF displays the unreleased - first working version of Privournal 😇)
+
 ---
 
 And if you wanna read it? No problem! Open terminal (No internet required) and decrypt the whole thing in under a minute using Privournal. 
@@ -27,7 +30,12 @@ While decrypting, if you don't have an account - you must paste the Encryption K
 
 ## Demo + Try it yourself!
 
-I have also uploaded a commercial style demo video too, Hehe, it might help you see how the flow looks like in action. See the video - **[link to your video]**.
+I will also be uploadeding a commercial style demo video too, Hehe, it might help you see how the flow looks like in action.
+(It will be uploaded on Privournal's Youtube chaneel and don't worry i'll add the link here too!
+
+For now,
+
+See the demo video - **https://asciinema.org/a/your_recording**
 
 Even better would be that you try it yourself! I'd really love that :) (Look at the PyPI section below!) 
 
@@ -153,10 +161,13 @@ python MainCode.py
 - ENCRYPTION DATA CAN BE ALSO PASSWORD PROTECTED.
 - CHAT BUILT IN
 
+## Acknowledgements
 
-## Built for
-
-[Stardance](https://stardance.hackclub.com), summer 2026.
+- Built as part of [Stardance](https://stardance.hackclub.com), summer 2026.
+- Uses mysql-connector-python.
+- Uses python-dotenv (Thanks to GPT for telling me abt that!)
+- Thanks to the Python and MySQL documentation.
+- Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 800+ liner code Hehe)
 
 ---
 
