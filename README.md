@@ -62,7 +62,7 @@ You might say - Manonit why don't you just lock the notes? Well atleast on apple
 This is where Privournal comes in - It instead converts your entry into ciphertext using a substitution scheme that you can control, so even if the encrypted text leaks, it's just numbers and symbols without the key (Which only you have). 
 
 
-## Simplified Process at Glance 
+## Simplified Process at Glance :)
 
 1. Write your journal entry in any app you like.
 2. Paste the full text into Privournal.
@@ -73,7 +73,7 @@ This is where Privournal comes in - It instead converts your entry into cipherte
 No journal content is ever stored. If you make an account, only your encryption *key* (the cover mapping) is saved to the database — never the journal text itself. Without an account, you're responsible for saving your own encrypted text and remembering your cipher.
 
 
-## Encryption modes
+## Encryption Modes
 
 | Mode | How it works |
 |------|--------------|
@@ -86,7 +86,7 @@ No journal content is ever stored. If you make an account, only your encryption 
 | **Randomised Advanced Encryption** | Our code generates random covers (Like A = x08a792) that are assigned as every letter's cover |
 
 
-### Swiption *(in progress)*
+### The Swiption Feature!
 
 The strongest and the most original encryption idea I had! Swiption - (Switch + Encryption, 🙃)
 
@@ -110,7 +110,7 @@ While decrypting, if you don't have an account - you must paste the Encryption K
 > **NOTE:**  Each letter's mapping is reffered to as a cover. For example, if A maps to 27 - then A's cover be 27. An Encryption Key is a dictionary containing the letters and thier covers. 
 
 
-## Technology behind it
+## Technology behind it!
 
 To be honest, I only know Python, that too intermediate level i'd say 😅 
 
@@ -125,7 +125,7 @@ Also note that, the python-dotenv thing was smtg that was told to me by ChatGPT,
 This was kinda important cuz the whole code was to be uploaded on GitHub and the Database's credentials needed to be secure for it contaied user records and stuff. 
 
 
-## Running it locally
+## Running it locally!
 
 ```bash
 git clone https://github.com/sermanoire/Privournal.git
@@ -149,7 +149,7 @@ python MainCode.py
 (Account features require a running MySQL instance with `user_records` and `journal_details` tables. Encryption/decryption without an account works standalone.)
 
 
-## What's next
+## What's next!
 
 - Finish Swiption and ship it as part of Advanced Encryption
 - A "Random Mode" where covers are auto-assigned instead of chosen manually
