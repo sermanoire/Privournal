@@ -10,6 +10,7 @@ import random
 import string
 import json
 import time
+import os
 
 from datetime import date
 
@@ -93,6 +94,8 @@ def Menu():
     print("(Enter just 1 OR 2 OR 3)")
     print()
     ch = int(input("I want to : "))
+    print()
+    print()
 
     if ch == 1:
         En()
@@ -102,7 +105,9 @@ def Menu():
         exit()
     else:
         print("Invalid Choice")
+        print("\n" * 100)
         Menu()
+
 
 def exit():
     print("Thank you so much for using Privournal, Have a nice day!")
@@ -208,6 +213,7 @@ def De():
         print("You can copy your decrypted journal and save it somewhere safe!")
         print()
         time.sleep(10)
+        print("\n" * 100)
         Menu()
 
     elif status != 1:
@@ -247,7 +253,7 @@ def De():
                     print()
                     print("Decrypting...")
                     print()
-                    time.sleep(3)
+                    time.sleep(1)
                     basicDe()
 
             elif Ch4 == 2:
@@ -292,6 +298,7 @@ def De():
                     print("Thank you for using Privournal!")
                     print()
                     time.sleep(15)
+                    print("\n" * 100)
                     Menu()
 
 
@@ -301,7 +308,8 @@ def De():
                     print()
                     print("You will be redirected to the Menu Shortly.")
                     print()
-                    time.sleep(3)
+                    time.sleep(1)
+                    print("\n" * 100)
                     Menu()
 
 
@@ -358,6 +366,7 @@ def login():
                 status = 1
                 print()
                 print("You will be redirected to the menu shortly :) ")
+                print("\n" * 100)
                 time.sleep(1)
                 Menu()
 
@@ -423,6 +432,7 @@ def basicDe():
     print("You will be redirected to the Menu in 10 seconds. ")
     print()
     time.sleep(10)
+    print("\n" * 100)
     Menu()
 
 
@@ -454,7 +464,7 @@ def En():
 
             if Ch8 == "Y" or Ch8 == "y":
                 print("You'll be redirected to Login page, please complete the login first :) ")
-                time.sleep(3)
+                time.sleep(1)
                 login()
 
             elif Ch8 == "N" or Ch8 == "n":
@@ -509,6 +519,7 @@ def En():
                     print("You will be redirected to the Menu in 10 seconds")
                     print()
                     time.sleep(10)
+                    print("\n" * 100)
                     Menu()
 
                 else:
@@ -573,6 +584,7 @@ def En():
             print()
             print()
             time.sleep(5)
+            print("\n" * 100)
             Menu()
 
 
@@ -658,6 +670,7 @@ def AdvEn():
                 print()
                 print()
                 time.sleep(5)
+                print("\n" * 100)
                 Menu()
 
             else:
@@ -719,6 +732,7 @@ def AdvEn():
         print()
         print()
         time.sleep(5)
+        print("\n" * 100)
         Menu()
 
 def signup():
@@ -801,6 +815,7 @@ def signup():
             print("You'll be redirected to the menu, you can now start Encrypting and Decrypting without hassle! ")
             time.sleep(1)
             print()
+            print("\n" * 100)
             Menu()
 
 
