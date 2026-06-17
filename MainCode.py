@@ -943,8 +943,6 @@ def Swiption():
             print("Journal Uploaded!")
 
         m = 0
-        global ldict2
-        ldict2 = {}
 
         global ldict
         ldict = {}
@@ -968,7 +966,6 @@ def Swiption():
                         random.choices(string.ascii_letters + string.digits, k=6)
                     )
                     cover = cover + " "
-                    ldict2[cover]=0
 
                     cover_dict[place][i] = cover
                     enlist.append(cover)
@@ -992,11 +989,21 @@ def Swiption():
 
         cursor.execute(
             """
-            INSERT INTO journal_details
-            (user_id, journal_name, encryption_key, encryption_date)
-            VALUES (%s, %s, %s, %s)
+            INSERT INTO swiption_details
+            (user_id, journal_name, encryption_date,
+             encryption_key, life)
+            VALUES (%s, %s, %s, %s, %s)
             """,
-            (user_id, journal_name, encryption_key, encryption_date))
+            (
+                user_id,
+                journal_name,
+                encryption_date,
+                encryption_key,
+                l
+            )
+        )
+
+        mycon.commit()
         mycon.commit()
 
         print()
@@ -1014,27 +1021,31 @@ def Swiption():
 
 
 def SwipDe():
-    cursor.execute('''
-                    SELECT jd.*
-                    FROM journal_details jd
-                    JOIN user_records ur
-                    ON jd.user_id = ur.user_id
-                    WHERE ur.username = %s
-                    ''', (username,))
+    cursor.execute(
+        '''
+        SELECT sd.*
+        FROM swiption_details sd
+        JOIN user_records ur
+        ON sd.user_id = ur.user_id
+        WHERE ur.username = %s
+        ''',
+        (username,)
+    )
 
-    j_data = cursor.fetchall()  # Fetching Journal Data
+    j_data = cursor.fetchall()
 
     global user_id
-    user_id = (j_data[0][1])
+    user_id = j_data[0][1]
     print("User_ID is", user_id)
     print()
     print()
 
-    global j_id
-    j_id = []
+    global s_id
+    s_id = []
     for i in range(len(j_data)):
-        j_id.append((j_data[i][0]))
-    print("Journal_IDs : ", j_id)
+        s_id.append(j_data[i][0])
+
+    print("Swiption_IDs :", s_id)
     print()
     print()
 
@@ -1042,26 +1053,37 @@ def SwipDe():
     j_name = []
     for i in range(len(j_data)):
         j_name.append(j_data[i][2])
-    print("Journal_Names : ", j_name)
-    print()
-    print()
 
-    global en_key
-    en_key = []
-    for i in range(len(j_data)):
-        en_key.append(j_data[i][3])
-    for j in en_key:
-        print("Encryption Key : ", textwrap.fill(j, width=60))
-        print()
-        print()
+    print("Journal_Names :", j_name)
+    print()
+    print()
 
     global en_date
     en_date = []
     for i in range(len(j_data)):
-        en_date.append(j_data[i][4])
+        en_date.append(j_data[i][3])
+
     for j in en_date:
-        print("Date Created : ", j)
+        print("Date Created :", j)
         print()
+
+    global en_key
+    en_key = []
+    for i in range(len(j_data)):
+        en_key.append(j_data[i][4])
+
+    for j in en_key:
+        print("Encryption Key :", textwrap.fill(j, width=60))
+        print()
+        print()
+
+    global life
+    life = []
+    for i in range(len(j_data)):
+        life.append(j_data[i][5])
+
+    print("Life Values :", life)
+    print()
 
     which_j()
 
@@ -1072,6 +1094,13 @@ def SwipDe():
 
     RAW = input("Enter the raw encrypted journal : ")
     RAWlist = RAW.split(" ")
+
+
+    ldict2 = {}
+
+    for d in og_dict_key:
+        for cover in d.values():
+            ldict2[cover] = 0
 
     tempstore = []
     for i in RAWlist:
