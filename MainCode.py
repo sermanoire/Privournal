@@ -76,23 +76,47 @@ for i in range(26):
     mark4[chr(97 + i)] = chr(122 - i) + " "
 
 # DOTENV_CONNECTION
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
-
-import mysql.connector as sql
+import sqlite3
+from pathlib import Path
 
 # DB_CONNECTION
 
 def connect_db():
-    mycon = sql.connect(
-        host=os.getenv("DB_HOST"),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
-    )
+    db_path = Path.home() / ".privournal"
+    db_path.mkdir(exist_ok=True)
+    mycon = sqlite3.connect(db_path / "privournal.db")
     cursor = mycon.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS user_records (
+    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT,
+    username TEXT UNIQUE,
+    email TEXT,
+    account_created TEXT,
+    password TEXT
+)
+""")
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS journal_details (
+    journal_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    journal_name TEXT,
+    encryption_key TEXT,
+    encryption_date TEXT
+)
+""")
+    cursor.execute("""
+CREATE TABLE IF NOT EXISTS swiption_details (
+    swiption_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    journal_name TEXT,
+    encryption_date TEXT,
+    encryption_key TEXT,
+    life INTEGER
+)
+""")
+    mycon.commit()
     return mycon, cursor
 
 def start():
@@ -158,7 +182,7 @@ def De():
                     FROM journal_details jd
                     JOIN user_records ur
                     ON jd.user_id = ur.user_id
-                    WHERE ur.username = %s
+                    WHERE ur.username = ?
                     ''', (username,))
 
             j_data = cursor.fetchall()  # Fetching Journal Data
@@ -365,7 +389,7 @@ def login():
     pswd1 = input("Enter Password : ")
 
     cursor.execute(
-        "SELECT password FROM user_records WHERE username = %s",
+        "SELECT password FROM user_records WHERE username = ?",
         (username1,)
     )
 
@@ -381,7 +405,7 @@ def login():
             print("Logged in Successfully!")
 
             cursor.execute(
-                "SELECT * FROM user_records WHERE username = %s",
+                "SELECT * FROM user_records WHERE username = ?",
                 (username1,)
             )
 
@@ -657,13 +681,13 @@ def En():
 
             journal_name = j_name
             encryption_key = json.dumps(dakey)
-            encryption_date = date.today()
+            encryption_date = str(date.today())
 
             cursor.execute(
                 """
                 INSERT INTO journal_details
                 (user_id, journal_name, encryption_key, encryption_date)
-                VALUES (%s, %s, %s, %s)
+                VALUES (?, ?, ?, ?)
                 """,
                 (user_id, journal_name, encryption_key, encryption_date))
 
@@ -812,13 +836,13 @@ def AdvEn():
             journal_name = j_name
 
             encryption_key = json.dumps(cover_dict)
-            encryption_date = date.today()
+            encryption_date = str(date.today())
 
             cursor.execute(
                 """
                 INSERT INTO journal_details
                 (user_id, journal_name, encryption_key, encryption_date)
-                VALUES (%s, %s, %s, %s)
+                VALUES (?, ?, ?, ?)
                 """,
                 (user_id, journal_name, encryption_key, encryption_date))
             mycon.commit()
@@ -867,7 +891,7 @@ def coverr():
 def signup():
     section("SIGN UP")
 
-    cursor.execute("SELECT COUNT(DISTINCT username) FROM user_records")
+    cursor.execute("SELECT COALESCE(MAX(user_id), 0) + 1 FROM user_records")
     global user_id
     user_id = cursor.fetchone()[0]
 
@@ -935,13 +959,13 @@ def signup():
 
             name = input("Enter your name : ")
             email = input("Enter email please : ")
-            account_created = date.today()
+            account_created = str(date.today())
             print()
             cursor.execute(
                 """
                 INSERT INTO user_records
                 (user_id, first_name, username, email, account_created, password)
-                VALUES (%s, %s, %s, %s, %s, %s)
+                VALUES (?, ?, ?, ?, ?, ?)
                 """,
                 (user_id, name, username, email, account_created, password))
             mycon.commit()
@@ -1086,14 +1110,14 @@ def Swiption():
         journal_name = j_name
 
         encryption_key = json.dumps(cover_dict)
-        encryption_date = date.today()
+        encryption_date = str(date.today())
 
         cursor.execute(
             """
             INSERT INTO swiption_details
             (user_id, journal_name, encryption_date,
              encryption_key, life)
-            VALUES (%s, %s, %s, %s, %s)
+            VALUES (?, ?, ?, ?, ?)
             """,
             (
                 user_id,
@@ -1128,7 +1152,7 @@ def SwipDe():
         FROM swiption_details sd
         JOIN user_records ur
         ON sd.user_id = ur.user_id
-        WHERE ur.username = %s
+        WHERE ur.username = ?
         ''',
         (username,)
     )
@@ -1303,13 +1327,13 @@ def AdvRand():
         journal_name = j_name
 
         encryption_key = json.dumps(cover_dict)
-        encryption_date = date.today()
+        encryption_date = str(date.today())
 
         cursor.execute(
             """
             INSERT INTO journal_details
             (user_id, journal_name, encryption_key, encryption_date)
-            VALUES (%s, %s, %s, %s)
+            VALUES (?, ?, ?, ?)
             """,
             (user_id, journal_name, encryption_key, encryption_date))
         mycon.commit()
@@ -1377,13 +1401,13 @@ def AdvRand():
         journal_name = j_name
 
         encryption_key = json.dumps(cover_dict)
-        encryption_date = date.today()
+        encryption_date = str(date.today())
 
         cursor.execute(
             """
             INSERT INTO journal_details
             (user_id, journal_name, encryption_key, encryption_date)
-            VALUES (%s, %s, %s, %s)
+            VALUES (?, ?, ?, ?)
             """,
             (user_id, journal_name, encryption_key, encryption_date))
         mycon.commit()
