@@ -115,6 +115,8 @@ def De():
     if status == 1:
 
         CH = input("Do you want to Decrypt a Swiption-based Journal? (Y/N) : ")
+        print()
+        print()
 
         if CH == "y" or CH == "Y":
             SwipDe()
@@ -133,14 +135,12 @@ def De():
             user_id = (j_data[0][1])
             print("User_ID is", user_id)
             print()
-            print()
 
             global j_id
             j_id = []
             for i in range(len(j_data)):
                 j_id.append((j_data[i][0]))
             print("Journal_IDs : ", j_id)
-            print()
             print()
 
             global j_name
@@ -149,14 +149,13 @@ def De():
                 j_name.append(j_data[i][2])
             print("Journal_Names : ", j_name)
             print()
-            print()
 
             global en_key
             en_key = []
             for i in range(len(j_data)):
                 en_key.append(j_data[i][3])
             for t in en_key:
-                print("Encryption Key : ", textwrap.fill(t, width=60))
+                print("Encryption Key : ", t)
                 print()
 
             global en_date
@@ -175,6 +174,7 @@ def De():
             og_dict_key = json.loads(EN_KEY)
 
             RAW = input("Enter the raw encrypted journal : ")
+            global RAWlist
             RAWlist = RAW.split(" ")
 
             tempstore = []
@@ -199,7 +199,7 @@ def De():
             print()
             print("Decrypted Successfully!")
             print("Here's your Journal :")
-            print(textwrap.fill(decrypted, width=60))
+            print(decrypted)
             print()
             print()
             print("You will be redirect to Menu in 10 seconds :) ")
@@ -296,7 +296,7 @@ def De():
                     print()
                     print()
                     print("Here's your Journal :")
-                    print(textwrap.fill(decrypted, width=60))
+                    print(decrypted)
                     print()
                     print()
                     print("You will be redirect to Menu in 10 seconds :) ")
@@ -425,7 +425,7 @@ def basicDe():
     print()
     time.sleep(1)
     print("Here's your Journal :")
-    print(textwrap.fill(decrypted, width=60))
+    print(decrypted)
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
@@ -514,7 +514,7 @@ def En():
                         print()
                         print()
                         print("Here's you Encrypted text :")
-                        print(textwrap.fill(encrypted, width=60))
+                        print(encrypted)
                         print()
                         print("Thank you for using Privournal!")
                         print("Be sure to make an account for smoother experience in future :) ")
@@ -629,7 +629,7 @@ def En():
                 print()
                 print()
                 print("Here's you Encrypted text :")
-                print(textwrap.fill(encrypted, width=60))
+                print(encrypted)
                 print()
                 print("Thank you for using Privournal!")
                 print("You'll be redirected to the menu.")
@@ -711,9 +711,9 @@ def AdvEn():
             print()
             print("Successfully Encrypted!")
             print()
-            print("Here's the encrypted Journal -> ", textwrap.fill(finalenlist, width=60))
+            print("Here's the encrypted Journal -> ", finalenlist)
             print()
-            print("Here's the Encryption Key : ",textwrap.fill(json.dumps(cover_dict), width=60))
+            print("Here's the Encryption Key : ",json.dumps(cover_dict))
             print()
             print("You'll be redirected to the a new page.")
             print()
@@ -775,7 +775,7 @@ def AdvEn():
             print("Successfully Encrypted!")
             print()
             print("Here's you Encrypted text :")
-            print(textwrap.fill(finalenlist, width=60))
+            print(finalenlist)
             print()
             print()
             print("You'll be redirected to the a new page.")
@@ -1042,7 +1042,7 @@ def Swiption():
         print("Successfully Encrypted!")
         print()
         print("Here's you Encrypted text :")
-        print(textwrap.fill(finalenlist, width=60))
+        print(finalenlist)
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1086,7 +1086,6 @@ def SwipDe():
 
     print("Journal_Names :", j_name)
     print()
-    print()
 
     global en_date
     en_date = []
@@ -1103,7 +1102,7 @@ def SwipDe():
         en_key.append(j_data[i][4])
 
     for t in en_key:
-        print("Encryption Key :", textwrap.fill(t, width=60))
+        print(t)
         print()
         print()
 
@@ -1174,7 +1173,7 @@ def SwipDe():
     print()
     print("Decrypted Successfully!")
     print("Here's you Encrypted text :")
-    print(textwrap.fill(decrypted, width=60))
+    print(decrypted)
     print()
     print("You will be redirect to Menu in 10 seconds :) ")
     print()
@@ -1247,7 +1246,7 @@ def AdvRand():
         print("Successfully Encrypted!")
         print()
         print("Here's you Encrypted text :")
-        print(textwrap.fill(finalenlist, width=60))
+        print(finalenlist)
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1318,7 +1317,7 @@ def AdvRand():
         print("Successfully Encrypted!")
         print()
         print("Here's you Encrypted text :")
-        print(textwrap.fill(finalenlist, width=60))
+        print(finalenlist)
         print()
         print("Here's the Encryption Key : ")
         print(json.dumps(cover_dict))
