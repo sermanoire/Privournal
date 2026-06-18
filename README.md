@@ -1,6 +1,8 @@
 # Privournal
 
-Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! Write your journal anywhere like Notes, Notion, whatever - and then paste it into Privournal, and get back text that's unreadable to anyone. You can then paste that text back into your journaling app, only now even if anyone opens that app, the encrypted journals are unreadable :)
+Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! 
+
+Write your journal anywhere like Notes, Notion, whatever - and then paste it into Privournal, and get back text that's unreadable to anyone. You can then paste that text back into your journaling app, only now even if anyone opens that app, the encrypted journals are unreadable :)
 
 <img width="1280" height="725" alt="ezgif com-video-to-gif-converter (3)" src="https://github.com/user-attachments/assets/7c38b515-9e84-4cf0-af91-ec136bca4c99" />
 
@@ -33,7 +35,8 @@ For now,
 
 See the demo video - **[https://asciinema.org/a/your_recording](https://asciinema.org/a/d0ui5N1XFt9mVz1U)**
 
-Even better would be that you try it yourself! I'd really love that :) (Look at the PyPI section below!) 
+Even better would be that you try it yourself! I'd really love that :) 
+(Look at the PyPI section below!) 
 
 
 ## Install via PyPI
