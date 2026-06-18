@@ -117,7 +117,9 @@ def Menu():
     print("2. Decrypt a Journal Entry")
     print("3. Exit")
     divider()
-    ch = int(input("1 OR 2 OR 3 : "))
+    raw = input("1 OR 2 OR 3 : ")
+    print(f"DEBUG: '{raw}'")
+    ch = int(raw)
     print()
     print()
 
@@ -228,11 +230,13 @@ def De():
                         continue
 
             decrypted = "".join(tempstore)
-            clear()
-            show_output("Here's your Journal", decrypted)
-            print()
+
             print("Decrypted Successfully!")
             print()
+            print()
+            time.sleep(1)
+            clear()
+            show_output("Here's your Journal", decrypted)
             print()
             print("You can copy your decrypted journal and save it somewhere safe!")
             print()
@@ -280,7 +284,6 @@ def De():
                 Ch4 = int(input("Which one out of these? (1-5) : "))
                 print()
                 print("Decrypting...")
-                print()
                 time.sleep(1)
                 basicDe()
 
@@ -324,6 +327,12 @@ def De():
                                 continue
 
                     decrypted = "".join(tempstore)
+
+                    print("Decrypted Successfully!")
+                    print()
+                    print()
+                    clear()
+                    time.sleep(1)
                     show_output("Here's your Journal", decrypted)
                     print()
                     print()
@@ -451,6 +460,7 @@ def basicDe():
     print()
     print()
     time.sleep(1)
+    clear()
     show_output("Here's your Journal", decrypted)
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
@@ -525,6 +535,8 @@ def En():
                     global j
                     j = input("Please feed the Journal for Encryption : ")
                     print()
+                    print("Encrypting...")
+                    time.sleep(1)
                     journal = list(j)
                     delist = []
 
@@ -540,9 +552,10 @@ def En():
 
                     encrypted = "".join(delist)
                     print("Succesfully Encrypted!")
+                    print()
+                    print()
                     time.sleep(1)
-                    print()
-                    print()
+                    clear()
                     show_output("Here's your Encrypted text", encrypted)
                     print()
                     print("Thank you for using Privournal!")
@@ -625,6 +638,9 @@ def En():
             else:
                 print("Invalid Option!")
 
+            print()
+            print("Encrypting...")
+            time.sleep(1)
             delist = []
 
             for i in journal:
@@ -640,7 +656,6 @@ def En():
             encrypted = "".join(delist)
             print()
             print("Successfully Encrypted!")
-            time.sleep(1)
 
             journal_name = j_name
             encryption_key = json.dumps(dakey)
@@ -655,8 +670,11 @@ def En():
                 (user_id, journal_name, encryption_key, encryption_date))
 
             mycon.commit()
+            print("Successfully Encrypted!")
             print()
             print()
+            time.sleep(1)
+            clear()
             show_output("Here's your Encrypted text", encrypted)
             print()
             print("Thank you for using Privournal!")
@@ -735,10 +753,15 @@ def AdvEn():
                 else:
                     enlist.append(x)
 
+            print()
+            print("Encrypting...")
+            time.sleep(1)
             finalenlist = "".join(enlist)
             print()
             print("Successfully Encrypted!")
             print()
+            time.sleep(1)
+            clear()
             show_output("Here's the encrypted Journal", finalenlist)
             print()
             print("Here's the Encryption Key : ", json.dumps(cover_dict))
@@ -783,6 +806,9 @@ def AdvEn():
                 else:
                     enlist.append(x)
 
+            print()
+            print("Encrypting...")
+            time.sleep(1)
             finalenlist = "".join(enlist)
 
             journal_name = j_name
@@ -802,6 +828,8 @@ def AdvEn():
             print()
             print("Successfully Encrypted!")
             print()
+            time.sleep(1)
+            clear()
             show_output("Here's your Encrypted text", finalenlist)
             print()
             print()
@@ -1004,6 +1032,10 @@ def Swiption():
         else:
             print("Journal Uploaded!")
 
+        print()
+        print("Encrypting...")
+        time.sleep(1)
+
         m = 0
 
         global ldict
@@ -1080,6 +1112,8 @@ def Swiption():
         print()
         print("Successfully Encrypted!")
         print()
+        time.sleep(1)
+        clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
         print("You'll be redirected to the a new page.")
@@ -1174,7 +1208,8 @@ def SwipDe():
                 continue
 
     print("Starting Decryption!")
-    print()
+    print("Decrypting...")
+    time.sleep(1)
 
     og_dict_key = json.loads(EN_KEY)
 
@@ -1206,9 +1241,11 @@ def SwipDe():
 
     decrypted = "".join(tempstore)
 
-    print()
     print("Decrypted Successfully!")
-
+    print()
+    print()
+    time.sleep(1)
+    clear()
     show_output("Here's your Encrypted text", decrypted)
     print()
     print("You will be redirect to Menu in 10 seconds :) ")
@@ -1260,6 +1297,10 @@ def AdvRand():
             else:
                 enlist.append(x)
 
+        print()
+        print("Encrypting...")
+        time.sleep(1)
+
         journal_name = j_name
 
         encryption_key = json.dumps(cover_dict)
@@ -1275,9 +1316,11 @@ def AdvRand():
         mycon.commit()
 
         finalenlist = "".join(enlist)
-        print()
         print("Successfully Encrypted!")
         print()
+        print()
+        time.sleep(1)
+        clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
         print("You'll be redirected to the a new page.")
@@ -1327,6 +1370,10 @@ def AdvRand():
             else:
                 enlist.append(x)
 
+        print()
+        print("Encrypting...")
+        time.sleep(1)
+
         journal_name = j_name
 
         encryption_key = json.dumps(cover_dict)
@@ -1345,6 +1392,9 @@ def AdvRand():
         print()
         print("Successfully Encrypted!")
         print()
+        print()
+        time.sleep(1)
+        clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
         print("Here's the Encryption Key : ")
@@ -1364,7 +1414,7 @@ def banner():
     ██████╔╝██████╔╝██║██║   ██║██║   ██║██║   ██║██████╔╝██╔██╗ ██║███████║██║
     ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██║   ██║██║   ██║██╔══██╗██║╚██╗██║██╔══██║██║
     ██║     ██║  ██║██║ ╚████╔╝ ╚██████╔╝╚██████╔╝██║  ██║██║ ╚████║██║  ██║███████╗
-    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝=
 
                Give your journals the privacy they deserve :) 
     ''')
@@ -1374,5 +1424,3 @@ start()
 
 cursor.close()
 mycon.close()
-
-
