@@ -1154,6 +1154,66 @@ def SwipDe():
     Menu()
 
 
+def AdvRand():
+    global enlist
+    enlist = []
+    global cover_dict
+    cover_dict = {}
+
+    feed()
+
+    if not journal:
+        print("Empty Journal!")
+        feed()
+    else:
+        print("Journal Uploaded!")
+
+    print()
+
+    global trackHEH
+    trackHEH = []
+
+    global x
+
+    for x in journal:
+        if x.isalpha() and x not in cover_dict:
+
+            global cover
+            cover = "".join(random.choices(
+                string.ascii_letters + string.digits,
+                k=6
+            ))
+
+            print()
+            cover = cover + " "
+            cover_dict[x] = cover
+            enlist.append(cover)
+            trackHEH.append(cover)
+
+
+        elif x in cover_dict:
+            cover = cover_dict[x]
+            enlist.append(cover)
+            trackHEH.append(cover)
+        else:
+            enlist.append(x)
+
+    finalenlist = "".join(enlist)
+    print()
+    print("Successfully Encrypted!")
+    print()
+    print("Here's the encrypted Journal --> ", finalenlist)
+    print()
+    print("Here's the Encryption Key : ", json.dumps(cover_dict))
+    print()
+    print("You'll be redirected to the a new page.")
+    print()
+    print()
+    time.sleep(10)
+    print("\n" * 100)
+    Menu()
+
+
 start()
 
 cursor.close()
