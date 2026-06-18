@@ -1019,7 +1019,6 @@ def Swiption():
         print("\n" * 100)
         Menu()
 
-
 def SwipDe():
     cursor.execute(
         '''
@@ -1153,7 +1152,6 @@ def SwipDe():
     print("\n" * 100)
     Menu()
 
-
 def AdvRand():
     global enlist
     enlist = []
@@ -1212,7 +1210,6 @@ def AdvRand():
     time.sleep(10)
     print("\n" * 100)
     Menu()
-
 
 start()
 
