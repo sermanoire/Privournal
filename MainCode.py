@@ -36,16 +36,9 @@ def show_output(label, text):
     divider()
     print(f"{label} :")
     print()
-    wrapped = textwrap.fill(text, width=70)
-    print(wrapped)
-    divider()
-
-def redirect_msg():
+    print(text)
     print()
-    print(f"You will be redirected in, sec, seconds...")
-    sec = time.sleep(seconds)
-
-
+    divider()
 
 
 #Kinda like the main code!
@@ -236,11 +229,9 @@ def De():
             print("Decrypted Successfully!")
             print()
             print()
-            redirect_msg()
-            print()
             print("You can copy your decrypted journal and save it somewhere safe!")
             print()
-            time.sleep(10)
+            time.sleep(5)
             Menu()
 
         else:
@@ -330,13 +321,10 @@ def De():
                     show_output("Here's your Journal", decrypted)
                     print()
                     print()
-                    redirect_msg()
-                    print()
-                    time.sleep(1)
                     print("You can copy your decrypted journal and save it somewhere safe!")
                     print("Thank you for using Privournal!")
                     print()
-                    time.sleep(10)
+                    time.sleep(5)
                     Menu()
 
                 elif Ch5 == "n" or Ch5 == "N":
@@ -345,7 +333,7 @@ def De():
                     print()
                     print("You will be redirected to the Menu Shortly.")
                     print()
-                    time.sleep(3)
+                    time.sleep(2)
                     Menu()
 
 
@@ -403,7 +391,7 @@ def login():
                 global status
                 status = 1
                 print()
-                redirect_msg()
+
                 time.sleep(1)
                 Menu()
 
@@ -460,9 +448,8 @@ def basicDe():
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
-    redirect_msg()
     print()
-    time.sleep(10)
+    time.sleep(5)
     Menu()
 
 def En():
@@ -549,9 +536,8 @@ def En():
                         print()
                         print("Thank you for using Privournal!")
                         print("Be sure to make an account for smoother experience in future :) ")
-                        redirect_msg()
                         print()
-                        time.sleep(10)
+                        time.sleep(5)
 
                         Menu()
 
@@ -748,7 +734,7 @@ def AdvEn():
             print("You'll be redirected to the a new page.")
             print()
             print()
-            time.sleep(10)
+            time.sleep(7)
             Menu()
 
         else:
@@ -964,7 +950,7 @@ def Swiption():
             print("Please Signup or continue without Swiption :) ")
             print("You'll be redirected to the menu ")
             print()
-            time.sleep(3)
+            time.sleep(2)
             Menu()
         else:
             print("Invalid Choice!")
@@ -1208,7 +1194,7 @@ def SwipDe():
     print()
     print("You can copy your decrypted journal and save it somewhere safe!")
     print()
-    time.sleep(10)
+    time.sleep(5)
     Menu()
 
 
@@ -1280,7 +1266,7 @@ def AdvRand():
         print("You'll be redirected to the a new page.")
         print()
         print()
-        time.sleep(10)
+        time.sleep(5)
 
         Menu()
 
@@ -1353,7 +1339,7 @@ def AdvRand():
         print("You'll be redirected to the a new page.")
         print()
         print()
-        time.sleep(10)
+        time.sleep(7)
         Menu()
 
 def banner():
