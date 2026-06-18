@@ -36,7 +36,7 @@ I will also be uploading a commercial style demo video too, Hehe, it might help 
 
 For now,
 
-See the demo video - **https://asciinema.org/a/your_recording**
+See the demo video - **[https://asciinema.org/a/your_recording](https://asciinema.org/a/d0ui5N1XFt9mVz1U)**
 
 Even better would be that you try it yourself! I'd really love that :) (Look at the PyPI section below!) 
 
