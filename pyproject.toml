@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "privournal"
+version = "1.0.1"
+description = "A privacy-focused journal encryption tool"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "python-dotenv",
+    "mysql-connector-python"
+]
+
+[tool.setuptools]
+py-modules = ["MainCode"]

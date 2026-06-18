@@ -84,22 +84,20 @@ load_dotenv()
 import mysql.connector as sql
 
 # DB_CONNECTION
-mycon = sql.connect(host=os.getenv("DB_HOST"),
-                    user=os.getenv("DB_USER"),
-                    database=os.getenv("DB_NAME"),
-                    password=os.getenv("DB_PASSWORD"))
 
-if mycon.is_connected():
-    print("Connection's strong YAY!")
-    print()
-else:
-    print("Not connected.")
-    print()
-
-cursor = mycon.cursor()
-
+def connect_db():
+    mycon = sql.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
+    )
+    cursor = mycon.cursor()
+    return mycon, cursor
 
 def start():
+    global mycon, cursor
+    mycon, cursor = connect_db()
     section("WELCOME!")
     banner()
     print()
@@ -107,7 +105,6 @@ def start():
     print("We help your Journals stay Private and Safe :) ")
     time.sleep(3)
     Menu()
-
 
 def Menu():
     section("MENU")
@@ -1422,8 +1419,11 @@ def banner():
                Give your journals the privacy they deserve :) 
     ''')
 
-time.sleep(2)
-start()
+if __name__ == "__main__":
+    time.sleep(2)
+    start()
 
-cursor.close()
-mycon.close()
+    cursor.close()
+    mycon.close()
+
+
