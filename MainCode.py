@@ -190,7 +190,7 @@ def De():
                         tempstore.append(i)
                         break
 
-                    elif (str(i) + " ") == value:
+                    elif (str(i)) == value:
                         tempstore.append(key)
                         break
                     else:
@@ -933,24 +933,27 @@ def Swiption():
         for i in range(l+10):
             cover_dict.append({})
 
-        journal = input("Please feed the Journal for Encryption : ")
+        j = input("Please feed the Journal for Encryption : ")
+
         j_name = input("Please name your Journal : ")
 
-        if not journal:
+        if not j:
             print("Empty Journal!")
-            feed()
+            Swiption()
         else:
             print("Journal Uploaded!")
 
         m = 0
 
+
         global ldict
         ldict = {}
+
         for i in range(26):
             ldict[chr(65 + i)] = 0
             ldict[chr(97 + i)] = 0
 
-        for i in journal:
+        for i in j:
 
             if i.isalpha():
                 place = ldict[i] // l
@@ -966,6 +969,7 @@ def Swiption():
                         random.choices(string.ascii_letters + string.digits, k=6)
                     )
 
+                    cover = cover + " "
 
                     cover_dict[place][i] = cover
                     enlist.append(cover)
@@ -977,6 +981,13 @@ def Swiption():
                     enlist.append(cover)
 
                     ldict[i] += 1
+
+                else:
+                    continue
+
+            elif i == " ":
+                enlist.append(i)
+
             else:
                 enlist.append(i)
 
@@ -1088,11 +1099,12 @@ def SwipDe():
     print()
 
     global l
-    l = life[Ch-1]
+    idx = s_id.index(Ch)
+    l = life[idx]
 
     if Ch not in s_id:
         print("Journal not found. Check the ID again!")
-        which_j()
+        SwipDe()
 
     else:
         for i in range(len(s_id)):
@@ -1111,31 +1123,31 @@ def SwipDe():
     RAW = input("Enter the raw encrypted journal : ")
     RAWlist = RAW.split(" ")
 
-
-    ldict2 = {}
-
-    for d in og_dict_key:
-        for cover in d.values():
-            ldict2[cover.strip()] = 0
-
     tempstore = []
+
     for i in RAWlist:
 
         if i == "":
             tempstore.append(" ")
             continue
+
         elif not i.isalnum():
             tempstore.append(i)
             continue
 
-        place = (ldict2[i] // l)
+        for d in og_dict_key:
+            for key, value in d.items():
 
-        for key, value in og_dict_key[place].items():
-
-            if (str(i) + " ") == value:
-                tempstore.append(key)
-                ldict2[value.strip()] += 1
+                if i == value.strip():
+                    tempstore.append(key)
+                    break
+            else:
                 continue
+
+            break
+
+
+
 
     decrypted = "".join(tempstore)
 
@@ -1160,7 +1172,7 @@ def AdvRand():
 
     feed()
 
-    if not journal:
+    if not j:
         print("Empty Journal!")
         feed()
     else:
