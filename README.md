@@ -2,8 +2,9 @@
 
 Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! Write your journal anywhere like Notes, Notion, whatever - and then paste it into Privournal, and get back text that's unreadable to anyone. You can then paste that text back into your journaling app, only now even if anyone opens that app, the encrypted journals are unreadable :)
 
-<img width="1280" height="722" alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/ec2c3190-62b2-480d-a93f-a67abfcd9f4a" />
-(This GIF displays the unreleased - first working version of Privournal 😇)
+<img width="1280" height="725" alt="ezgif com-video-to-gif-converter (1)" src="https://github.com/user-attachments/assets/c8331f83-152c-4aee-9c9d-e3baaf360c7c" />
+
+(This GIF displays the first fully functional version of Privournal 😇)
 
 ---
 
