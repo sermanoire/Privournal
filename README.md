@@ -154,6 +154,10 @@ python MainCode.py
 
 (Account features require a running MySQL instance with `user_records` and `journal_details` tables. Encryption/decryption without an account works standalone.)
 
+## Small Caveats!
+- The Decryption glitches if there are numbers or special symbols in the journal without any gap - Not huge glitches, just a few letters left encrypted. (Will be fixed in V2)
+- Encrypted text must be copied whole, even the last trailing space and it should be inputted in a single line - just paste it whole is what I mean to say :)
+- The banner was made by GPT, I tried making it myself but mine looked skinny and I was running low on time 😭
 
 ## What's next!
 
