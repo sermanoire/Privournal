@@ -10,18 +10,13 @@ Privoural (Private + Journal, Hehe) is a cool command-line journal encryptor! Wr
 
 And if you wanna read it? No problem! Open terminal (No internet required) and decrypt the whole thing in under a minute using Privournal. 
 
-It's as easy as that, plus you can make an account on Privournal so that your encryption details can be stored on our database, making the process of decryption much smoother!
+It's as easy as that, plus you can make an account on Privournal so that your encryption details can be stored on the database that is private to you, making the process of decryption much smoother!
+
 And if you want to continue without an account - You absolutely can! 
 
 ---
 
-> **NOTE:**  PRIVOURNAL'S DATABASE STORES NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS, ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
-
----
-
-Every time you encrypt, you will be given an Encryption Key that you need to copy and paste somewhere handy. However for users with an account - the Encryption Key is automatically upoloaded to the database and there's no need to store it seperately.
-
-While decrypting, if you don't have an account - you must paste the Encryption Key that was provided to you. For users with an account, the Encryption Key will be automatically fetched from the database once you choose which jounal you need to decrypt.
+> **NOTE:**  PRIVOURNAL RUNS COMPLETELY LOCALLY AS OF NOW, IT NO DATA EXCEPT ACCOUNT DETAILS AND ENCRYPTION KEYS (That too on your own sql lite local database), ECRYPTIONS AND DECRYPTIONS ARE PURELY DONE BY LOGIC AND ENCRYPTION KEY IN USER'S ACCOUNT.
 
 ---
 
@@ -40,12 +35,13 @@ See the demo video - **[https://asciinema.org/a/your_recording](https://asciinem
 
 Even better would be that you try it yourself! I'd really love that :) (Look at the PyPI section below!) 
 
-> **NOTE:**  Although if you want to run it completely locally, you absolutely can! Please scroll towards the end and find the guide on how to run it locally :)
-
 
 ## Install via PyPI
 
-Want to try Privournal yourself?
+Want to try Privournal yourself? 
+
+> **NOTE:**  Privournal runs completely locally on your device :)
+
 
 Just open the terminal and run these commands :)
 
@@ -53,10 +49,24 @@ Just open the terminal and run these commands :)
 pip install privournal
 ```
 
-Then launch it using:
+Then open python by writing : 
 
 ```bash
-privournal
+python
+```
+
+You will see ">>>"
+
+Then write import MainCode, it'll look smtg like : 
+
+```bash
+>>> import MainCode
+```
+
+Finally launch it using :
+
+```bash
+>>> MainCode.start()
 ```
 
 No need to clone the repository manually this way!
@@ -79,7 +89,7 @@ This is where Privournal comes in - It instead converts your entry into cipherte
 4. Privournal returns the encrypted version — paste *that* back into your journal app instead of the plaintext.
 5. To read it later, run Privournal's decrypt flow with the same Key/Account.
 
-No journal content is ever stored. If you make an account, only your encryption *key* (the cover mapping) is saved to the database — never the journal text itself. Without an account, you're responsible for saving your own encrypted text and remembering your cipher.
+No journal content is ever stored. If you make an account, only your encryption *key* (the cover mapping) is saved to the database — never the journal text itself. Without an account, you have to copy-paste the encrypted text and the encryptiong key somewhere.
 
 
 ## Encryption Modes
@@ -108,7 +118,6 @@ For example, "A" initially points to a207n4 and the life has been set to 4 by th
 Initially "A" could point to a207n4 and towards the end it could point to something entirely different! A dynamic Encryption :) 
 
 
-
 ## Accounts
 
 Every time you encrypt, you will be given an Encryption Key that you need to copy and paste somewhere handy. However for users with an account - the Encryption Key is automatically upoloaded to the database and there's no need to store it seperately :) 
@@ -120,39 +129,15 @@ While decrypting, if you don't have an account - you must paste the Encryption K
 
 To be honest, I only know Python, that too intermediate level i'd say 😅 
 
-So i coded the whole thing in Python and had it connected with a MySQL backend for account storage (via `mysql-connector` and `python-dotenv` for credentials). 
+So I coded the whole thing in Python and connected it to a local SQLite database for account storage.
 
-My highschool CS classes came in real handy! 
+One thing I'm proud of is that there is no database setup required anymore. Privournal automatically creates its own local database on first launch, so it can run locally on any device after installation. 
 
-Pure terminal app — no GUI yet :)
+My highschool CS classes came in real handy Hehe!
 
-Also note that, the python-dotenv thing was smtg that was told to me by ChatGPT, I had no idea on how I can hide the Database credentials from the main code. (Like I said, pretty much ameture at coding 😭)
+Pure terminal app - no GUI yet :)
 
-This was kinda important cuz the whole code was to be uploaded on GitHub and the Database's credentials needed to be secure for it contaied user records and stuff. 
-
-
-## Running it locally!
-
-```bash
-git clone https://github.com/sermanoire/Privournal.git
-cd Privournal
-pip install mysql-connector-python python-dotenv
-```
-
-Create a `.env` file with your own MySQL credentials:
-```
-DB_HOST=localhost
-DB_USER=your_user
-DB_PASSWORD=your_password
-DB_NAME=privournal
-```
-
-Then run:
-```bash
-python MainCode.py
-```
-
-(Account features require a running MySQL instance with `user_records` and `journal_details` tables. Encryption/decryption without an account works standalone.)
+> **NOTE:** Earlier, Privournal used a MySQL backend for account storage. While it worked on my device, it required users to set up and configure a database before running the program, which wasn't ideal for a tool meant to be easy to install (Obvi lol). So I later moved the project to SQLite, allowing Privournal to create and manage its own local database automatically with zero setup. (Tho a unified MySQL backend still remains my future goal 🙃)
 
 ## Small Caveats!
 - The Decryption glitches if there are numbers or special symbols in the journal without any gap - Not huge glitches, just a few letters left encrypted. (Will be fixed in V2)
@@ -161,6 +146,7 @@ python MainCode.py
 
 ## What's next!
 
+- Make Privournal's local SQLite database optionally sync with a secure cloud backend (Like a unified db thing)
 - Introduce Swiption among Basic Encryption
 - Password protection on Encryption Keys
 - Eventually a real GUI, possibly a website, so Privournal doesn't live only in the terminal :) 
@@ -169,10 +155,9 @@ python MainCode.py
 ## Acknowledgements
 
 - Built as part of [Stardance](https://stardance.hackclub.com), summer 2026.
-- Uses mysql-connector-python.
-- Uses python-dotenv (Thanks to GPT for telling me abt that!)
-- Thanks to my brother too, he pointed out 2 major flaws that sneaked past my eyes.  
+- Uses sql lite - python connection.
 - Thanks to the Python and MySQL documentation.
+- Thanks to my brother too, he pointed out 2 major flaws that sneaked past my eyes.  
 - Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 800+ liner code Hehe)
 
 ---
