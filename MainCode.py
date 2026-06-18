@@ -17,6 +17,38 @@ import os
 from datetime import date
 import textwrap
 
+
+
+
+#Making the pretty format!
+def clear():
+    print("\n" * 100)
+
+def divider():
+    print("─" * 50)
+
+def section(title):
+    clear()
+    print("-"*50, title ,"-"*50)
+
+
+def show_output(label, text):
+    divider()
+    print(f"{label} :")
+    print()
+    wrapped = textwrap.fill(text, width=70)
+    print(wrapped)
+    divider()
+
+def redirect_msg():
+    print()
+    print(f"You will be redirected in, sec, seconds...")
+    sec = time.sleep(seconds)
+
+
+
+
+#Kinda like the main code!
 status = 0
 
 # Mark 1!
@@ -73,21 +105,22 @@ else:
 cursor = mycon.cursor()
 
 def start():
+    section("WELCOME!")
+    banner()
     print()
     print()
-    print("Welcome to Privournal!")
     print("We help your Journals stay Private and Safe :) ")
+    time.sleep(2)
     Menu()
 
 def Menu():
-    print()
-    print()
+    section("MENU")
     print("What would you like to do today?")
     print()
     print("1. Encrypt a Journal Entry")
     print("2. Decrypt a Journal Entry")
     print("3. Exit")
-    print()
+    divider()
     ch = int(input("1 OR 2 OR 3 : "))
     print()
     print()
@@ -104,11 +137,13 @@ def Menu():
         Menu()
 
 def exit():
+    section("GOODBYE")
     print("Thank you so much for using Privournal, Have a nice day!")
     print("Byeeeeee :)")
     print()
 
 def De():
+    section("DECRYPTION")
     print("Let's start Decryption!")
     print()
 
@@ -196,13 +231,12 @@ def De():
 
             decrypted = "".join(tempstore)
 
+            show_output("Here's your Journal", decrypted)
             print()
             print("Decrypted Successfully!")
-            print("Here's your Journal :")
-            print(decrypted)
             print()
             print()
-            print("You will be redirect to Menu in 10 seconds :) ")
+            redirect_msg()
             print()
             print("You can copy your decrypted journal and save it somewhere safe!")
             print()
@@ -293,13 +327,10 @@ def De():
                                 continue
 
                     decrypted = "".join(tempstore)
+                    show_output("Here's your Journal", decrypted)
                     print()
                     print()
-                    print("Here's your Journal :")
-                    print(decrypted)
-                    print()
-                    print()
-                    print("You will be redirect to Menu in 10 seconds :) ")
+                    redirect_msg()
                     print()
                     time.sleep(1)
                     print("You can copy your decrypted journal and save it somewhere safe!")
@@ -325,6 +356,7 @@ def De():
 
 
 def login():
+        section("LOGIN")
         global username1
         global pswd
         username1 = input("Enter Username : ")
@@ -371,7 +403,7 @@ def login():
                 global status
                 status = 1
                 print()
-                print("You will be redirected to the menu shortly :) ")
+                redirect_msg()
                 time.sleep(1)
                 Menu()
 
@@ -424,17 +456,17 @@ def basicDe():
     print()
     print()
     time.sleep(1)
-    print("Here's your Journal :")
-    print(decrypted)
+    show_output("Here's your Journal", decrypted)
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
-    print("You will be redirected to the Menu in 10 seconds. ")
+    redirect_msg()
     print()
     time.sleep(10)
     Menu()
 
 def En():
+        section("ENCRYPTION")
 
         if status != 1:
 
@@ -513,12 +545,11 @@ def En():
                         time.sleep(1)
                         print()
                         print()
-                        print("Here's you Encrypted text :")
-                        print(encrypted)
+                        show_output("Here's your Encrypted text", encrypted)
                         print()
                         print("Thank you for using Privournal!")
                         print("Be sure to make an account for smoother experience in future :) ")
-                        print("You will be redirected to the Menu in 10 seconds")
+                        redirect_msg()
                         print()
                         time.sleep(10)
 
@@ -628,8 +659,7 @@ def En():
                 mycon.commit()
                 print()
                 print()
-                print("Here's you Encrypted text :")
-                print(encrypted)
+                show_output("Here's your Encrypted text", encrypted)
                 print()
                 print("Thank you for using Privournal!")
                 print("You'll be redirected to the menu.")
@@ -711,7 +741,7 @@ def AdvEn():
             print()
             print("Successfully Encrypted!")
             print()
-            print("Here's the encrypted Journal -> ", finalenlist)
+            show_output("Here's the encrypted Journal", finalenlist)
             print()
             print("Here's the Encryption Key : ",json.dumps(cover_dict))
             print()
@@ -774,8 +804,7 @@ def AdvEn():
             print()
             print("Successfully Encrypted!")
             print()
-            print("Here's you Encrypted text :")
-            print(finalenlist)
+            show_output("Here's your Encrypted text", finalenlist)
             print()
             print()
             print("You'll be redirected to the a new page.")
@@ -810,6 +839,7 @@ def coverr():
         coverr()
 
 def signup():
+    section("SIGN UP")
 
     cursor.execute("SELECT COUNT(DISTINCT username) FROM user_records")
     global user_id
@@ -915,6 +945,7 @@ def which_j():
                 continue
 
 def Swiption():
+    section("SWIPTION ENCRYPTION")
 
     print("Welcome to Swiption Encryption - Our most secure form of Encryption!")
     print()
@@ -1041,8 +1072,7 @@ def Swiption():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's you Encrypted text :")
-        print(finalenlist)
+        show_output("Here's your Encrypted text", finalenlist)
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1172,8 +1202,7 @@ def SwipDe():
 
     print()
     print("Decrypted Successfully!")
-    print("Here's you Encrypted text :")
-    print(decrypted)
+    show_output("Here's your Encrypted text", decrypted)
     print()
     print("You will be redirect to Menu in 10 seconds :) ")
     print()
@@ -1184,6 +1213,7 @@ def SwipDe():
 
 
 def AdvRand():
+    section("RANDOMISED ENCRYPTION")
     if status == 1:
 
 
@@ -1245,8 +1275,7 @@ def AdvRand():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's you Encrypted text :")
-        print(finalenlist)
+        show_output("Here's your Encrypted text", finalenlist)
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1316,8 +1345,7 @@ def AdvRand():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's you Encrypted text :")
-        print(finalenlist)
+        show_output("Here's your Encrypted text", finalenlist)
         print()
         print("Here's the Encryption Key : ")
         print(json.dumps(cover_dict))
@@ -1328,10 +1356,20 @@ def AdvRand():
         time.sleep(10)
         Menu()
 
+def banner():
+    print('''
+    ██████╗ ██████╗ ██╗██╗   ██╗ ██████╗ ██╗   ██╗██████╗ ███╗   ██╗ █████╗ ██╗
+    ██╔══██╗██╔══██╗██║██║   ██║██╔═══██╗██║   ██║██╔══██╗████╗  ██║██╔══██╗██║
+    ██████╔╝██████╔╝██║██║   ██║██║   ██║██║   ██║██████╔╝██╔██╗ ██║███████║██║
+    ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██║   ██║██║   ██║██╔══██╗██║╚██╗██║██╔══██║██║
+    ██║     ██║  ██║██║ ╚████╔╝ ╚██████╔╝╚██████╔╝██║  ██║██║ ╚████║██║  ██║███████╗
+    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝
+
+               Give your journals the privacy they deserve :) 
+    ''')
+
+
 start()
 
 cursor.close()
 mycon.close()
-
-
-
