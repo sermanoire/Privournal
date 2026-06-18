@@ -230,7 +230,7 @@ def De():
                         continue
 
             decrypted = "".join(tempstore)
-
+            print()
             print("Decrypted Successfully!")
             print()
             print()
@@ -284,6 +284,7 @@ def De():
                 Ch4 = int(input("Which one out of these? (1-5) : "))
                 print()
                 print("Decrypting...")
+                print()
                 time.sleep(1)
                 basicDe()
 
@@ -327,7 +328,7 @@ def De():
                                 continue
 
                     decrypted = "".join(tempstore)
-
+                    print()
                     print("Decrypted Successfully!")
                     print()
                     print()
@@ -551,6 +552,7 @@ def En():
                             delist.append(i)
 
                     encrypted = "".join(delist)
+                    print()
                     print("Succesfully Encrypted!")
                     print()
                     print()
@@ -655,7 +657,6 @@ def En():
 
             encrypted = "".join(delist)
             print()
-            print("Successfully Encrypted!")
 
             journal_name = j_name
             encryption_key = json.dumps(dakey)
@@ -1209,6 +1210,7 @@ def SwipDe():
 
     print("Starting Decryption!")
     print("Decrypting...")
+    print()
     time.sleep(1)
 
     og_dict_key = json.loads(EN_KEY)
@@ -1240,7 +1242,7 @@ def SwipDe():
             break
 
     decrypted = "".join(tempstore)
-
+    print()
     print("Decrypted Successfully!")
     print()
     print()
@@ -1316,6 +1318,7 @@ def AdvRand():
         mycon.commit()
 
         finalenlist = "".join(enlist)
+        print()
         print("Successfully Encrypted!")
         print()
         print()
