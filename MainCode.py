@@ -105,7 +105,7 @@ def start():
     print()
     print()
     print("We help your Journals stay Private and Safe :) ")
-    time.sleep(2)
+    time.sleep(3)
     Menu()
 
 
@@ -228,11 +228,10 @@ def De():
                         continue
 
             decrypted = "".join(tempstore)
-
+            clear()
             show_output("Here's your Journal", decrypted)
             print()
             print("Decrypted Successfully!")
-            clear()
             print()
             print()
             print("You can copy your decrypted journal and save it somewhere safe!")
@@ -852,18 +851,21 @@ def signup():
         print("Invalid! It should be at most 16 characters.")
         print()
         print()
+        time.sleep(1)
         signup()
 
     elif " " in tusername:
         print("Spaces not allowed!")
         print()
         print()
+        time.sleep(1)
         signup()
 
     elif len(tusername) < 6:
         print("Should be atleast 6 characters long!")
         print()
         print()
+        time.sleep(1)
         signup()
 
     else:
@@ -877,22 +879,27 @@ def signup():
         print("Invalid! It should be at most 18 characters.")
         print()
         print()
+        time.sleep(1)
         signup()
 
     elif " " in tpswd:
         print("Spaces not allowed!")
         print()
         print()
+        time.sleep(1)
         signup()
 
     elif len(tpswd) < 8:
         print("Should be atleast 8 characters long!")
         print()
         print()
+        time.sleep(1)
         signup()
 
     elif tpswd == username:
         print("Username and password cannot be same!")
+        time.sleep(1)
+        signup()
 
     else:
         t_conf_pswd = input("Confrim password : ")
@@ -1201,7 +1208,7 @@ def SwipDe():
 
     print()
     print("Decrypted Successfully!")
-    clear()
+
     show_output("Here's your Encrypted text", decrypted)
     print()
     print("You will be redirect to Menu in 10 seconds :) ")
@@ -1362,9 +1369,10 @@ def banner():
                Give your journals the privacy they deserve :) 
     ''')
 
-
+time.sleep(2)
 start()
 
 cursor.close()
 mycon.close()
+
 
