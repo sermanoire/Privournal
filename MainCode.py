@@ -72,10 +72,8 @@ else:
 
 cursor = mycon.cursor()
 
-
-
-
 def start():
+    print()
     print()
     print("Welcome to Privournal!")
     print("We help your Journals stay Private and Safe :) ")
@@ -90,7 +88,7 @@ def Menu():
     print("2. Decrypt a Journal Entry")
     print("3. Exit")
     print()
-    ch = int(input("1 OR 2 OR 3? "))
+    ch = int(input("1 OR 2 OR 3 : "))
     print()
     print()
 
@@ -105,7 +103,6 @@ def Menu():
         print()
         Menu()
 
-
 def exit():
     print("Thank you so much for using Privournal, Have a nice day!")
     print("Byeeeeee :)")
@@ -114,6 +111,7 @@ def exit():
 def De():
     print("Let's start Decryption!")
     print()
+
     if status == 1:
 
         CH = input("Do you want to Decrypt a Swiption-based Journal? (Y/N) : ")
@@ -200,7 +198,8 @@ def De():
 
             print()
             print("Decrypted Successfully!")
-            print("Here's your Journal -> ", decrypted)
+            print("Here's your Journal :")
+            print(textwrap.fill(decrypted, width=60))
             print()
             print()
             print("You will be redirect to Menu in 10 seconds :) ")
@@ -213,7 +212,7 @@ def De():
         else:
             print("Invalid Choice!")
 
-    elif status != 1:
+    else:
         Ch2 = input("Do you have an Account on Privournal? (Y/N) : ")
         print()
 
@@ -223,8 +222,10 @@ def De():
 
             print()
             print('''
+            
             1. Basic Encryption
             2. Advanced Encryption 
+            
             ''')
             print()
             print()
@@ -232,6 +233,7 @@ def De():
             Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
             print()
             if Ch3 == 1:
+                    print()
                     RAW = input("Enter the Encrypted text : ")
                     RAWlist = RAW.split(" ")
                     print()
@@ -247,7 +249,6 @@ def De():
                     Ch4 = int(input("Which one out of these? (1-5) : "))
                     print()
                     print("Decrypting...")
-                    print()
                     print()
                     time.sleep(1)
                     basicDe()
@@ -294,8 +295,8 @@ def De():
                     decrypted = "".join(tempstore)
                     print()
                     print()
-                    print("Decrypted!")
-                    print("Here's your Journal -> ", decrypted)
+                    print("Here's your Journal :")
+                    print(textwrap.fill(decrypted, width=60))
                     print()
                     print()
                     print("You will be redirect to Menu in 10 seconds :) ")
@@ -308,6 +309,7 @@ def De():
                     Menu()
 
                 elif Ch5 == "n" or Ch5 == "N":
+                    print()
                     print("We're sorry, we cannot Decryption without the Key. \nBe sure to make an account on Privournal if you have trouble keeping Keys.")
                     print()
                     print("You will be redirected to the Menu Shortly.")
@@ -422,8 +424,8 @@ def basicDe():
     print()
     print()
     time.sleep(1)
-    print("Here's you Decrypted Journal -> ",decrypted)
-    print()
+    print("Here's your Journal :")
+    print(textwrap.fill(decrypted, width=60))
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
@@ -511,7 +513,8 @@ def En():
                         time.sleep(1)
                         print()
                         print()
-                        print("Here's you Encrypted text --> ", encrypted)
+                        print("Here's you Encrypted text :")
+                        print(textwrap.fill(encrypted, width=60))
                         print()
                         print("Thank you for using Privournal!")
                         print("Be sure to make an account for smoother experience in future :) ")
@@ -625,7 +628,8 @@ def En():
                 mycon.commit()
                 print()
                 print()
-                print("Here's you Encrypted Journal -> ", encrypted)
+                print("Here's you Encrypted text :")
+                print(textwrap.fill(encrypted, width=60))
                 print()
                 print("Thank you for using Privournal!")
                 print("You'll be redirected to the menu.")
@@ -654,7 +658,6 @@ def En():
                 else:
                     print("Invalid choice")
                     En()
-
             else:
                 print("Invalid input!")
                 AdvEn()
@@ -771,7 +774,8 @@ def AdvEn():
             print()
             print("Successfully Encrypted!")
             print()
-            print("Here's the encrypted Journal --> ", finalenlist)
+            print("Here's you Encrypted text :")
+            print(textwrap.fill(finalenlist, width=60))
             print()
             print()
             print("You'll be redirected to the a new page.")
@@ -1037,8 +1041,8 @@ def Swiption():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's the encrypted Journal -> ", textwrap.fill(finalenlist, width=60))
-        print()
+        print("Here's you Encrypted text :")
+        print(textwrap.fill(finalenlist, width=60))
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1169,8 +1173,8 @@ def SwipDe():
 
     print()
     print("Decrypted Successfully!")
-    print("Here's your Journal -> ", decrypted)
-    print()
+    print("Here's you Encrypted text :")
+    print(textwrap.fill(decrypted, width=60))
     print()
     print("You will be redirect to Menu in 10 seconds :) ")
     print()
@@ -1242,7 +1246,8 @@ def AdvRand():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's the encrypted Journal --> ", finalenlist)
+        print("Here's you Encrypted text :")
+        print(textwrap.fill(finalenlist, width=60))
         print()
         print("You'll be redirected to the a new page.")
         print()
@@ -1312,7 +1317,8 @@ def AdvRand():
         print()
         print("Successfully Encrypted!")
         print()
-        print("Here's the Encrypted Journal --> ", finalenlist)
+        print("Here's you Encrypted text :")
+        print(textwrap.fill(finalenlist, width=60))
         print()
         print("Here's the Encryption Key : ")
         print(json.dumps(cover_dict))
@@ -1327,5 +1333,6 @@ start()
 
 cursor.close()
 mycon.close()
+
 
 
