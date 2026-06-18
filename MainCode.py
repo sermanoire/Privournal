@@ -283,6 +283,7 @@ def De():
                                 tempstore.append(i)
                                 break
 
+
                             elif (str(i) + " ") == value:
                                 tempstore.append(key)
                                 break
@@ -1320,7 +1321,6 @@ def AdvRand():
         print()
         print()
         time.sleep(10)
-
         Menu()
 
 start()
