@@ -965,7 +965,7 @@ def Swiption():
                     cover = "".join(
                         random.choices(string.ascii_letters + string.digits, k=6)
                     )
-                    cover = cover + " "
+
 
                     cover_dict[place][i] = cover
                     enlist.append(cover)
@@ -1085,7 +1085,24 @@ def SwipDe():
     print("Life Values :", life)
     print()
 
-    which_j()
+    Ch = int(input("Which Journal do you want to Decrypt? (Enter Swiption_ID) : "))
+    print()
+
+    global l
+    l = life[Ch-1]
+
+    if Ch not in s_id:
+        print("Journal not found. Check the ID again!")
+        which_j()
+
+    else:
+        for i in range(len(s_id)):
+
+            if s_id[i] == Ch:
+                global EN_KEY
+                EN_KEY = en_key[i]
+            else:
+                continue
 
     print("Starting Decryption!")
     print()
@@ -1100,27 +1117,25 @@ def SwipDe():
 
     for d in og_dict_key:
         for cover in d.values():
-            ldict2[cover] = 0
+            ldict2[cover.strip()] = 0
 
     tempstore = []
     for i in RAWlist:
 
-        place = ldict2[i] // l
+        if i == "":
+            tempstore.append(" ")
+            continue
+        elif not i.isalnum():
+            tempstore.append(i)
+            continue
+
+        place = (ldict2[i] // l)
 
         for key, value in og_dict_key[place].items():
-            if i == "":
-                tempstore.append(" ")
-                break
 
-            elif not i.isalnum():
-                tempstore.append(i)
-                break
-
-            elif (str(i) + " ") == value:
+            if (str(i) + " ") == value:
                 tempstore.append(key)
-                ldict2[value] += 1
-                break
-            else:
+                ldict2[value.strip()] += 1
                 continue
 
     decrypted = "".join(tempstore)
