@@ -75,9 +75,11 @@ for i in range(26):
     mark4[chr(65 + i)] = chr(90 - i) + " "
     mark4[chr(97 + i)] = chr(122 - i) + " "
 
-# DB_CONNECTION
+# DOTENV_CONNECTION
 import sqlite3
 from pathlib import Path
+
+# DB_CONNECTION
 
 def connect_db():
     db_path = Path.home() / ".privournal"
@@ -137,7 +139,15 @@ def Menu():
     print("3. Exit")
     divider()
     raw = input("1 OR 2 OR 3 : ")
-    ch = int(raw)
+    print(f"DEBUG: '{raw}'")
+    try:
+        ch = int(raw)
+    except ValueError:
+        print()
+        print("Invalid Choice")
+        print()
+        Menu()
+        return
     print()
     print()
 
@@ -282,7 +292,14 @@ def De():
             print()
             print()
 
-            Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
+            try:
+                Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
+            except ValueError:
+                print()
+                print("Invalid Choice!")
+                print()
+                De()
+                return
             print()
             if Ch3 == 1:
                 print()
@@ -299,7 +316,14 @@ def De():
                 print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                 print()
                 global Ch4
-                Ch4 = int(input("Which one out of these? (1-5) : "))
+                try:
+                    Ch4 = int(input("Which one out of these? (1-5) : "))
+                except ValueError:
+                    print()
+                    print("Invalid Choice!")
+                    print()
+                    De()
+                    return
                 print()
                 print("Decrypting...")
                 print()
@@ -434,14 +458,19 @@ def login():
             print()
             print("Wrong Password.")
             print()
-            exch = int(input("Exit or Login again? (1 OR 2) : "))
+            try:
+                exch = int(input("Exit or Login again? (1 OR 2) : "))
+            except ValueError:
+                print("Invalid Choice!")
+                login()
+                return
             if exch == 1:
                 exit()
             elif exch == 2:
                 login()
             else:
                 print("Invalid Choice!")
-                logic()
+                login()
 
 
 def basicDe():
@@ -523,7 +552,12 @@ def En():
                 print()
                 print()
 
-                Ch6 = int(input("Which one? (1 OR 2) : "))
+                try:
+                    Ch6 = int(input("Which one? (1 OR 2) : "))
+                except ValueError:
+                    print("Invalid Choice!")
+                    En()
+                    return
                 if Ch6 == 1:
                     print()
                     print("Welcome to Basic Encryption!")
@@ -536,7 +570,12 @@ def En():
                     print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                     print()
 
-                    Ch7 = int(input("Which one out of these? (1-5) "))
+                    try:
+                        Ch7 = int(input("Which one out of these? (1-5) "))
+                    except ValueError:
+                        print("Invalid Choice!")
+                        En()
+                        return
 
                     if Ch7 == 1:
                         dakey = mark1
@@ -621,7 +660,12 @@ def En():
         print()
         print()
 
-        Ch6 = int(input("Which one? (1 OR 2) : "))
+        try:
+            Ch6 = int(input("Which one? (1 OR 2) : "))
+        except ValueError:
+            print("Invalid Choice!")
+            En()
+            return
 
         if Ch6 == 1:
             print()
@@ -636,7 +680,12 @@ def En():
             print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
             print()
 
-            Ch7 = int(input("Choose one of these (1-5) : "))
+            try:
+                Ch7 = int(input("Choose one of these (1-5) : "))
+            except ValueError:
+                print("Invalid Choice!")
+                En()
+                return
             print()
 
             j = input("Please feed the Journal for Encryption : ")
@@ -983,7 +1032,14 @@ def signup():
 
 
 def which_j():
-    Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
+    try:
+        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
+    except ValueError:
+        print()
+        print("Invalid Choice!")
+        print()
+        which_j()
+        return
     print()
 
     if Ch not in j_id:
@@ -1032,7 +1088,20 @@ def Swiption():
         print()
 
         global l
-        l = int(input("Choose life : "))
+        try:
+            l = int(input("Choose life : "))
+        except ValueError:
+            print()
+            print("Invalid Choice!")
+            print()
+            Swiption()
+            return
+        if l <= 0:
+            print()
+            print("Invalid Choice!")
+            print()
+            Swiption()
+            return
         print()
 
         enlist = []
@@ -1206,18 +1275,25 @@ def SwipDe():
     print("Life Values :", life)
     print()
 
-    Ch = int(input("Which Journal do you want to Decrypt? (Enter Swiption_ID) : "))
+    try:
+        Ch = int(input("Which Journal do you want to Decrypt? (Enter Swiption_ID) : "))
+    except ValueError:
+        print()
+        print("Invalid Choice!")
+        print()
+        SwipDe()
+        return
     print()
-
-    global l
-    idx = s_id.index(Ch)
-    l = life[idx]
 
     if Ch not in s_id:
         print("Journal not found. Check the ID again!")
         SwipDe()
 
     else:
+        global l
+        idx = s_id.index(Ch)
+        l = life[idx]
+
         for i in range(len(s_id)):
 
             if s_id[i] == Ch:
@@ -1446,6 +1522,5 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
-
 
 
