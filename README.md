@@ -43,8 +43,7 @@ Even better would be that you try it yourself! I'd really love that :)
 
 Want to try Privournal yourself? 
 
-> **NOTE:**  Privournal runs completely locally on your device :)
-
+> **NOTE:** Make sure your device has python version >= 3.9.0, if not then download it, barely takes a minute! :)
 
 Just open the terminal and run these commands :)
 
@@ -52,24 +51,10 @@ Just open the terminal and run these commands :)
 pip install privournal
 ```
 
-Then open python by writing : 
+Then launch it using:
 
 ```bash
-python
-```
-
-You will see ">>>"
-
-Then write import MainCode, it'll look smtg like : 
-
-```bash
->>> import MainCode
-```
-
-Finally launch it using :
-
-```bash
->>> MainCode.start()
+privournal
 ```
 
 No need to clone the repository manually this way!
