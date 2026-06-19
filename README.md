@@ -43,8 +43,7 @@ Even better would be that you try it yourself! I'd really love that :)
 
 Want to try Privournal yourself? 
 
-> **NOTE:**  Privournal runs completely locally on your device :)
-
+> **NOTE:** Make sure your device has python version >= 3.9.0, if not then download it, barely takes a minute! :)
 
 Just open the terminal and run these commands :)
 
@@ -52,24 +51,10 @@ Just open the terminal and run these commands :)
 pip install privournal
 ```
 
-Then open python by writing : 
+Then launch it using:
 
 ```bash
-python
-```
-
-You will see ">>>"
-
-Then write import MainCode, it'll look smtg like : 
-
-```bash
->>> import MainCode
-```
-
-Finally launch it using :
-
-```bash
->>> MainCode.start()
+privournal
 ```
 
 No need to clone the repository manually this way!
@@ -89,7 +74,7 @@ This is where Privournal comes in - It instead converts your entry into cipherte
 1. Write your journal entry in any app you like.
 2. Paste the full text into Privournal.
 3. Choose an encryption mode (see below).
-4. Privournal returns the encrypted version — paste *that* back into your journal app instead of the plaintext.
+4. Privournal returns the encrypted version - paste that back into your journal app instead of the plaintext.
 5. To read it later, run Privournal's decrypt flow with the same Key/Account.
 
 No journal content is ever stored. If you make an account, only your encryption *key* (the cover mapping) is saved to the database — never the journal text itself. Without an account, you have to copy-paste the encrypted text and the encryptiong key somewhere.
@@ -161,7 +146,7 @@ Pure terminal app - no GUI yet :)
 - Uses sql lite - python connection.
 - Thanks to the Python and MySQL documentation.
 - Thanks to my brother too, he pointed out 2 major flaws that sneaked past my eyes.  
-- Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 800+ liner code Hehe)
+- Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 1400+ liner code Hehe)
 
 ---
 
