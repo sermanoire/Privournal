@@ -75,11 +75,9 @@ for i in range(26):
     mark4[chr(65 + i)] = chr(90 - i) + " "
     mark4[chr(97 + i)] = chr(122 - i) + " "
 
-# DOTENV_CONNECTION
+# DB_CONNECTION
 import sqlite3
 from pathlib import Path
-
-# DB_CONNECTION
 
 def connect_db():
     db_path = Path.home() / ".privournal"
@@ -139,7 +137,6 @@ def Menu():
     print("3. Exit")
     divider()
     raw = input("1 OR 2 OR 3 : ")
-    print(f"DEBUG: '{raw}'")
     ch = int(raw)
     print()
     print()
@@ -1449,5 +1446,6 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
+
 
 
