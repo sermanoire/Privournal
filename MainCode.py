@@ -5,9 +5,9 @@ NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT'''
 
 # FOR MY REFENECE - DATA Fetchall -> List of different records and each column's info in a tuple.
 # THANK YOU
-
 # Imports!
 
+#import bcrypt
 import random
 import string
 import json
@@ -19,6 +19,14 @@ import textwrap
 
 
 # Making the pretty format!
+
+def note():
+    print(""" PRIVOURNAL STORES NO DATA EXCEPT ACCOUNT DETAILS LIKE ENCRYPTION KEY.
+              ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
+              NOTE : ENCRYPTED TEXT AND THE KEY HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT!
+""")
+    time.sleep(3)
+    clear()
 def clear():
     print("\n" * 100)
 
@@ -75,11 +83,9 @@ for i in range(26):
     mark4[chr(65 + i)] = chr(90 - i) + " "
     mark4[chr(97 + i)] = chr(122 - i) + " "
 
-# DOTENV_CONNECTION
+# DB_CONNECTION
 import sqlite3
 from pathlib import Path
-
-# DB_CONNECTION
 
 def connect_db():
     db_path = Path.home() / ".privournal"
@@ -139,14 +145,13 @@ def Menu():
     print("3. Exit")
     divider()
     raw = input("1 OR 2 OR 3 : ")
-    print(f"DEBUG: '{raw}'")
     try:
         ch = int(raw)
     except ValueError:
         print()
         print("Invalid Choice! Please enter a number.")
         print()
-        time.sleep(2)
+        time.sleep(1)
         Menu()
         return
     print()
@@ -161,7 +166,7 @@ def Menu():
     else:
         print("Invalid Choice!")
         print()
-        time.sleep(2)
+        time.sleep(1)
         Menu()
 
 
@@ -276,7 +281,7 @@ def De():
         else:
             print("Invalid Choice!")
             print()
-            time.sleep(2)
+            time.sleep(1)
             Menu()
 
     else:
@@ -303,7 +308,7 @@ def De():
                 print()
                 print("Invalid Choice! Please enter a number.")
                 print()
-                time.sleep(2)
+                time.sleep(1)
                 De()
                 return
             print()
@@ -328,7 +333,7 @@ def De():
                     print()
                     print("Invalid Choice! Please enter a number.")
                     print()
-                    time.sleep(2)
+                    time.sleep(1)
                     De()
                     return
                 print()
@@ -406,7 +411,7 @@ def De():
                 else:
                     print("Invalid Choice!")
                     print()
-                    time.sleep(2)
+                    time.sleep(1)
                     De()
 
 
@@ -426,7 +431,7 @@ def login():
 
     if acc_d == []:
         print()
-        print("No such Username found in our database!")
+        print("No such Username found in the database!")
 
     else:
         if pswd1 == acc_d[0][0]:
@@ -470,7 +475,7 @@ def login():
                 exch = int(input("Exit or Login again? (1 OR 2) : "))
             except ValueError:
                 print("Invalid Choice! Please enter a number.")
-                time.sleep(2)
+                time.sleep(1)
                 login()
                 return
             if exch == 1:
@@ -480,7 +485,7 @@ def login():
             else:
                 print("Invalid Choice!")
                 print()
-                time.sleep(2)
+                time.sleep(1)
                 login()
 
 
@@ -521,6 +526,7 @@ def basicDe():
     time.sleep(1)
     clear()
     show_output("Here's your Journal", decrypted)
+    print()
     print("Thank you for using Privournal!")
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
@@ -547,7 +553,7 @@ def En():
             print()
             global Ch7
             Ch7 = input(
-                "Do you want to save encryption details on our database, \nfor future decryptions and referencing records? (Y/N) : ")
+                "Do you want to make an account for more ease and referencing records? (Y/N) : ")
             print()
 
             if Ch7 == "Y" or Ch7 == "y":
@@ -567,7 +573,7 @@ def En():
                     Ch6 = int(input("Which one? (1 OR 2) : "))
                 except ValueError:
                     print("Invalid Choice!")
-                    time.sleep(2)
+                    time.sleep(1)
                     En()
                     return
                 if Ch6 == 1:
@@ -586,7 +592,7 @@ def En():
                         Ch7 = int(input("Which one out of these? (1-5) "))
                     except ValueError:
                         print("Invalid Choice!")
-                        time.sleep(2)
+                        time.sleep(1)
                         En()
                         return
 
@@ -625,6 +631,8 @@ def En():
                     print()
                     print("Succesfully Encrypted!")
                     print()
+                    print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+                    print()
                     print()
                     time.sleep(1)
                     clear()
@@ -657,12 +665,21 @@ def En():
                     else:
                         print("Invalid Choice!")
                         print()
-                        time.sleep(2)
+                        time.sleep(1)
                         En()
 
                 else:
                     print("Invalid input!")
+                    time.sleep(1)
                     En()
+            else:
+                print("Invalid input!")
+                time.sleep(1)
+                En()
+        else:
+            print("Invalid Choice!")
+            time.sleep(1)
+            En()
 
 
     else:
@@ -679,7 +696,7 @@ def En():
             Ch6 = int(input("Which one? (1 OR 2) : "))
         except ValueError:
             print("Invalid Choice!")
-            time.sleep(2)
+            time.sleep(1)
             En()
             return
 
@@ -700,7 +717,7 @@ def En():
                 Ch7 = int(input("Choose one of these (1-5) : "))
             except ValueError:
                 print("Invalid Choice! Please enter a number.")
-                time.sleep(2)
+                time.sleep(1)
                 En()
                 return
             print()
@@ -757,6 +774,8 @@ def En():
             mycon.commit()
             print("Successfully Encrypted!")
             print()
+            print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+            print()
             print()
             time.sleep(1)
             clear()
@@ -789,7 +808,7 @@ def En():
             else:
                 print("Invalid Choice! Please enter a number.")
                 print()
-                time.sleep(2)
+                time.sleep(1)
                 En()
         else:
             print("Invalid input!")
@@ -851,7 +870,12 @@ def AdvEn():
             clear()
             show_output("Here's the encrypted Journal", finalenlist)
             print()
+            print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+            print()
+            print()
             print("Here's the Encryption Key : ", json.dumps(cover_dict))
+            print()
+            print("Please copy this key too, since you don't have an account!")
             print()
             print("You'll be redirected to the a new page.")
             print()
@@ -918,6 +942,8 @@ def AdvEn():
             time.sleep(1)
             clear()
             show_output("Here's your Encrypted text", finalenlist)
+            print()
+            print("Please copy this and paste it somewhere, you'll need it while decrypting!")
             print()
             print()
             print("You'll be redirected to the a new page.")
@@ -1052,24 +1078,24 @@ def signup():
 
 def which_j():
     try:
-        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
+        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal name) : "))
     except ValueError:
         print()
         print("Invalid Choice! Please enter a number.")
         print()
-        time.sleep(2)
+        time.sleep(1)
         which_j()
         return
     print()
 
-    if Ch not in j_id:
+    if Ch not in j_name:
         print("Journal not found. Check the ID again!")
         which_j()
 
     else:
         for i in range(len(j_id)):
 
-            if j_id[i] == Ch:
+            if j_name[i] == Ch:
                 global EN_KEY
                 EN_KEY = en_key[i]
             else:
@@ -1101,14 +1127,14 @@ def Swiption():
         else:
             print("Invalid Choice! Please enter a number.")
             print()
-            time.sleep(2)
+            time.sleep(1)
             Swiption()
 
             Swiption()
 
     else:
 
-        print("A life is number, at what occurrence would the letter's cover be changed.")
+        print("A life is NUMBER, it means at what occurrence would the letter's cover be changed in the encryption.")
         print()
 
         global l
@@ -1118,7 +1144,7 @@ def Swiption():
             print()
             print("Invalid Choice! Please enter a number.")
             print()
-            time.sleep(2)
+            time.sleep(1)
             Swiption()
             return
         if l <= 0:
@@ -1230,6 +1256,8 @@ def Swiption():
         clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
+        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+        print()
         print("You'll be redirected to the a new page.")
         print()
         print()
@@ -1302,17 +1330,17 @@ def SwipDe():
     print()
 
     try:
-        Ch = int(input("Which Journal do you want to Decrypt? (Enter Swiption_ID) : "))
+        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal name) : "))
     except ValueError:
         print()
         print("Invalid Choice! Please enter a number.")
         print()
-        time.sleep(2)
+        time.sleep(1)
         SwipDe()
         return
     print()
 
-    if Ch not in s_id:
+    if Ch not in j_name:
         print("Journal not found. Check the ID again!")
         SwipDe()
 
@@ -1323,7 +1351,7 @@ def SwipDe():
 
         for i in range(len(s_id)):
 
-            if s_id[i] == Ch:
+            if j_name[i] == Ch:
                 global EN_KEY
                 EN_KEY = en_key[i]
             else:
@@ -1369,9 +1397,9 @@ def SwipDe():
     print()
     time.sleep(1)
     clear()
-    show_output("Here's your Encrypted text", decrypted)
+    show_output("Here's your Decrypted text", decrypted)
     print()
-    print("You will be redirect to Menu in 10 seconds :) ")
+    print("You will be redirected to Menu in 10 seconds :) ")
     print()
     print("You can copy your decrypted journal and save it somewhere safe!")
     print()
@@ -1447,6 +1475,8 @@ def AdvRand():
         clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
+        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+        print()
         print("You'll be redirected to the a new page.")
         print()
         print()
@@ -1521,7 +1551,12 @@ def AdvRand():
         clear()
         show_output("Here's your Encrypted text", finalenlist)
         print()
+        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+        print()
+        print()
         print("Here's the Encryption Key : ")
+        print()
+        print("Please copy this key too, since you don't have an account!")
         print(json.dumps(cover_dict))
         print()
         print("You'll be redirected to the a new page.")
@@ -1538,15 +1573,14 @@ def banner():
     ██████╔╝██████╔╝██║██║   ██║██║   ██║██║   ██║██████╔╝██╔██╗ ██║███████║██║
     ██╔═══╝ ██╔══██╗██║╚██╗ ██╔╝██║   ██║██║   ██║██╔══██╗██║╚██╗██║██╔══██║██║
     ██║     ██║  ██║██║ ╚████╔╝ ╚██████╔╝╚██████╔╝██║  ██║██║ ╚████║██║  ██║███████╗
-    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝=
+    ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ TM 
 
                Give your journals the privacy they deserve :) 
     ''')
 
 if __name__ == "__main__":
-    time.sleep(2)
+    time.sleep(1)
     start()
 
     cursor.close()
     mycon.close()
-
