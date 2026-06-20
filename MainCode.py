@@ -144,8 +144,9 @@ def Menu():
         ch = int(raw)
     except ValueError:
         print()
-        print("Invalid Choice")
+        print("Invalid Choice! Please enter a number.")
         print()
+        time.sleep(2)
         Menu()
         return
     print()
@@ -158,8 +159,9 @@ def Menu():
     elif ch == 3:
         exit()
     else:
-        print("Invalid Choice")
+        print("Invalid Choice!")
         print()
+        time.sleep(2)
         Menu()
 
 
@@ -273,6 +275,9 @@ def De():
 
         else:
             print("Invalid Choice!")
+            print()
+            time.sleep(2)
+            Menu()
 
     else:
         Ch2 = input("Do you have an Account on Privournal? (Y/N) : ")
@@ -296,8 +301,9 @@ def De():
                 Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
             except ValueError:
                 print()
-                print("Invalid Choice!")
+                print("Invalid Choice! Please enter a number.")
                 print()
+                time.sleep(2)
                 De()
                 return
             print()
@@ -320,8 +326,9 @@ def De():
                     Ch4 = int(input("Which one out of these? (1-5) : "))
                 except ValueError:
                     print()
-                    print("Invalid Choice!")
+                    print("Invalid Choice! Please enter a number.")
                     print()
+                    time.sleep(2)
                     De()
                     return
                 print()
@@ -397,8 +404,9 @@ def De():
 
 
                 else:
-                    print("Invalid choice!")
+                    print("Invalid Choice!")
                     print()
+                    time.sleep(2)
                     De()
 
 
@@ -461,7 +469,8 @@ def login():
             try:
                 exch = int(input("Exit or Login again? (1 OR 2) : "))
             except ValueError:
-                print("Invalid Choice!")
+                print("Invalid Choice! Please enter a number.")
+                time.sleep(2)
                 login()
                 return
             if exch == 1:
@@ -470,6 +479,8 @@ def login():
                 login()
             else:
                 print("Invalid Choice!")
+                print()
+                time.sleep(2)
                 login()
 
 
@@ -556,6 +567,7 @@ def En():
                     Ch6 = int(input("Which one? (1 OR 2) : "))
                 except ValueError:
                     print("Invalid Choice!")
+                    time.sleep(2)
                     En()
                     return
                 if Ch6 == 1:
@@ -574,6 +586,7 @@ def En():
                         Ch7 = int(input("Which one out of these? (1-5) "))
                     except ValueError:
                         print("Invalid Choice!")
+                        time.sleep(2)
                         En()
                         return
 
@@ -642,7 +655,9 @@ def En():
                         AdvEn()
 
                     else:
-                        print("Invalid choice")
+                        print("Invalid Choice!")
+                        print()
+                        time.sleep(2)
                         En()
 
                 else:
@@ -664,6 +679,7 @@ def En():
             Ch6 = int(input("Which one? (1 OR 2) : "))
         except ValueError:
             print("Invalid Choice!")
+            time.sleep(2)
             En()
             return
 
@@ -683,7 +699,8 @@ def En():
             try:
                 Ch7 = int(input("Choose one of these (1-5) : "))
             except ValueError:
-                print("Invalid Choice!")
+                print("Invalid Choice! Please enter a number.")
+                time.sleep(2)
                 En()
                 return
             print()
@@ -770,7 +787,9 @@ def En():
                 AdvEn()
 
             else:
-                print("Invalid choice")
+                print("Invalid Choice! Please enter a number.")
+                print()
+                time.sleep(2)
                 En()
         else:
             print("Invalid input!")
@@ -1036,8 +1055,9 @@ def which_j():
         Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal_ID) : "))
     except ValueError:
         print()
-        print("Invalid Choice!")
+        print("Invalid Choice! Please enter a number.")
         print()
+        time.sleep(2)
         which_j()
         return
     print()
@@ -1074,17 +1094,21 @@ def Swiption():
             login()
         elif Ch20 == "N" or Ch20 == "n":
             print("Please Signup or continue without Swiption :) ")
-            print("You'll be redirected to the menu ")
+            print("You'll be redirected to the menu.")
             print()
             time.sleep(2)
             Menu()
         else:
-            print("Invalid Choice!")
+            print("Invalid Choice! Please enter a number.")
+            print()
+            time.sleep(2)
+            Swiption()
+
             Swiption()
 
     else:
 
-        print("A life is at what occurrence would the letter's cover be changed.")
+        print("A life is number, at what occurrence would the letter's cover be changed.")
         print()
 
         global l
@@ -1092,14 +1116,16 @@ def Swiption():
             l = int(input("Choose life : "))
         except ValueError:
             print()
-            print("Invalid Choice!")
+            print("Invalid Choice! Please enter a number.")
             print()
+            time.sleep(2)
             Swiption()
             return
         if l <= 0:
             print()
-            print("Invalid Choice!")
+            print("Invalid Choice! Life must be a number greater than 0.")
             print()
+            time.sleep(2)
             Swiption()
             return
         print()
@@ -1279,8 +1305,9 @@ def SwipDe():
         Ch = int(input("Which Journal do you want to Decrypt? (Enter Swiption_ID) : "))
     except ValueError:
         print()
-        print("Invalid Choice!")
+        print("Invalid Choice! Please enter a number.")
         print()
+        time.sleep(2)
         SwipDe()
         return
     print()
@@ -1522,5 +1549,4 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
-
 
