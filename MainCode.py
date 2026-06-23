@@ -18,26 +18,42 @@ from datetime import date
 import textwrap
 
 
-# Making the pretty format!
 
+
+
+# Making the pretty format!
 def note():
-    print(""" PRIVOURNAL STORES NO DATA EXCEPT ACCOUNT DETAILS LIKE ENCRYPTION KEY.
-              ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
-              NOTE : ENCRYPTED TEXT AND THE KEY HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT!
+    print(""" 
+    Welcome! 
+    
+    PRIVOURNAL STORES NO DATA EXCEPT ACCOUNT DETAILS LIKE ENCRYPTION KEY.
+    ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
+    
+    NOTE : ENCRYPTED TEXT AND THE KEY HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT!
+              
+    Also, for swiption feature having an account is mandatory!
+    
 """)
+
     time.sleep(3)
     clear()
+
+
 def clear():
     print("\n" * 100)
 
 
 def divider():
-    print("─" * 50)
+    print("─" * len(sec))
 
 
 def section(title):
-    clear()
-    print("-" * 50, title, "-" * 50)
+    print()
+    print()
+
+    global sec
+    sec = "-" * 50 + title + "-" * 50
+    print(sec)
 
 
 def show_output(label, text):
@@ -88,6 +104,7 @@ import sqlite3
 from pathlib import Path
 
 def connect_db():
+
     db_path = Path.home() / ".privournal"
     db_path.mkdir(exist_ok=True)
     mycon = sqlite3.connect(db_path / "privournal.db")
@@ -132,9 +149,9 @@ def start():
     banner()
     print()
     print()
-    print("We help your Journals stay Private and Safe :) ")
     time.sleep(3)
     Menu()
+
 
 def Menu():
     section("MENU")
@@ -184,7 +201,7 @@ def De():
 
     if status == 1:
 
-        CH = input("Do you want to Decrypt a Swiption-based Journal? (Y/N) : ")
+        CH = input("Do you want to Decrypt a Swiption-based Journal? (y/n) : ")
         print()
         print()
 
@@ -285,7 +302,7 @@ def De():
             Menu()
 
     else:
-        Ch2 = input("Do you have an Account on Privournal? (Y/N) : ")
+        Ch2 = input("Do you have an Account on Privournal? (y/n) : ")
         print()
 
         if Ch2 == "y" or Ch2 == "Y":
@@ -294,11 +311,11 @@ def De():
 
             print()
             print('''
-
-            1. Basic Encryption
-            2. Advanced Encryption 
-
+1. Basic Encryption
+2. Advanced Encryption 
+3. Exit
             ''')
+            print("Note that to Decrypt a Swiption based journal, you need an account! ")
             print()
             print()
 
@@ -317,6 +334,7 @@ def De():
                 RAW = input("Enter the Encrypted text : ")
                 RAWlist = RAW.split(" ")
                 print()
+                clear()
                 print()
                 print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
                 print("2. ASCII Version")
@@ -329,6 +347,7 @@ def De():
                 global Ch4
                 try:
                     Ch4 = int(input("Which one out of these? (1-5) : "))
+                    print()
                 except ValueError:
                     print()
                     print("Invalid Choice! Please enter a number.")
@@ -344,7 +363,7 @@ def De():
 
             elif Ch3 == 2:
 
-                Ch5 = input("Do you have the Encryption Key? (Y/N) : ")
+                Ch5 = input("Do you have the Encryption Key? (y/n) : ")
                 print()
 
                 if Ch5 == "y" or Ch5 == "Y":
@@ -382,12 +401,14 @@ def De():
                                 continue
 
                     decrypted = "".join(tempstore)
+                    print("Decrypting...")
                     print()
                     print("Decrypted Successfully!")
                     print()
                     print()
-                    clear()
                     time.sleep(1)
+                    clear()
+
                     show_output("Here's your Journal", decrypted)
                     print()
                     print()
@@ -414,6 +435,12 @@ def De():
                     time.sleep(1)
                     De()
 
+            elif Ch3 == 3:
+                exit()
+            else:
+                print("Invalid Choice!")
+                time.sleep(1)
+                De()
 
 def login():
     section("LOGIN")
@@ -540,7 +567,7 @@ def En():
 
     if status != 1:
 
-        Ch8 = input("Do you have an Account? (Y/N) : ")
+        Ch8 = input("Do you have an Account? (y/n) : ")
         print()
 
         if Ch8 == "Y" or Ch8 == "y":
@@ -550,10 +577,9 @@ def En():
             login()
 
         elif Ch8 == "N" or Ch8 == "n":
-            print()
             global Ch7
             Ch7 = input(
-                "Do you want to make an account for more ease and referencing records? (Y/N) : ")
+                "Do you want to make an account for more ease and referencing records? (y/n) : ")
             print()
 
             if Ch7 == "Y" or Ch7 == "y":
@@ -571,6 +597,7 @@ def En():
 
                 try:
                     Ch6 = int(input("Which one? (1 OR 2) : "))
+
                 except ValueError:
                     print("Invalid Choice!")
                     time.sleep(1)
@@ -631,17 +658,18 @@ def En():
                     print()
                     print("Succesfully Encrypted!")
                     print()
-                    print("Please copy this and paste it somewhere, you'll need it while decrypting!")
-                    print()
                     print()
                     time.sleep(1)
                     clear()
                     show_output("Here's your Encrypted text", encrypted)
                     print()
+                    print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+                    print()
                     print("Thank you for using Privournal!")
                     print("Be sure to make an account for smoother experience in future :) ")
                     print()
                     time.sleep(5)
+                    clear()
 
                     Menu()
 
@@ -649,10 +677,9 @@ def En():
                     print()
                     print()
                     print("Advanced Encryption it is then!")
-                    print()
-                    print()
+                    clear()
 
-                    swiption = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
+                    swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ")
 
                     print()
                     print()
@@ -796,7 +823,7 @@ def En():
             print()
             print()
 
-            swiption = input("Do you want to enable Swiption for a stronger Encryption? (Y/N) : ")
+            swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ")
 
             print()
             if swiption == "Y" or swiption == "y":
@@ -819,7 +846,8 @@ def AdvEn():
     global journal
     global enlist
 
-    Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (Y/N) ")
+    clear()
+    Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ")
     print()
 
     if Ch_rand == "y" or Ch_rand == "Y":
@@ -839,6 +867,8 @@ def AdvEn():
                 feed()
             else:
                 print("Journal Uploaded!")
+                time.sleep(1)
+                clear()
 
             print("Choose cover for each letter!")
             print()
@@ -1044,11 +1074,13 @@ def signup():
 
     else:
         t_conf_pswd = input("Confrim password : ")
+        print()
 
         if t_conf_pswd == tpswd:
             password = tpswd
 
             name = input("Enter your name : ")
+            print()
             email = input("Enter email please : ")
             account_created = str(date.today())
             print()
@@ -1104,7 +1136,7 @@ def which_j():
 
 def Swiption():
     section("SWIPTION ENCRYPTION")
-
+    print()
     print("Welcome to Swiption Encryption - Our most secure form of Encryption!")
     print()
     print("Note that Swiption by default takes use of Randomised Mode.")
@@ -1112,18 +1144,42 @@ def Swiption():
 
     if status != 1:
         print("For Swiption, having an account is mandatory!")
-        Ch20 = input("Do you have an Account (Y/N) : ")
+        print()
+        Ch20 = input("Do you have an Account (y/n) : ")
+        print()
 
         if Ch20 == "Y" or Ch20 == "y":
             print("Then first please Login :) ")
             print()
             login()
         elif Ch20 == "N" or Ch20 == "n":
-            print("Please Signup or continue without Swiption :) ")
-            print("You'll be redirected to the menu.")
+            print("For Swiption, having an account is mandatory! ")
+            print("Please signup or continue without Swiption :) ")
             print()
+            print("You will be redirected in 3 seconds")
+            time.sleep(3)
+            print()
+            print()
+            print()
+            print()
+
+            divider()
+            print("""
+            
+            What do you want to do?
+            
+            1. Signup
+            2. Login
+            3. Menu
+            4. Exit
+            
+            """)
+
+            choice()
+
             time.sleep(2)
             Menu()
+
         else:
             print("Invalid Choice! Please enter a number.")
             print()
@@ -1266,6 +1322,7 @@ def Swiption():
 
 
 def SwipDe():
+    clear()
     cursor.execute(
         '''
         SELECT sd.*
@@ -1279,8 +1336,6 @@ def SwipDe():
 
     j_data = cursor.fetchall()
 
-    global user_id
-    user_id = j_data[0][1]
     print("User_ID is", user_id)
 
     print()
@@ -1318,7 +1373,6 @@ def SwipDe():
 
     for t in en_key:
         print(t)
-
         print()
 
     global life
@@ -1329,24 +1383,17 @@ def SwipDe():
     print("Life Values :", life)
     print()
 
-    try:
-        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal name) : "))
-    except ValueError:
-        print()
-        print("Invalid Choice! Please enter a number.")
-        print()
-        time.sleep(1)
-        SwipDe()
-        return
-    print()
+
+    Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ")
 
     if Ch not in j_name:
-        print("Journal not found. Check the ID again!")
+        print("Journal not found. Check the name again!")
+        time.sleep(1)
         SwipDe()
 
     else:
         global l
-        idx = s_id.index(Ch)
+        idx = j_name.index(Ch)
         l = life[idx]
 
         for i in range(len(s_id)):
@@ -1356,8 +1403,9 @@ def SwipDe():
                 EN_KEY = en_key[i]
             else:
                 continue
-
+    clear()
     print("Starting Decryption!")
+    print()
     print("Decrypting...")
     print()
     time.sleep(1)
@@ -1408,6 +1456,9 @@ def SwipDe():
 
 
 def AdvRand():
+
+
+
     section("RANDOMISED ENCRYPTION")
     if status == 1:
 
@@ -1528,20 +1579,6 @@ def AdvRand():
         print("Encrypting...")
         time.sleep(1)
 
-        journal_name = j_name
-
-        encryption_key = json.dumps(cover_dict)
-        encryption_date = str(date.today())
-
-        cursor.execute(
-            """
-            INSERT INTO journal_details
-            (user_id, journal_name, encryption_key, encryption_date)
-            VALUES (?, ?, ?, ?)
-            """,
-            (user_id, journal_name, encryption_key, encryption_date))
-        mycon.commit()
-
         finalenlist = "".join(enlist)
         print()
         print("Successfully Encrypted!")
@@ -1554,17 +1591,31 @@ def AdvRand():
         print("Please copy this and paste it somewhere, you'll need it while decrypting!")
         print()
         print()
-        print("Here's the Encryption Key : ")
+        print("Here's the Encryption Key : ",json.dumps(cover_dict))
         print()
         print("Please copy this key too, since you don't have an account!")
-        print(json.dumps(cover_dict))
         print()
         print("You'll be redirected to the a new page.")
         print()
-        print()
+
         time.sleep(7)
         Menu()
 
+def choice():
+
+    Ch21 = int(input(" 1 OR 2 OR 3 : "))
+
+    if Ch21 == 1:
+            signup()
+    elif Ch21 == 2:
+            login()
+    elif Ch21 == 3:
+            Menu()
+    elif Ch21 == 4:
+            exit()
+    else:
+        print("Invalid choice!")
+        choice()
 
 def banner():
     print('''
@@ -1576,10 +1627,12 @@ def banner():
     ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ TM 
 
                Give your journals the privacy they deserve :) 
+                We help your Journals stay Private and Safe
     ''')
 
 if __name__ == "__main__":
-    time.sleep(1)
+
+    note()
     start()
 
     cursor.close()
