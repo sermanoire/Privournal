@@ -59,6 +59,12 @@ privournal
 
 No need to clone the repository manually this way!
 
+If you have already installed it and want to update it to the newest version, type this into terminal :
+
+```bash
+pip install --upgrade privournal
+```
+Thank you!
 
 ## How did the idea stumble upon me?
 
@@ -130,7 +136,7 @@ Pure terminal app - no GUI yet :)
 ## Small Caveats!
 - The Decryption glitches if there are numbers or special symbols in the journal without any gap - Not huge glitches, just a few letters left encrypted. (Will be fixed in V2)
 - Encrypted text must be copied whole, even the last trailing space and it should be inputted in a single line - just paste it whole is what I mean to say :)
-- The banner was made by GPT, I tried making it myself but mine looked skinny and I was running low on time 😭
+- The banner and Guide function was made by GPT, I tried making the banner myself but mine looked skinny and I was running low on time, so i got both made by GPT 😭
 
 ## What's next!
 
@@ -145,6 +151,7 @@ Pure terminal app - no GUI yet :)
 - Built as part of [Stardance](https://stardance.hackclub.com), summer 2026.
 - Uses sql lite - python connection.
 - Thanks to the Python and MySQL documentation.
+- GPT for error finding when i failed to see what's wrong with da code 🥲
 - Thanks to my brother too, he pointed out 2 major flaws that sneaked past my eyes.  
 - Lastly thanks to me 🙄 (For fixing the errors for hours and writing a 1400+ liner code Hehe)
 
