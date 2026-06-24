@@ -159,9 +159,10 @@ def Menu():
     print()
     print("1. Encrypt a Journal Entry")
     print("2. Decrypt a Journal Entry")
-    print("3. Exit")
+    print("3. Guide")
+    print("4. Exit")
     divider()
-    raw = input("1 OR 2 OR 3 : ")
+    raw = input("1 OR 2 OR 3 OR 4 : ")
     try:
         ch = int(raw)
     except ValueError:
@@ -179,6 +180,8 @@ def Menu():
     elif ch == 2:
         De()
     elif ch == 3:
+        guide()
+    elif ch ==4:
         exit()
     else:
         print("Invalid Choice!")
@@ -195,6 +198,8 @@ def exit():
 
 
 def De():
+
+    clear()
     section("DECRYPTION")
     print("Let's start Decryption!")
     print()
@@ -283,6 +288,8 @@ def De():
 
             decrypted = "".join(tempstore)
             print()
+            print("Decrypting...")
+            print()
             print("Decrypted Successfully!")
             print()
             print()
@@ -315,7 +322,7 @@ def De():
 2. Advanced Encryption 
 3. Exit
             ''')
-            print("Note that to Decrypt a Swiption based journal, you need an account! ")
+            print("Note that to Decrypt a Swiption based journal, you need an account. ")
             print()
             print()
 
@@ -336,28 +343,9 @@ def De():
                 print()
                 clear()
                 print()
-                print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
-                print("2. ASCII Version")
-                print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
-                print(
-                    "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
-                print()
-                print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
-                print()
-                global Ch4
-                try:
-                    Ch4 = int(input("Which one out of these? (1-5) : "))
-                    print()
-                except ValueError:
-                    print()
-                    print("Invalid Choice! Please enter a number.")
-                    print()
-                    time.sleep(1)
-                    De()
-                    return
-                print()
-                print("Decrypting...")
-                print()
+
+                which_mode()
+
                 time.sleep(1)
                 basicDe()
 
@@ -379,6 +367,7 @@ def De():
 
                     print()
                     RAW = input("Enter the raw encrypted journal : ")
+                    print()
                     RAWlist = RAW.split(" ")
 
                     tempstore = []
@@ -531,6 +520,11 @@ def basicDe():
         dakey = mark4
     else:
         print("Invalid Option!")
+        basicDe()
+
+    print()
+    print("Decrypting...")
+    print()
 
     delist = []
 
@@ -616,7 +610,7 @@ def En():
                     print()
 
                     try:
-                        Ch7 = int(input("Which one out of these? (1-5) "))
+                        Ch7 = int(input("Which mode? (1-5) "))
                     except ValueError:
                         print("Invalid Choice!")
                         time.sleep(1)
@@ -677,7 +671,8 @@ def En():
                     print()
                     print()
                     print("Advanced Encryption it is then!")
-                    clear()
+                    print()
+                    print()
 
                     swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ")
 
@@ -846,7 +841,7 @@ def AdvEn():
     global journal
     global enlist
 
-    clear()
+
     Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ")
     print()
 
@@ -903,7 +898,8 @@ def AdvEn():
             print("Please copy this and paste it somewhere, you'll need it while decrypting!")
             print()
             print()
-            print("Here's the Encryption Key : ", json.dumps(cover_dict))
+            print("Here's the Encryption Key : ")
+            print(json.dumps(cover_dict))
             print()
             print("Please copy this key too, since you don't have an account!")
             print()
@@ -920,6 +916,7 @@ def AdvEn():
             cover_dict = {}
 
             journal = input("Please feed the Journal for Encryption : ")
+            print()
             j_name = input("Please name your Journal : ")
             print()
             print()
@@ -991,6 +988,7 @@ def feed():
     global journal
     global j_name
     journal = input("Please feed the Journal for Encryption : ")
+    print()
     j_name = input("Please name your Journal : ")
 
 
@@ -1110,10 +1108,10 @@ def signup():
 
 def which_j():
     try:
-        Ch = int(input("Which Journal do you want to Decrypt? (Enter Journal name) : "))
+        Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ")
     except ValueError:
         print()
-        print("Invalid Choice! Please enter a number.")
+        print("Invalid Choice! Please enter the journal name.")
         print()
         time.sleep(1)
         which_j()
@@ -1121,11 +1119,11 @@ def which_j():
     print()
 
     if Ch not in j_name:
-        print("Journal not found. Check the ID again!")
+        print("Journal not found. Check the name again!")
         which_j()
 
     else:
-        for i in range(len(j_id)):
+        for i in range(len(j_name)):
 
             if j_name[i] == Ch:
                 global EN_KEY
@@ -1219,7 +1217,7 @@ def Swiption():
             cover_dict.append({})
 
         j = input("Please feed the Journal for Encryption : ")
-
+        print()
         j_name = input("Please name your Journal : ")
 
         if not j:
@@ -1384,10 +1382,10 @@ def SwipDe():
     print()
 
 
-    Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ")
+    Ch = input("Which Journal do you want to Decrypt? (Enter it's name) : ")
 
     if Ch not in j_name:
-        print("Journal not found. Check the name again!")
+        print("Journal not found. Check the ID again!")
         time.sleep(1)
         SwipDe()
 
@@ -1396,7 +1394,7 @@ def SwipDe():
         idx = j_name.index(Ch)
         l = life[idx]
 
-        for i in range(len(s_id)):
+        for i in range(len(j_name)):
 
             if j_name[i] == Ch:
                 global EN_KEY
@@ -1616,6 +1614,194 @@ def choice():
     else:
         print("Invalid choice!")
         choice()
+
+def which_mode():
+    print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
+    print("2. ASCII Version")
+    print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+    print("4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
+    print()
+    print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
+    print()
+    global Ch4
+    try:
+        Ch4 = int(input("Which encryption mode out of these did your journal have? (1-5) : "))
+        print()
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        which_mode()
+        return
+
+def guide():
+    clear()
+    section("GUIDE")
+    print("""
+    Welcome to the Privournal Guide!
+    Here's everything you need to know before diving in.
+    """)
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  WHAT IS PRIVOURNAL?
+──────────────────────────────────────────────────────────────────────────────
+
+  Privournal is a private journal encryption tool.
+  It converts your journal text into an unreadable encrypted form,
+  and only you can decrypt it back using the right key.
+
+  Privournal stores NOTHING except your account details.
+  Your journal content never gets saved anywhere — only the encryption
+  key is stored (in your account), not the journal itself.
+""")
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  DO I NEED AN ACCOUNT?
+──────────────────────────────────────────────────────────────────────────────
+
+  No, but having one makes life much easier.
+
+  WITHOUT an account:
+    - You can still encrypt and decrypt journals.
+    - BUT you must manually save and provide the Encryption Key yourself.
+    - Swiption is NOT available.
+
+  WITH an account:
+    - Your encryption keys are saved automatically.
+    - You can look up past journals by name.
+    - Swiption is available.
+""")
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  ENCRYPTION MODES
+──────────────────────────────────────────────────────────────────────────────
+""")
+
+    print("""  1. BASIC ENCRYPTION
+  ───────────────────
+  Simple and fast. Each letter is mapped to a number or another letter.
+  Good enough if you just want casual privacy.
+
+  There are 5 Basic modes:
+
+    Mark 1     → A-Z maps to 1-26,  a-z maps to 27-52
+    ASCII      → Each letter maps to its ASCII number (A=65, B=66... z=122)
+    Mark 2     → A-Z maps to 26-1,  a-z maps to 52-27  (reverse of Mark 1)
+    Mark 3     → A-Z maps to 2,4,6...52 (even),  a-z maps to 1,3,5...51 (odd)
+    Mark 4     → A maps to Z, B maps to Y... (mirror alphabet)
+
+  Remember which mode you used — you'll need to pick the same one to decrypt!
+""")
+    time.sleep(2)
+
+    print("""  2. ADVANCED ENCRYPTION
+  ──────────────────────
+  Much stronger. You (or the system) assigns a unique "cover" to each letter.
+  The cover is what appears in the encrypted text instead of the letter.
+
+  There are 2 Advanced modes:
+
+    Manual     → You type the cover for each letter yourself.
+                 e.g. You decide A = "apple", B = "mango", etc.
+                 Every letter must have a UNIQUE cover.
+
+    Randomised → The system auto-generates a random 6-character cover
+                 for each letter. Fast and very secure.
+
+  The Encryption Key (a dictionary mapping letters to their covers)
+  is what you need to decrypt. Save it if you don't have an account!
+""")
+    time.sleep(2)
+
+    print("""  3. SWIPTION ENCRYPTION  ★ Most Secure ★
+  ────────────────────────────────────────
+  Swiption is Privournal's most powerful feature. It requires an account.
+
+  The idea: a letter's cover CHANGES after it appears a certain number
+  of times. That number is called the LIFE.
+
+  Example with Life = 2:
+    - First 2 times 'A' appears → it gets Cover 1
+    - Next 2 times 'A' appears  → it gets a brand new Cover 2
+    - And so on...
+
+  This means even if someone notices a pattern, the pattern keeps changing!
+
+  Life = 1  → Cover changes every single occurrence (maximum rotation)
+  Life = 3  → Cover stays for 3 occurrences, then changes
+  Life = 10 → Cover stays for 10 occurrences before changing
+
+  Swiption always uses Randomised covers (auto-generated).
+  Your Swiption key and Life value are saved to your account automatically.
+""")
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  HOW TO ENCRYPT
+──────────────────────────────────────────────────────────────────────────────
+
+  Step 1 → Go to "Encrypt a Journal Entry" from the Menu.
+  Step 2 → Login or choose to proceed without an account.
+  Step 3 → Choose Basic or Advanced encryption.
+  Step 4 → If Advanced, choose Manual, Randomised, or Swiption.
+  Step 5 → Paste or type your journal when prompted.
+  Step 6 → Name your journal (if logged in).
+  Step 7 → Copy the encrypted output and save it somewhere safe!
+            If you don't have an account, copy the Encryption Key too!
+""")
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  HOW TO DECRYPT
+──────────────────────────────────────────────────────────────────────────────
+
+  Step 1 → Go to "Decrypt a Journal Entry" from the Menu.
+  Step 2 → Login (if you have an account) or proceed without one.
+
+  WITH an account:
+    - Choose whether it's a Swiption journal or a regular one.
+    - Your journals will be listed by name.
+    - Enter the journal name, then paste your encrypted text.
+    - Done!
+
+  WITHOUT an account:
+    - Choose Basic or Advanced.
+    - For Basic: paste encrypted text, then pick the same Mark/mode used.
+    - For Advanced: paste encrypted text AND provide your saved Key.
+    - Done!
+""")
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  TIPS
+──────────────────────────────────────────────────────────────────────────────
+
+  ★ Always copy and save your encrypted journal text after encrypting.
+    Privournal does not store your journal content — only the key.
+
+  ★ If you don't have an account, save your Encryption Key somewhere safe.
+    Without it, there is NO way to decrypt your journal.
+
+  ★ For maximum security, use Swiption with a Life of 1 or 2.
+
+  ★ For quick casual use, Basic Mark 4 is simple and easy to remember.
+
+──────────────────────────────────────────────────────────────────────────────
+""")
+    time.sleep(1)
+
+    input("Press Enter to go back to the Menu...")
+    Menu()
 
 def banner():
     print('''
