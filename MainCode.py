@@ -293,7 +293,7 @@ def De():
             print()
             print("You can copy your decrypted journal and save it somewhere safe!")
             print()
-            time.sleep(5)
+            time.sleep(4)
             Menu()
 
         else:
@@ -400,7 +400,7 @@ def De():
                     print("You can copy your decrypted journal and save it somewhere safe.")
                     print("Thank you for using Privournal!")
                     print()
-                    time.sleep(5)
+                    time.sleep(4)
                     Menu()
 
                 elif Ch5 == "n" or Ch5 == "N":
@@ -548,7 +548,7 @@ def basicDe():
     print("Be sure to make an account for smoother experience in the future :) ")
     print()
     print()
-    time.sleep(5)
+    time.sleep(4)
     Menu()
 
 
@@ -659,7 +659,7 @@ def En():
                     print("Be sure to make an account for smoother experience in future :) ")
                     print()
                     print("You will be redirected to the menu shortly.")
-                    time.sleep(10)
+                    time.sleep(8)
                     clear()
 
                     Menu()
@@ -806,7 +806,7 @@ def En():
             print()
             print()
 
-            time.sleep(10)
+            time.sleep(8)
             Menu()
 
         elif Ch6 == 2:
@@ -902,7 +902,7 @@ def AdvEn():
             print("You'll be redirected the menu shortly in 10 seconds.")
             print()
             print()
-            time.sleep(12)
+            time.sleep(10)
             Menu()
 
         else:
@@ -972,7 +972,7 @@ def AdvEn():
             print("You'll be redirected to the menu shortly.")
             print()
             print()
-            time.sleep(10)
+            time.sleep(8)
             Menu()
 
     else:
@@ -1306,7 +1306,7 @@ def Swiption():
         print("You'll be redirected to the menu shortly.")
         print()
         print()
-        time.sleep(10)
+        time.sleep(8)
         Menu()
 
 
@@ -1439,7 +1439,7 @@ def SwipDe():
     print()
     print("You will be redirected to menu shortly.")
     print()
-    time.sleep(7)
+    time.sleep(5)
     Menu()
 
 
@@ -1515,7 +1515,7 @@ def AdvRand():
         print("You'll be redirected to the menu shortly.")
         print()
         print()
-        time.sleep(10)
+        time.sleep(8)
 
         Menu()
 
@@ -1580,7 +1580,7 @@ def AdvRand():
         print("You'll be redirected to the menu shortly in 10 seconds.")
         print()
 
-        time.sleep(12)
+        time.sleep(10)
         Menu()
 
 def choice():
