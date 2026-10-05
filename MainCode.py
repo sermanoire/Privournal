@@ -200,7 +200,7 @@ def De():
 
     if status == 1:
 
-        CH = input("Do you want to Decrypt a Swiption-based Journal? (y/n) : ")
+        CH = input("Do you want to Decrypt a Swiption based Journal? (y/n) : ")
         print()
         print()
 
@@ -309,13 +309,11 @@ def De():
         if Ch2 == "y" or Ch2 == "Y":
             login()
         elif Ch2 == "n" or Ch2 == "N":
-
             print()
-            print('''
-1. Basic Encryption
-2. Advanced Encryption 
-3. Exit
-            ''')
+            print("1. Basic Encryption")
+            print("2. Advanced Encryption ")
+            print("3. Exit")
+            print()
             print("Note that to Decrypt a Swiption based journal, you need an account. ")
             print()
             print()
@@ -1806,3 +1804,19 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
+
+                        print()
+                        print("Succesfully Encrypted!")
+                        print()
+                        print()
+                        time.sleep(1)
+                        clear()
+                        show_output("Here's your Encrypted text", encrypted)
+                        print()
+                        print("Please copy this and paste it somewhere, you'll need it while decrypting.")
+                        print()
+                        print("Thank you for using Privournal! ")
+                        print("Be sure to make an account for smoother experience in future :) ")
+                        print()
+                        input("Press enter to return to the menu...")
+
