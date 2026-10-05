@@ -14,33 +14,35 @@ import time
 import os
 
 from datetime import date
-import textwrap
 
 # Making the pretty format!
 def note():
     print(""" 
     Welcome to Privournal! 
-    
+
     PRIVOURNAL STORES NO DATA EXCEPT ACCOUNT DETAILS LIKE ENCRYPTION KEY.
     ECRYPTIONS AND DECRYPTIONS PURELY DONE BY LOGIC AND ENCRYPTION DATA IN USER'S ACCOUNT.
-    
+
     NOTE : ENCRYPTED TEXT AND THE KEY HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT!
-              
+
     Also, for swiption feature having an account is mandatory!
-    
+
     And to give you a sigh of relief, this is so secure that even if someone has the Key,
     they CANNOT get your journal IF they don't have the raw encrypted one. :)
-    
+
 """)
 
     time.sleep(3)
     clear()
 
+
 def clear():
     print("\n" * 100)
 
+
 def divider():
     print("─" * len(sec))
+
 
 def section(title):
     print()
@@ -49,6 +51,7 @@ def section(title):
     global sec
     sec = "-" * 50 + title + "-" * 50
     print(sec)
+
 
 def show_output(label, text):
     divider()
@@ -62,11 +65,13 @@ def show_output(label, text):
 # Kinda like the main code!
 status = 0
 
+dakey = {}
+
 # Mark 1!
 mark1 = {}
 for i in range(26):
-    mark1[chr(65 + i)] = ""
-    mark1[chr(97 + i)] = ""
+    mark1[chr(65 + i)] = " "
+    mark1[chr(97 + i)] = " "
 
 # ASCII Version!
 asciiv = {}
@@ -98,7 +103,6 @@ import sqlite3
 from pathlib import Path
 
 def connect_db():
-
     db_path = Path.home() / ".privournal"
     db_path.mkdir(exist_ok=True)
     mycon = sqlite3.connect(db_path / "privournal.db")
@@ -143,46 +147,434 @@ def start():
     banner()
     print()
     print()
-    time.sleep(3)
-    Menu()
-
-def Menu():
-    clear()
-    section("MENU")
-    print("What would you like to do today?")
+    input("Press Enter to continue...")
     print()
-    print("1. Encrypt a Journal Entry")
-    print("2. Decrypt a Journal Entry")
-    print("3. Guide")
-    print("4. Exit")
+    print()
+    startup()
+
+def startup():
+
     divider()
-    raw = input("1 OR 2 OR 3 OR 4 : ")
-    try:
-        ch = int(raw)
-    except ValueError:
-        print()
-        print("Invalid Choice! Please enter a number.")
-        print()
-        time.sleep(1)
-        Menu()
-        return
-    print()
+    print("How would you want to continue?")
+    print("1. With an account")
+    print("2. Without an account")
     print()
 
-    if ch == 1:
-        En()
-    elif ch == 2:
-        De()
-    elif ch == 3:
-        guide()
-    elif ch ==4:
-        exit()
+    ques1 = int(input("Enter Choice (1 or 2) : ").strip())
+
+    if ques1 == 1:
+        print()
+        divider()
+        print("1.Log in")
+        print("2.Sign up")
+        ques2 = int(input("Enter Choice (1 or 2) : ").strip())
+        if ques2 == 1:
+            login()
+
+        elif ques2 == 2:
+            signup()
+
+        else:
+            print()
+            print("Invalid Choice!")
+            startup()
+
+    if ques1 == 2:
+
+        print()
+        print()
+        print("If you continue without an account,")
+        print("- You will have to store (Copy-Paste) the *encryption keys* AND the *encrypted text* somewhere safe on your device manually")
+        print("- You will NOT be able to use the Swiption feature")
+        print("- No encryption data such as date of encyption, journal name and so on is saved")
+        print()
+        print()
+        ques3 = input("Are you sure you'd like to continue without an account? (y/n) ")
+        print()
+
+        if ques3 == ("y" or "Y"):
+            print("Alrightyyy!")
+            input("Press Enter to continue...")
+            Noacc_exp()
+
+        elif ques3 == ("n" or "N"):
+            print("Sure, let's get you an account then! ")
+            time.sleep(2)
+            signup()
+
+        else:
+            print("Invalid Choice!")
+            startup()
+
+def Noacc_exp():
+    print()
+    print("Redirecting to the Menu...")
+    time.sleep(1)
+    Menu2()
+
+def login():
+    clear()
+    section("LOGIN")
+
+    global user_name
+    global pswd
+
+    user_name = input("Enter Username : ").strip()
+    pswd = input("Enter Password : ").strip()
+
+    cursor.execute(
+        "SELECT password FROM user_records WHERE username = ?",
+        (user_name,)
+    )
+
+    acc_details = cursor.fetchall()
+
+    if acc_details == []:
+        print()
+        print("No such Username found in the database!")
+        time.sleep(1)
+        login()
+
     else:
-        print("Invalid Choice!")
+        if pswd == acc_details[0][0]:
+            print()
+            print("Logged in Successfully!")
+
+            cursor.execute(
+                "SELECT * FROM user_records WHERE username = ?",
+                (user_name,)
+            )
+
+            acc_details = cursor.fetchall()
+            global username
+            global user_id
+            global password
+            global email
+            global account_created
+
+            user_id = acc_details[0][0]
+            name = acc_details[0][1]
+            username = acc_details[0][2]
+            email = acc_details[0][3]
+            account_created = acc_details[0][4]
+            password = acc_details[0][5]
+
+            print()
+            print()
+
+            #To know user's logged in
+            global status
+            status = 1
+
+            print()
+
+            time.sleep(1)
+            Menu1()
+
+        else:
+            print()
+            print("Wrong Password.")
+            print()
+
+            try:
+                haw = int(input("Exit or Login again? (1 OR 2) : ").strip())
+
+            except ValueError:
+                print("Invalid Choice! Please enter a number.")
+                time.sleep(1)
+                login()
+                return
+
+            if haw == 1:
+                print("Exiting...")
+                time.sleep(1)
+                exit()
+            elif haw == 2:
+                print("Redirecting to login page...")
+                time.sleep(2)
+                login()
+            else:
+                print("Invalid Choice!")
+                print()
+                time.sleep(1)
+                login()
+
+def signup():
+
+    clear()
+    section("SIGN UP")
+    print()
+    cursor.execute("SELECT COALESCE(MAX(user_id), 0) + 1 FROM user_records")
+    global user_id
+    user_id = cursor.fetchone()[0]
+
+    temp_username = input("Set a username : ").strip()
+    print()
+
+    if len(temp_username) > 16:
+        print("Invalid! It should be at most 16 characters.")
+        print()
         print()
         time.sleep(1)
-        Menu()
+        signup()
 
+    elif " " in temp_username:
+        print("Spaces not allowed!")
+        print()
+        print()
+        time.sleep(1)
+        signup()
+
+    elif len(temp_username) < 6:
+        print("Should be atleast 6 characters long!")
+        print()
+        print()
+        time.sleep(1)
+        signup()
+
+    else:
+        global username
+        username = temp_username
+
+    temp_pswd = input("Set a password : ").strip()
+    print()
+
+    if len(temp_pswd) > 16:
+        print("Invalid! It should be at most 18 characters.")
+        print()
+        print()
+        time.sleep(1)
+        signup()
+
+    elif " " in temp_pswd:
+        print("Spaces not allowed!")
+        print()
+        print()
+        time.sleep(1)
+        signup()
+
+    elif len(temp_pswd) < 6:
+        print("Should be atleast 6 characters long!")
+        print()
+        print()
+        time.sleep(1)
+        signup()
+
+    elif temp_pswd == username:
+        print("Username and password cannot be same!")
+        time.sleep(1)
+        signup()
+
+    else:
+        t_conf_pswd = input("Confirm password : ").strip()
+        print()
+
+        if t_conf_pswd == temp_pswd:
+            password = temp_pswd
+
+            name = input("Enter your name : ").strip()
+            print()
+            email = input("Enter email please : ").strip()
+            account_created = str(date.today())
+            print()
+
+            cursor.execute(
+                """
+                INSERT INTO user_records
+                (user_id, first_name, username, email, account_created, password)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (user_id, name, username, email, account_created, password))
+
+            mycon.commit()
+            print()
+            print("Account made succesfully!")
+
+            #To know user's logged in.
+            global status
+            status = 1
+
+            print()
+            print("You'll be redirected to the menu, you can now start Encrypting and Decrypting without any hassle! ")
+            time.sleep(2)
+            print()
+            Menu1()
+
+        else:
+            print("The passwords don't match.")
+            signup()
+
+def guide():
+    clear()
+    section("GUIDE")
+    print("""
+    Welcome to the Privournal Guide!
+    Here's everything you need to know before diving in.
+    """)
+    time.sleep(2)
+
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  WHAT IS PRIVOURNAL?
+──────────────────────────────────────────────────────────────────────────────
+
+  Privournal is a private journal encryption tool.
+  It converts your journal text into an unreadable encrypted form,
+  and only you can decrypt it back using the right key.
+
+  Privournal stores NOTHING except your account details.
+  Your journal content never gets saved anywhere — only the encryption
+  key is stored (in your account), not the journal itself.
+  
+""")
+
+    input("Press Enter...")
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  DO I NEED AN ACCOUNT?
+──────────────────────────────────────────────────────────────────────────────
+
+  No, but having one makes life much easier.
+
+  WITHOUT an account:
+    - You can still encrypt and decrypt journals.
+    - BUT you must manually save and provide the Encryption Key yourself.
+    - Swiption is NOT available.
+
+  WITH an account:
+    - Your encryption keys are saved automatically.
+    - You can look up past journals by name.
+    - Swiption is available.
+    
+""")
+    input("Press Enter...")
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  ENCRYPTION MODES
+──────────────────────────────────────────────────────────────────────────────
+""")
+
+    print("""  1. BASIC ENCRYPTION
+  ───────────────────
+  Simple and fast. Each letter is mapped to a number or another letter.
+  Good enough if you just want casual privacy.
+
+  There are 5 Basic modes:
+
+    Mark 1     → A-Z maps to 1-26,  a-z maps to 27-52
+    ASCII      → Each letter maps to its ASCII number (A=65, B=66... z=122)
+    Mark 2     → A-Z maps to 26-1,  a-z maps to 52-27  (reverse of Mark 1)
+    Mark 3     → A-Z maps to 2,4,6...52 (even),  a-z maps to 1,3,5...51 (odd)
+    Mark 4     → A maps to Z, B maps to Y... (mirror alphabet)
+
+  Remember which mode you used — you'll need to pick the same one to decrypt!
+  
+""")
+    input("Press Enter...")
+    print("""  2. ADVANCED ENCRYPTION
+  ──────────────────────
+  Much stronger. You (or the system) assigns a unique "cover" to each letter.
+  The cover is what appears in the encrypted text instead of the letter.
+
+  There are 2 Advanced modes:
+
+    Manual     → You type the cover for each letter yourself.
+                 e.g. You decide A = "apple", B = "mango", etc.
+                 Every letter must have a UNIQUE cover.
+
+    Randomised → The system auto-generates a random 6-character cover
+                 for each letter. Fast and very secure.
+
+  The Encryption Key (a dictionary mapping letters to their covers)
+  is what you need to decrypt. Save it if you don't have an account!
+  
+""")
+    input("Press Enter...")
+    print("""  3. SWIPTION ENCRYPTION  ★ Most Secure ★
+  ────────────────────────────────────────
+  Swiption is Privournal's most powerful feature. It requires an account.
+
+  The idea: a letter's cover CHANGES after it appears a certain number
+  of times. That number is called the LIFE.
+
+  Example with Life = 2:
+    - First 2 times 'A' appears → it gets Cover 1
+    - Next 2 times 'A' appears  → it gets a brand new Cover 2
+    - And so on...
+
+  This means even if someone notices a pattern, the pattern keeps changing!
+
+  Life = 1  → Cover changes every single occurrence (maximum rotation)
+  Life = 3  → Cover stays for 3 occurrences, then changes
+  Life = 10 → Cover stays for 10 occurrences before changing
+
+  Swiption always uses Randomised covers (auto-generated).
+  Your Swiption key and Life value are saved to your account automatically.
+  
+""")
+    input("Press Enter...")
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  HOW TO ENCRYPT
+──────────────────────────────────────────────────────────────────────────────
+
+  Step 1 → Go to "Encrypt a Journal Entry" from the Menu.
+  Step 2 → Login or choose to proceed without an account.
+  Step 3 → Choose Basic or Advanced encryption.
+  Step 4 → If Advanced, choose Manual, Randomised, or Swiption.
+  Step 5 → Paste or type your journal when prompted.
+  Step 6 → Name your journal (if logged in).
+  Step 7 → Copy the encrypted output and save it somewhere safe!
+            If you don't have an account, copy the Encryption Key too!
+            
+""")
+    input("Press Enter...")
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  HOW TO DECRYPT
+──────────────────────────────────────────────────────────────────────────────
+
+  Step 1 → Go to "Decrypt a Journal Entry" from the Menu.
+  Step 2 → Login (if you have an account) or proceed without one.
+
+  WITH an account:
+    - Choose whether it's a Swiption journal or a regular one.
+    - Your journals will be listed by name.
+    - Enter the journal name, then paste your encrypted text.
+    - Done!
+
+  WITHOUT an account:
+    - Choose Basic or Advanced.
+    - For Basic: paste encrypted text, then pick the same Mark/mode used.
+    - For Advanced: paste encrypted text AND provide your saved Key.
+    - Done!
+    
+""")
+    input("Press Enter...")
+    print("""
+──────────────────────────────────────────────────────────────────────────────
+  TIPS
+──────────────────────────────────────────────────────────────────────────────
+
+  ★ Always copy and save your encrypted journal text after encrypting.
+    Privournal does not store your journal content — only the key.
+
+  ★ If you don't have an account, save your Encryption Key somewhere safe.
+    Without it, there is NO way to decrypt your journal.
+
+  ★ For maximum security, use Swiption with a Life of 1 or 2.
+
+  ★ For quick casual use, Basic Mark 4 is simple and easy to remember.
+
+──────────────────────────────────────────────────────────────────────────────
+
+""")
+
+    input("Press Enter to return to the menu...").strip()
+    if status == 1:
+        Menu1()
+    else:
+        Menu2()
 
 def exit():
     clear()
@@ -191,727 +583,274 @@ def exit():
     print("Byeeeeee :)")
     print()
 
-
-def De():
-
-    clear()
-    section("DECRYPTION")
-    print()
-
-    if status == 1:
-
-        CH = input("Do you want to Decrypt a Swiption based Journal? (y/n) : ")
-        print()
-        print()
-
-        if CH == "y" or CH == "Y":
-            SwipDe()
-        elif CH == "n" or CH == "N":
-            cursor.execute('''
-                    SELECT jd.*
-                    FROM journal_details jd
-                    JOIN user_records ur
-                    ON jd.user_id = ur.user_id
-                    WHERE ur.username = ?
-                    ''', (username,))
-
-            j_data = cursor.fetchall()  # Fetching Journal Data
-
-            global user_id
-            user_id = (j_data[0][1])
-            print("User_ID is", user_id)
-            print()
-
-            global j_id
-            j_id = []
-            for i in range(len(j_data)):
-                j_id.append((j_data[i][0]))
-            print("Journal_IDs : ", j_id)
-            print()
-
-            global j_name
-            j_name = []
-            for i in range(len(j_data)):
-                j_name.append(j_data[i][2])
-            print("Journal_Names : ", j_name)
-            print()
-
-            global en_key
-            en_key = []
-            for i in range(len(j_data)):
-                en_key.append(j_data[i][3])
-            for t in en_key:
-                print("Encryption Key : ", t)
-                print()
-
-            global en_date
-            en_date = []
-            for i in range(len(j_data)):
-                en_date.append(j_data[i][4])
-            for t in en_date:
-                print("Date Created : ", t)
-                print()
-
-            which_j()
-
-            print("Starting Decryption!")
-            print()
-
-            og_dict_key = json.loads(EN_KEY)
-
-            RAW = input("Enter the raw encrypted journal : ")
-            global RAWlist
-            RAWlist = RAW.split(" ")
-
-            tempstore = []
-            for i in RAWlist:
-                for key, value in og_dict_key.items():
-                    if i == "":
-                        tempstore.append(" ")
-                        break
-
-                    elif not i.isalnum():
-                        tempstore.append(i)
-                        break
-
-                    elif (str(i) + " ") == value:
-                        tempstore.append(key)
-                        break
-                    else:
-                        continue
-
-            decrypted = "".join(tempstore)
-            print()
-            print("Decrypting...")
-            print()
-            print("Decrypted Successfully!")
-            print()
-            print()
-            time.sleep(1)
-            clear()
-            show_output("Here's your Journal", decrypted)
-            print()
-            print("You can copy your decrypted journal and save it somewhere safe!")
-            print()
-            time.sleep(4)
-            Menu()
-
-        else:
-            print("Invalid Choice!")
-            print()
-            time.sleep(1)
-            Menu()
-
-    else:
-        Ch2 = input("Do you have an Account on Privournal? (y/n) : ")
-        print()
-
-        if Ch2 == "y" or Ch2 == "Y":
-            login()
-        elif Ch2 == "n" or Ch2 == "N":
-            print()
-            print("1. Basic Encryption")
-            print("2. Advanced Encryption ")
-            print("3. Exit")
-            print()
-            print("Note that to Decrypt a Swiption based journal, you need an account. ")
-            print()
-            print()
-
-            try:
-                Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : "))
-            except ValueError:
-                print()
-                print("Invalid Choice! Please enter a number.")
-                print()
-                time.sleep(1)
-                De()
-                return
-            print()
-            if Ch3 == 1:
-                print()
-                RAW = input("Enter the Encrypted text : ")
-                RAWlist = RAW.split(" ")
-                print()
-                time.sleep(1)
-                clear()
-                print()
-
-                which_mode()
-
-                time.sleep(1)
-                basicDe()
-
-            elif Ch3 == 2:
-
-                Ch5 = input("Do you have the Encryption Key? (y/n) : ")
-                print()
-
-                if Ch5 == "y" or Ch5 == "Y":
-                    given_dict_key = input("Enter the Encryption Key please : ")
-                    try:
-                        given_dict_key = json.loads(given_dict_key)
-                    except json.decoder.JSONDecodeError:
-                        print(
-                            "That doesn't look like a valid Encryption Key. Please check and paste it exactly as given.")
-                        print()
-                        De()
-                        return
-
-                    print()
-                    RAW = input("Enter the raw encrypted journal : ")
-                    print()
-                    RAWlist = RAW.split(" ")
-
-                    tempstore = []
-                    for i in RAWlist:
-                        for key, value in given_dict_key.items():
-                            if i == "":
-                                tempstore.append(" ")
-                                break
-
-                            elif not i.isalnum():
-                                tempstore.append(i)
-                                break
-
-
-                            elif (str(i) + " ") == value:
-                                tempstore.append(key)
-                                break
-
-                            else:
-                                continue
-
-                    decrypted = "".join(tempstore)
-                    print()
-                    print("Decrypting...")
-                    print()
-                    print("Decrypted Successfully!")
-                    print()
-                    print()
-                    time.sleep(1)
-                    clear()
-
-                    show_output("Here's your Journal", decrypted)
-                    print()
-                    print()
-                    print("You can copy your decrypted journal and save it somewhere safe.")
-                    print("Thank you for using Privournal!")
-                    print()
-                    time.sleep(4)
-                    Menu()
-
-                elif Ch5 == "n" or Ch5 == "N":
-                    print()
-                    print("We're sorry, we cannot Decryption without the Key. \nBe sure to make an account on Privournal if you have trouble keeping Keys.")
-                    print()
-                    print("You will be redirected to the Menu Shortly.")
-                    print()
-                    time.sleep(3)
-                    Menu()
-
-
-                else:
-                    print("Invalid Choice!")
-                    print()
-                    time.sleep(1)
-                    De()
-
-            elif Ch3 == 3:
-                exit()
-            else:
-                print("Invalid Choice!")
-                time.sleep(1)
-                De()
-
-def login():
-    clear()
-    section("LOGIN")
-    global username1
-    global pswd
-    username1 = input("Enter Username : ")
-    pswd1 = input("Enter Password : ")
-
-    cursor.execute(
-        "SELECT password FROM user_records WHERE username = ?",
-        (username1,)
-    )
-
-    acc_d = cursor.fetchall()
-
-    if acc_d == []:
-        print()
-        print("No such Username found in the database!")
-
-    else:
-        if pswd1 == acc_d[0][0]:
-            print()
-            print("Logged in Successfully!")
-
-            cursor.execute(
-                "SELECT * FROM user_records WHERE username = ?",
-                (username1,)
-            )
-
-            acc_d = cursor.fetchall()
-
-            global user_id
-            global username
-            global password
-            global email
-            global account_created
-
-            user_id = acc_d[0][0]
-            name = acc_d[0][1]
-            username = acc_d[0][2]
-            email = acc_d[0][3]
-            account_created = acc_d[0][4]
-            password = acc_d[0][5]
-
-            print()
-            print()
-            global status
-            status = 1
-            print()
-
-            time.sleep(1)
-            Menu()
-
-        else:
-            print()
-            print("Wrong Password.")
-            print()
-            try:
-                exch = int(input("Exit or Login again? (1 OR 2) : "))
-            except ValueError:
-                print("Invalid Choice! Please enter a number.")
-                time.sleep(1)
-                login()
-                return
-            if exch == 1:
-                exit()
-            elif exch == 2:
-                login()
-            else:
-                print("Invalid Choice!")
-                print()
-                time.sleep(1)
-                login()
-
-
-def basicDe():
-    dakey = {}
-
-    if Ch4 == 1:
-        dakey = mark1
-    elif Ch4 == 2:
-        dakey = asciiv
-    elif Ch4 == 3:
-        dakey = mark2
-    elif Ch4 == 4:
-        dakey = mark3
-    elif Ch4 == 5:
-        dakey = mark4
-    else:
-        print("Invalid Option!")
-        basicDe()
-
-    print()
-    print("Decrypting...")
-    print()
-
-    delist = []
-
-    for i in RAWlist:
-        if i == "":
-            delist.append(" ")
-        else:
-            for keys, values in dakey.items():
-                if values.strip() == i:
-                    delist.append(keys)
-                else:
-                    continue
-            if not i.isalnum() and i != "":
-                delist.append(i)
-
-    decrypted = "".join(delist)
-    print("Successfully Decrypted!")
-    print()
-    print()
-    time.sleep(1)
-    clear()
-    show_output("Here's your Journal", decrypted)
-    print()
-    print("Thank you for using Privournal!")
-    print("Be sure to make an account for smoother experience in the future :) ")
-    print()
-    print()
-    time.sleep(4)
-    Menu()
-
-
 def En():
-    clear()
-    section("ENCRYPTION")
+        clear()
+        section("ENCRYPTION")
 
-    if status != 1:
+        if status != 1:
 
-        Ch8 = input("Do you have an Account? (y/n) : ")
-        print()
-
-        if Ch8 == "Y" or Ch8 == "y":
-            print("You'll be redirected to Login page, please complete the login first :) ")
-            print()
-            time.sleep(1)
-            login()
-
-        elif Ch8 == "N" or Ch8 == "n":
-            global Ch7
-            Ch7 = input("Do you want to make an account? for more ease and referencing records? (y/n) : ")
-            print()
-
-            if Ch7 == "Y" or Ch7 == "y":
-                signup()
-
-            elif Ch7 == "N" or Ch7 == "n":
-
-                print("Choose Mode of Encryption : ")
-                print()
-                print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
-                print("2. Advanced (Includes Swiption And Randomised Mode - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
-                print()
-                print()
-
-                try:
-                    Ch6 = int(input("Which one? (1 OR 2) : "))
-
-                except ValueError:
-                    print("Invalid Choice!")
-                    time.sleep(1)
-                    En()
-                    return
-
-                if Ch6 == 1:
+                    print("Choose Mode of Encryption : ")
                     print()
-                    print("Welcome to Basic Encryption!")
+                    print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
+                    print("2. Advanced (Randomised or Manual) Mode - Really strong encryption, \nholds well even if you have Patrick Jane tryna crack encryption to read your Journal.")
                     print()
-                    print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
-                    print("2. ASCII Version")
-                    print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
-                    print("4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
-                    print()
-                    print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                     print()
 
                     try:
-                        Ch7 = int(input("Which mode? (1-5) "))
+                        ques5 = int(input("Which one? (1 OR 2) : ").strip())
+
                     except ValueError:
                         print("Invalid Choice!")
                         time.sleep(1)
                         En()
                         return
 
-                    if Ch7 == 1:
-                        dakey = mark1
-                    elif Ch7 == 2:
-                        dakey = asciiv
-                    elif Ch7 == 3:
-                        dakey = mark2
-                    elif Ch7 == 4:
-                        dakey = mark3
-                    elif Ch7 == 5:
-                        dakey = mark4
-                    else:
-                        print("Invalid Option!")
+                    if ques5 == 1:
 
-                    global j
-                    j = input("Please feed the Journal for Encryption : ")
-                    print()
-                    print("Encrypting...")
-                    time.sleep(1)
-                    journal = list(j)
-                    delist = []
+                        clear()
+                        section("Basic Encryption")
 
-                    for i in journal:
-                        if i in dakey:
-                            for keys, values in dakey.items():
-                                if keys == i:
-                                    delist.append(values)
-                                else:
-                                    continue
+                        print("Welcome!")
+                        print()
+                        print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
+                        print("2. ASCII Version")
+                        print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+                        print(
+                              "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
+                        print()
+                        print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
+                        print()
+
+                        try:
+                            ques6 = int(input("Which mode? (1-5) ").strip())
+                        except ValueError:
+                            print("Invalid Choice!")
+                            time.sleep(1)
+                            En()
+                            return
+
+                        if ques6 == 1:
+                            dakey = mark1
+                        elif ques6 == 2:
+                            dakey = asciiv
+                        elif ques6 == 3:
+                            dakey = mark2
+                        elif ques6 == 4:
+                            dakey = mark3
+                        elif ques6 == 5:
+                            dakey = mark4
                         else:
-                            delist.append(i)
+                            print("Invalid Option!")
 
-                    encrypted = "".join(delist)
-                    print()
-                    print("Succesfully Encrypted!")
-                    print()
-                    print()
-                    time.sleep(1)
-                    clear()
-                    show_output("Here's your Encrypted text", encrypted)
-                    print()
-                    print("Please copy this and paste it somewhere, you'll need it while decrypting.")
-                    print()
-                    print("Thank you for using Privournal! ")
-                    print("Be sure to make an account for smoother experience in future :) ")
-                    print()
-                    print("You will be redirected to the menu shortly.")
-                    time.sleep(8)
-                    clear()
+                        global j
+                        j = input("Please feed the Journal for Encryption : ").strip()
+                        print()
+                        print("Encrypting...")
+                        time.sleep(1)
+                        journal = list(j)
+                        de_list = []
 
-                    Menu()
+                        for i in journal:
+                            if i in dakey:
+                                for keys, values in dakey.items():
+                                    if keys == i:
+                                        de_list.append(values)
+                                    else:
+                                        continue
+                            else:
+                                de_list.append(i)
 
-                elif Ch6 == 2:
-                    print()
-                    print()
-                    divider()
-                    print("Advanced Encryption it is then!")
-                    print()
-                    print()
-
-                    swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ")
-
-                    print()
-                    print()
-                    if swiption == "Y" or swiption == "y":
-                        Swiption()
-
-                    elif swiption == "N" or swiption == "n":
-                        AdvEn()
-
-                    else:
-                        print("Invalid Choice!")
+                        encrypted = "".join(de_list)
+                        print()
+                        print("Succesfully Encrypted!")
+                        print()
                         print()
                         time.sleep(1)
-                        En()
+                        clear()
+                        show_output("Here's your Encrypted text", encrypted)
+                        print()
+                        print("Please copy this and paste it somewhere, you'll need it while decrypting.")
+                        print()
+                        print("Thank you for using Privournal! ")
+                        print("Be sure to make an account for smoother experience in future :) ")
+                        print()
+                        input("Press enter to return to the menu...")
+                        Menu2()
 
-                else:
-                    print("Invalid input!")
-                    time.sleep(1)
-                    En()
-            else:
-                print("Invalid input!")
-                time.sleep(1)
-                En()
+                    elif ques5 == 2:
+                        print()
+                        print()
+                        divider()
+                        print("Advanced Encryption it is then!")
+                        print()
+                        print()
+                        AdvEn2()
+
         else:
-            print("Invalid Choice!")
-            time.sleep(1)
-            En()
 
-    else:
-
-        print("Choose Mode of Encryption : ")
-        print()
-        print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
-        print("2. Advanced (Includes Swiption And Randomised Mode - Really strong encryption, \nholds well even if you have prodigies trying to read your Journal.")
-        print()
-        print()
-
-        try:
-            Ch6 = int(input("Which one? (1 OR 2) : "))
-        except ValueError:
-            print("Invalid Choice!")
-            time.sleep(1)
-            En()
-            return
-
-        if Ch6 == 1:
+            print("Choose Mode of Encryption : ")
             print()
-            print("Welcome to Basic Encryption!")
-            print()
-            print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
-            print("2. ASCII Version")
-            print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+            print("1. Basic (Weak but holds well if you have dummies tryna read your Journal lol)")
             print(
-                "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
+                  "2. Advanced (Includes Swiption, Randomised And Manual) Mode - Really strong encryption, \nholds well even if you have Patrick Jane tryna crack the encryption to read your Journal.")
             print()
-            print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
             print()
 
             try:
-                Ch7 = int(input("Choose one of these (1-5) : "))
+                ques7 = int(input("Which one? (1 OR 2) : ").strip())
             except ValueError:
-                print("Invalid Choice! Please enter a number.")
+                print("Invalid Choice!")
                 time.sleep(1)
                 En()
                 return
-            print()
 
-            j = input("Please feed the Journal for Encryption : ")
-            print()
-            journal = list(j)
-            print()
+            if ques7 == 1:
+                clear()
+                section("Basic Encryption")
 
-            j_name = input("Please name your Journal : ")
+                print("Welcome!")
+                print()
 
-            if Ch7 == 1:
-                dakey = mark1
-            elif Ch7 == 2:
-                dakey = asciiv
-            elif Ch7 == 3:
-                dakey = mark2
-            elif Ch7 == 4:
-                dakey = mark3
-            elif Ch7 == 5:
-                dakey = mark4
-            else:
-                print("Invalid Option!")
+                print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
+                print("2. ASCII Version")
+                print("3. Mark 2 (A to Z from 26 to 1 respectively, and a to z from 52 to 26 respectively.)")
+                print(
+                      "4. Mark 3 (A to Z from 2 to 52 respectively, even numbers only. \nAnd a to z from 1 to 51, odd numbers only.)")
+                print()
+                print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
+                print()
 
-            print()
-            print("Encrypting...")
-            time.sleep(1)
-            delist = []
+                try:
+                    ques8 = int(input("Choose one of these (1-5) : ").strip())
+                    if ques8 not in [1,2,3,4,5]:
+                        print()
+                        print("Invalid Choice!")
+                        time.sleep(1)
+                        En()
 
-            for i in journal:
-                if i in dakey:
-                    for keys, values in dakey.items():
-                        if keys == i:
-                            delist.append(values)
-                        else:
-                            continue
+                except ValueError:
+                    print("Invalid Choice! Please enter a number.")
+                    time.sleep(1)
+                    En()
+                    return
+                print()
+
+                j = input("Please feed the Journal for Encryption : ").strip()
+                print()
+                journal = list(j)
+
+                j_name = input("Please name your Journal : ").strip()
+
+                if ques8 == 1:
+                    dakey = mark1
+                elif ques8 == 2:
+                    dakey = asciiv
+                elif ques8 == 3:
+                    dakey = mark2
+                elif ques8 == 4:
+                    dakey = mark3
+                elif ques8 == 5:
+                    dakey = mark4
                 else:
-                    delist.append(i)
+                    print("Invalid Option!")
 
-            encrypted = "".join(delist)
-            print()
+                print()
+                print("Encrypting...")
+                time.sleep(1)
+                de_list = []
 
-            journal_name = j_name
-            encryption_key = json.dumps(dakey)
-            encryption_date = str(date.today())
+                for i in journal:
+                    if i in dakey:
+                        for keys, values in dakey.items():
+                            if keys == i:
+                                de_list.append(values)
+                            else:
+                                continue
+                    else:
+                        de_list.append(i)
 
-            cursor.execute(
-                """
-                INSERT INTO journal_details
-                (user_id, journal_name, encryption_key, encryption_date)
-                VALUES (?, ?, ?, ?)
-                """,
-                (user_id, journal_name, encryption_key, encryption_date))
+                encrypted = "".join(de_list)
+                print()
 
-            mycon.commit()
-            print()
-            print("Successfully Encrypted!")
-            print()
-            print("Please copy this and paste it somewhere, you'll need it while decrypting!")
-            print()
-            print()
-            time.sleep(1)
-            clear()
-            show_output("Here's your Encrypted text", encrypted)
-            print()
-            print("Thank you for using Privournal!")
-            print("You'll be redirected to the menu shortly.")
-            print()
-            print()
+                journal_name = j_name
+                encryption_key = json.dumps(dakey)
+                encryption_date = str(date.today())
 
-            time.sleep(8)
-            Menu()
+                cursor.execute(
+                    """
+                    INSERT INTO journal_details
+                    (user_id, journal_name, encryption_key, encryption_date)
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    (user_id, journal_name, encryption_key, encryption_date))
 
-        elif Ch6 == 2:
-            print()
-            print()
-            print("Advanced Encryption it is then!")
-            print()
-            print()
+                mycon.commit()
 
-            swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ")
-
-            print()
-            if swiption == "Y" or swiption == "y":
-                Swiption()
-
-            elif swiption == "N" or swiption == "n":
-                AdvEn()
-
-            else:
-                print("Invalid Choice! Please enter a number.")
+                print()
+                print("Succesfully Encrypted!")
+                print()
                 print()
                 time.sleep(1)
-                En()
-        else:
-            print("Invalid input!")
-            AdvEn()
+                clear()
+                show_output("Here's your Encrypted text", encrypted)
+                print()
+                print("Please copy this and paste it somewhere, you'll need it while decrypting.")
+                print()
+                print("Thank you for using Privournal! ")
+                print("Be sure to make an account for smoother experience in future :) ")
+                print()
+                input("Press enter to return to the menu...")
+                Menu1()
 
-def AdvEn():
+            elif ques7 == 2:
+                print()
+                print()
+                divider()
+                print("Advanced Encryption it is then!")
+                print()
+                print()
+
+                AdvEn2()
+
+                swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ").strip()
+
+                print()
+                if swiption == "Y" or swiption == "y":
+                    Swiption()
+
+                elif swiption == "N" or swiption == "n":
+                    AdvEn1()
+
+                else:
+                    print("Invalid Choice! Please enter a number.")
+                    print()
+                    time.sleep(1)
+                    En()
+            else:
+                print("Invalid input!").strip()
+                AdvEn1()
+
+def AdvEn1():
+
     global journal
-    global enlist
+    global en_list
 
-    Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ")
+    Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ").strip()
     print()
 
     if Ch_rand == "y" or Ch_rand == "Y":
         AdvRand()
 
     elif Ch_rand == "n" or Ch_rand == "N":
-        if status != 1:
 
-            enlist = []
-            global cover_dict
-            cover_dict = {}
-
-            feed()
-
-            if not journal:
-                print("Empty Journal!")
-                feed()
-            else:
-                print("Journal Uploaded!")
-                time.sleep(1)
-                clear()
-
-            print("Choose cover for each letter!")
-            print()
-
-            global trackHEH
-            trackHEH = []
-
-            global x
-
-            for x in journal:
-                if x.isalpha() and x not in cover_dict:
-                    coverr()
-
-                elif x in cover_dict:
-                    cover = cover_dict[x]
-                    enlist.append(cover)
-                    trackHEH.append(cover)
-                else:
-                    enlist.append(x)
-
-            print()
-            print("Encrypting...")
-            time.sleep(1)
-            finalenlist = "".join(enlist)
-            print()
-            print("Successfully Encrypted!")
-            print()
-            time.sleep(1)
-            clear()
-            show_output("Here's the encrypted Journal", finalenlist)
-            print()
-            print("Please copy this and paste it somewhere, you'll need it while decrypting!")
-            print()
-            print()
-            print("AND Here's the Encryption Key : ")
-            print(json.dumps(cover_dict))
-            print()
-            print("Please copy this key too! It's Important! Since you don't have an account.")
-            print()
-            print("You'll be redirected the menu shortly in 10 seconds.")
-            print()
-            print()
-            time.sleep(10)
-            Menu()
-
-        else:
-
-            enlist = []
+            en_list = []
 
             cover_dict = {}
 
-            journal = input("Please feed the Journal for Encryption : ")
             print()
-            j_name = input("Please name your Journal : ")
+            journal = input("Please feed the Journal for Encryption : ").strip()
+            print()
+            j_name = input("Please name your Journal : ").strip()
             print()
             print()
 
@@ -928,20 +867,20 @@ def AdvEn():
                 if x.isalpha() and x not in cover_dict:
                     print("What should be the cover for", x, "?")
                     print()
-                    cover = input("Cover = ")
+                    cover = input("Cover = ").strip()
                     cover = cover + " "
                     cover_dict[x] = cover
-                    enlist.append(cover)
+                    en_list.append(cover)
                 elif x in cover_dict:
                     cover = cover_dict[x]
-                    enlist.append(cover)
+                    en_list.append(cover)
                 else:
-                    enlist.append(x)
+                    en_list.append(x)
 
             print()
             print("Encrypting...")
             time.sleep(1)
-            finalenlist = "".join(enlist)
+            finalenlist = "".join(en_list)
 
             journal_name = j_name
 
@@ -967,306 +906,127 @@ def AdvEn():
             print()
             print("Please copy this and paste it somewhere, you'll need it while decrypting!")
             print()
-            print("You'll be redirected to the menu shortly.")
+            print("Thank you for using Privournal!")
+            input("Press Enter to return to the menu...").strip()
             print()
-            print()
-            time.sleep(8)
-            Menu()
+            Menu1()
 
     else:
         print("Invalid input!")
-        AdvEn()
+        AdvEn1()
 
-def feed():
+def AdvEn2():
+
     global journal
-    global j_name
-    journal = input("Please feed the Journal for Encryption : ")
-    print()
-    j_name = input("Please name your Journal : ")
+    global en_list
 
+    en_list = []
+    global cover_dict
+    cover_dict = {}
 
-def coverr():
-    print("What should be the cover for", x, "?")
-    global cover
-    cover = input("Cover = ")
-    if cover not in trackHEH:
-        print()
-        cover = cover + " "
-        cover_dict[x] = cover
-        enlist.append(cover)
-        trackHEH.append(cover)
-    else:
-        print("2 letters can't have the same cover hon! ")
-        coverr()
-
-def signup():
-    clear()
-    section("SIGN UP")
-    print()
-    cursor.execute("SELECT COALESCE(MAX(user_id), 0) + 1 FROM user_records")
-    global user_id
-    user_id = cursor.fetchone()[0]
-
-    tusername = input("Set a username : ")
-    print()
-    if len(tusername) > 16:
-        print("Invalid! It should be at most 16 characters.")
-        print()
-        print()
-        time.sleep(1)
-        signup()
-
-    elif " " in tusername:
-        print("Spaces not allowed!")
-        print()
-        print()
-        time.sleep(1)
-        signup()
-
-    elif len(tusername) < 6:
-        print("Should be atleast 6 characters long!")
-        print()
-        print()
-        time.sleep(1)
-        signup()
-
-    else:
-        global username
-        username = tusername
-
-    tpswd = input("Set a password : ")
+    Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ").strip()
     print()
 
-    if len(tpswd) > 16:
-        print("Invalid! It should be at most 18 characters.")
-        print()
-        print()
-        time.sleep(1)
-        signup()
+    if Ch_rand == "y" or Ch_rand == "Y":
 
-    elif " " in tpswd:
-        print("Spaces not allowed!")
-        print()
-        print()
-        time.sleep(1)
-        signup()
+        AdvRand()
 
-    elif len(tpswd) < 8:
-        print("Should be atleast 8 characters long!")
-        print()
-        print()
-        time.sleep(1)
-        signup()
+    elif Ch_rand == "n" or Ch_rand == "N":
 
-    elif tpswd == username:
-        print("Username and password cannot be same!")
-        time.sleep(1)
-        signup()
+        feed()
 
-    else:
-        t_conf_pswd = input("Confrim password : ")
-        print()
-
-        if t_conf_pswd == tpswd:
-            password = tpswd
-
-            name = input("Enter your name : ")
-            print()
-            email = input("Enter email please : ")
-            account_created = str(date.today())
-            print()
-            cursor.execute(
-                """
-                INSERT INTO user_records
-                (user_id, first_name, username, email, account_created, password)
-                VALUES (?, ?, ?, ?, ?, ?)
-                """,
-                (user_id, name, username, email, account_created, password))
-            mycon.commit()
-            print()
-            print("Account made succesfully!")
-            global status
-            status = 1
-            print()
-            print("You'll be redirected to the menu, you can now start Encrypting and Decrypting without hassle! ")
-            time.sleep(2)
-            print()
-            Menu()
-
-        else:
-            print("The passwords don't match.")
-            signup()
-
-def which_j():
-    try:
-        Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ")
-    except ValueError:
-        print()
-        print("Invalid Choice! Please enter the journal name.")
-        print()
-        time.sleep(1)
-        which_j()
-        return
-    print()
-
-    if Ch not in j_name:
-        print("Journal not found. Check the name again!")
-        which_j()
-
-    else:
-        for i in range(len(j_name)):
-
-            if j_name[i] == Ch:
-                global EN_KEY
-                EN_KEY = en_key[i]
-            else:
-                continue
-
-def Swiption():
-    clear()
-    section("SWIPTION ENCRYPTION")
-    print()
-    print("Welcome to Swiption Encryption - Our most secure form of Encryption!")
-    print()
-    print("Note that Swiption by default takes use of Randomised Mode.")
-    print()
-
-    if status != 1:
-        print("For Swiption, having an account is mandatory!")
-        print()
-        Ch20 = input("Do you have an Account (y/n) : ")
-        print()
-
-        if Ch20 == "Y" or Ch20 == "y":
-            print("Then first please Login :) ")
-            print()
-            login()
-        elif Ch20 == "N" or Ch20 == "n":
-            print("For Swiption, having an account is mandatory! ")
-            print("Please signup or continue without Swiption :) ")
-            print()
-            print("You will be redirected in 3 seconds")
-            time.sleep(3)
-            print()
-            print()
-            print()
-            print()
-
-            divider()
-            print("""
-            
-            What do you want to do?
-            
-            1. Signup
-            2. Login
-            3. Menu
-            4. Exit
-            
-            """)
-
-            choice()
-
-            time.sleep(2)
-            Menu()
-
-        else:
-            print("Invalid Choice! Please enter a number.")
-            print()
-            time.sleep(1)
-            Swiption()
-
-    else:
-
-        print("A life is NUMBER, it means at what occurrence would the letter's cover be changed in the encryption.")
-        print()
-
-        global l
-        try:
-            l = int(input("Choose life : "))
-        except ValueError:
-            print()
-            print("Invalid Choice! Please enter a number.")
-            print()
-            time.sleep(1)
-            Swiption()
-            return
-        if l <= 0:
-            print()
-            print("Invalid Choice! Life must be a number greater than 0.")
-            print()
-            time.sleep(2)
-            Swiption()
-            return
-        print()
-
-        enlist = []
-
-        cover_dict = []
-        for i in range(l + 10):
-            cover_dict.append({})
-
-        j = input("Please feed the Journal for Encryption : ")
-        print()
-        j_name = input("Please name your Journal : ")
-
-        if not j:
+        if not journal:
             print("Empty Journal!")
-            Swiption()
-        else:
-            print("Journal Uploaded!")
+            feed()
+
+        print()
+        print("Choose cover for each letter!")
+        print()
+
+        global trackHEH
+        trackHEH = []
+
+        global x
+
+        for x in journal:
+            if x.isalpha() and x not in cover_dict:
+                coverr()
+
+            elif x in cover_dict:
+                cover = cover_dict[x]
+                en_list.append(cover)
+                trackHEH.append(cover)
+            else:
+                en_list.append(x)
 
         print()
         print("Encrypting...")
         time.sleep(1)
+        finalenlist = "".join(en_list)
+        print()
+        print("Successfully Encrypted!")
+        print()
+        time.sleep(1)
+        clear()
+        show_output("Here's the encrypted Journal", finalenlist)
+        print()
+        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+        print()
+        print()
+        print("AND Here's the Encryption Key : ")
+        print(json.dumps(cover_dict))
+        print()
+        print("Please copy this key too! It's Important! Since you don't have an account.")
+        print()
+        print("Thank you for using Privournal!")
+        input("Press Enter to return to the menu...").strip()
+        print()
+        Menu2()
 
-        m = 0
+def AdvRand():
+    clear()
+    section("RANDOMISED ENCRYPTION")
 
-        global ldict
-        ldict = {}
+    if status == 1:
 
-        for i in range(26):
-            ldict[chr(65 + i)] = 0
-            ldict[chr(97 + i)] = 0
+        en_list = []
+        cover_dict = {}
 
-        for i in j:
+        feed()
 
-            if i.isalpha():
-                place = ldict[i] // l
+        if not journal:
+            print("Empty Journal!")
+            feed()
+        else:
+            print("Journal Uploaded!")
 
-                if i.isalpha() and i not in cover_dict[place]:
+        print()
 
-                    ldict[i] += 1
+        trackHEH = []
 
-                    if (place * l) + 1 == ldict[i] and ldict[i] != 0:
-                        cover_dict.append({})
+        for x in journal:
+            if x.isalpha() and x not in cover_dict:
 
-                    cover = "".join(
-                        random.choices(string.ascii_letters + string.digits, k=6)
-                    )
+                cover = "".join(random.choices(
+                    string.ascii_letters + string.digits,
+                    k=6
+                ))
+                print()
+                cover = cover + " "
+                cover_dict[x] = cover
+                en_list.append(cover)
+                trackHEH.append(cover)
 
-                    cover = cover + " "
-
-                    cover_dict[place][i] = cover
-                    enlist.append(cover)
-
-
-                elif i in cover_dict[place]:
-
-                    cover = cover_dict[place][i]
-                    enlist.append(cover)
-
-                    ldict[i] += 1
-
-                else:
-                    continue
-
-            elif i == " ":
-                enlist.append(i)
-
+            elif x in cover_dict:
+                cover = cover_dict[x]
+                en_list.append(cover)
+                trackHEH.append(cover)
             else:
-                enlist.append(i)
+                en_list.append(x)
 
-        finalenlist = "".join(enlist)
+        print()
+        print("Encrypting...")
+        time.sleep(1)
 
         journal_name = j_name
 
@@ -1275,25 +1035,17 @@ def Swiption():
 
         cursor.execute(
             """
-            INSERT INTO swiption_details
-            (user_id, journal_name, encryption_date,
-             encryption_key, life)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO journal_details
+            (user_id, journal_name, encryption_key, encryption_date)
+            VALUES (?, ?, ?, ?)
             """,
-            (
-                user_id,
-                journal_name,
-                encryption_date,
-                encryption_key,
-                l
-            )
-        )
-
-        mycon.commit()
+            (user_id, journal_name, encryption_key, encryption_date))
         mycon.commit()
 
+        finalenlist = "".join(en_list)
         print()
         print("Successfully Encrypted!")
+        print()
         print()
         time.sleep(1)
         clear()
@@ -1301,12 +1053,496 @@ def Swiption():
         print()
         print("Please copy this and paste it somewhere, you'll need it while decrypting!")
         print()
-        print("You'll be redirected to the menu shortly.")
+        print("Thank you for using Privournal!")
+        input("Press Enter to return to the menu...").strip()
         print()
-        print()
-        time.sleep(8)
-        Menu()
+        Menu1()
 
+    else:
+        en_list = []
+        cover_dict = {}
+
+        feed()
+
+        if not journal:
+            print("Empty Journal!")
+            feed()
+        else:
+            print("Journal Uploaded!")
+
+        print()
+
+        trackHEH = []
+
+        for x in journal:
+            if x.isalpha() and x not in cover_dict:
+
+                cover = "".join(random.choices(
+                    string.ascii_letters + string.digits,
+                    k=6
+                ))
+
+                print()
+                cover = cover + " "
+                cover_dict[x] = cover
+                en_list.append(cover)
+                trackHEH.append(cover)
+
+
+            elif x in cover_dict:
+                cover = cover_dict[x]
+                en_list.append(cover)
+                trackHEH.append(cover)
+            else:
+                en_list.append(x)
+
+        print()
+        print("Encrypting...")
+        time.sleep(1)
+
+        finalenlist = "".join(en_list)
+        print()
+        print("Successfully Encrypted!")
+        print()
+        print()
+        time.sleep(1)
+        clear()
+        show_output("Here's your Encrypted text", finalenlist)
+        print()
+        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+        print()
+        print()
+        print("AND Here's the Encryption Key : ")
+        print(json.dumps(cover_dict))
+        print()
+        print("Please copy this key too! It's Important! Since you don't have an account.")
+        print()
+        print("Thank you for using Privournal!")
+        input("Press Enter to return to the menu...").strip()
+        print()
+        Menu2()
+
+def Swiption():
+    clear()
+    section("SWIPTION ENCRYPTION")
+    print()
+    print("Welcome to Swiption Encryption - Our most secure form of Encryption!")
+    print()
+    print("A life is NUMBER, it means at what occurrence would the letter's cover be changed in the encryption. (Eg. 2,3,...) ")
+    print()
+
+    global l
+    try:
+        l = int(input("Choose life : ").strip())
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        Swiption()
+        return
+    if l <= 0:
+        print()
+        print("Invalid Choice! Life must be a number greater than 0.")
+        print()
+        time.sleep(2)
+        Swiption()
+        return
+    print()
+
+    en_list = []
+
+    cover_dict = []
+    for i in range(l + 10):
+        cover_dict.append({})
+
+    j = input("Please feed the Journal for Encryption : ").strip()
+    print()
+    j_name = input("Please name your Journal : ").strip()
+
+    if not j:
+        print("Empty Journal!")
+        Swiption()
+    else:
+        print("Journal Uploaded!")
+
+    print()
+    print("Encrypting...")
+    time.sleep(1)
+
+    m = 0
+
+    global ldict
+    ldict = {}
+
+    for i in range(26):
+        ldict[chr(65 + i)] = 0
+        ldict[chr(97 + i)] = 0
+
+    for i in j:
+
+        if i.isalpha():
+            place = ldict[i] // l
+
+            if i.isalpha() and i not in cover_dict[place]:
+
+                ldict[i] += 1
+
+                if (place * l) + 1 == ldict[i] and ldict[i] != 0:
+                    cover_dict.append({})
+
+                cover = "".join(
+                    random.choices(string.ascii_letters + string.digits, k=6)
+                )
+
+                cover = cover + " "
+
+                cover_dict[place][i] = cover
+                en_list.append(cover)
+
+            elif i in cover_dict[place]:
+
+                cover = cover_dict[place][i]
+                en_list.append(cover)
+
+                ldict[i] += 1
+
+            else:
+                continue
+
+        elif i == " ":
+            en_list.append(i)
+
+        else:
+            en_list.append(i)
+
+    finalenlist = "".join(en_list)
+
+    journal_name = j_name
+
+    encryption_key = json.dumps(cover_dict)
+    encryption_date = str(date.today())
+
+    cursor.execute(
+        """
+        INSERT INTO swiption_details
+        (user_id, journal_name, encryption_date,
+         encryption_key, life)
+        VALUES (?, ?, ?, ?, ?)
+        """,
+        (
+            user_id,
+            journal_name,
+            encryption_date,
+            encryption_key,
+            l
+        )
+    )
+
+    mycon.commit()
+    mycon.commit()
+
+    print()
+    print("Successfully Encrypted!")
+    print()
+    time.sleep(1)
+    clear()
+    show_output("Here's your Encrypted text", finalenlist)
+    print()
+    print("Please copy this and paste it somewhere, you'll need it while decrypting!")
+    print()
+    print("Thank you for using Privournal!")
+    input("Press Enter to return to the menu...").strip()
+    print()
+    Menu1()
+
+def De2():
+
+    clear()
+    section("DECRYPTION")
+    print()
+
+    global RAWlist
+    RAWlist = []
+
+    print()
+    print("1. Basic Encryption")
+    print("2. Advanced (Randomised/Manual) Encryption ")
+    print("3. Exit")
+    print()
+    print("Note that to Decrypt a Swiption based journal, you need an account. ")
+    print()
+    print()
+
+    try:
+        Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : ").strip())
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        De()
+        return
+    print()
+    if Ch3 == 1:
+        print()
+        RAW = input("Enter the Encrypted text : ").strip()
+        RAWlist = RAW.split(" ")
+        print()
+        time.sleep(1)
+        clear()
+        print()
+
+        which_mode()
+
+        time.sleep(1)
+        basicDe()
+
+    elif Ch3 == 2:
+
+        Ch5 = input("Do you have the Encryption Key? (y/n) : ").strip()
+        print()
+
+        if Ch5 == "y" or Ch5 == "Y":
+            given_dict_key = input("Enter the Encryption Key please : ").strip()
+            try:
+                given_dict_key = json.loads(given_dict_key)
+            except json.decoder.JSONDecodeError:
+                print(
+                    "That doesn't look like a valid Encryption Key. Please check and paste it exactly as given.")
+                print()
+                De()
+                return
+
+            print()
+            RAW = input("Enter the raw encrypted journal : ").strip()
+            print()
+            RAWlist = RAW.split(" ")
+
+            tempstore = []
+            for i in RAWlist:
+                for key, value in given_dict_key.items():
+                    if i == "":
+                        tempstore.append(" ")
+                        break
+
+                    elif not i.isalnum():
+                        tempstore.append(i)
+                        break
+
+                    elif (str(i) + " ") == value:
+                        tempstore.append(key)
+                        break
+
+                    else:
+                        continue
+
+            decrypted = "".join(tempstore)
+            print()
+            print()
+            print("Decrypting...")
+            print()
+            print("Decrypted Successfully!")
+            print()
+            time.sleep(1)
+            clear()
+            show_output("Here's your Journal", decrypted)
+            print()
+            print("You can copy your decrypted journal and save it somewhere safe!")
+            print()
+            print("Thank you for using Privournal!")
+            input("Press Enter to return to the menu...").strip()
+            print()
+            Menu2()
+
+        elif Ch5 == "n" or Ch5 == "N":
+            print()
+            print("We're sorry, we cannot Decryption without the Key. \nBe sure to make an account on Privournal if you have trouble keeping Keys.")
+            print()
+            print("Thank you for using Privournal!")
+            input("Press Enter to return to the menu...").strip()
+            print()
+            Menu2()
+
+        else:
+            print("Invalid Choice!")
+            print()
+            time.sleep(1)
+            De()
+
+    elif Ch3 == 3:
+        exit()
+    else:
+        print("Invalid Choice!")
+        time.sleep(1)
+        De()
+
+def De1():
+    clear()
+    section("DECRYPTION")
+    print()
+
+    CH = input("Do you want to Decrypt a Swiption based Journal? (y/n) : ").strip()
+    print()
+    print()
+
+    if CH == "y" or CH == "Y":
+        SwipDe()
+    elif CH == "n" or CH == "N":
+        cursor.execute('''
+                        SELECT jd.*
+                        FROM journal_details jd
+                        JOIN user_records ur
+                        ON jd.user_id = ur.user_id
+                        WHERE ur.username = ?
+                        ''', (username,))
+
+        j_data = cursor.fetchall()  # Fetching Journal Data
+
+        global user_id
+        user_id = (j_data[0][1])
+        print("User_ID is", user_id)
+        print()
+
+        global j_id
+        j_id = []
+        for i in range(len(j_data)):
+            j_id.append((j_data[i][0]))
+        print("Journal_IDs : ", j_id)
+        print()
+
+        global j_name
+        j_name = []
+        for i in range(len(j_data)):
+            j_name.append(j_data[i][2])
+        print("Journal_Names : ", j_name)
+        print()
+
+        global en_key
+        en_key = []
+        for i in range(len(j_data)):
+            en_key.append(j_data[i][3])
+        for t in en_key:
+            print("Encryption Key : ", t)
+            print()
+
+        global en_date
+        en_date = []
+        for i in range(len(j_data)):
+            en_date.append(j_data[i][4])
+        for t in en_date:
+            print("Date Created : ", t)
+            print()
+
+        which_j()
+
+        print("Starting Decryption!")
+        print()
+
+        og_dict_key = json.loads(EN_KEY)
+
+        RAW = input("Enter the raw encrypted journal : ").strip()
+
+        global RAWlist
+
+        RAWlist = []
+
+        RAWlist = RAW.split(" ")
+
+        tempstore = []
+        for i in RAWlist:
+            for key, value in og_dict_key.items():
+                if i == "":
+                    tempstore.append(" ")
+                    break
+
+                elif not i.isalnum():
+                    tempstore.append(i)
+                    break
+
+                elif (str(i) + " ") == value:
+                    tempstore.append(key)
+                    break
+                else:
+                    continue
+
+        decrypted = "".join(tempstore)
+        print()
+        print()
+        print("Decrypting...")
+        print()
+        print("Decrypted Successfully!")
+        print()
+        time.sleep(1)
+        clear()
+        show_output("Here's your Journal", decrypted)
+        print()
+        print("You can copy your decrypted journal and save it somewhere safe!")
+        print()
+        print("Thank you for using Privournal!")
+        input("Press Enter to return to the menu...").strip()
+        print()
+        Menu1()
+
+    else:
+        print("Invalid Choice!")
+        print()
+        time.sleep(1)
+        De1()
+
+def basicDe():
+    dakey = {}
+
+    if Ch4 == 1:
+        dakey = mark1
+    elif Ch4 == 2:
+        dakey = asciiv
+    elif Ch4 == 3:
+        dakey = mark2
+    elif Ch4 == 4:
+        dakey = mark3
+    elif Ch4 == 5:
+        dakey = mark4
+    else:
+        print("Invalid Option!")
+        basicDe()
+
+    print()
+    print("Decrypting...")
+    print()
+
+    de_list = []
+
+    for i in RAWlist:
+        if i == "":
+            de_list.append(" ")
+        else:
+            for keys, values in dakey.items():
+                if values.strip() == i:
+                    de_list.append(keys)
+                else:
+                    continue
+            if not i.isalnum() and i != "":
+                de_list.append(i)
+
+    decrypted = "".join(de_list)
+    print("Successfully Decrypted!")
+    print()
+    print()
+    time.sleep(1)
+    clear()
+    show_output("Here's your Journal", decrypted)
+    print()
+    print("Thank you for using Privournal!")
+    print("Be sure to make an account for smoother experience in the future :) ")
+    print()
+    input("Press Enter to return to the menu...").strip()
+    print()
+
+    if status == 1:
+        Menu1()
+    else:
+        Menu2()
 
 def SwipDe():
     clear()
@@ -1370,7 +1606,7 @@ def SwipDe():
     print("Life Values :", life)
     print()
 
-    Ch = input("Which Journal do you want to Decrypt? (Enter it's name) : ")
+    Ch = input("Which Journal do you want to Decrypt? (Enter it's name) : ").strip()
 
     if Ch not in j_name:
         print("Journal not found. Check the ID again!")
@@ -1392,13 +1628,11 @@ def SwipDe():
     clear()
     print("Starting Decryption!")
     print()
-    print("Decrypting...")
-    print()
     time.sleep(1)
 
     og_dict_key = json.loads(EN_KEY)
 
-    RAW = input("Enter the raw encrypted journal : ")
+    RAW = input("Enter the raw encrypted journal : ").strip()
     RAWlist = RAW.split(" ")
 
     tempstore = []
@@ -1426,6 +1660,8 @@ def SwipDe():
 
     decrypted = "".join(tempstore)
     print()
+    print("Decrypting...")
+    print()
     print("Decrypted Successfully!")
     print()
     print()
@@ -1435,167 +1671,142 @@ def SwipDe():
     print()
     print("You can copy your decrypted journal and save it somewhere safe!")
     print()
-    print("You will be redirected to menu shortly.")
+    input("Thank you for using Privournal!")
+    input("Press Enter to go back to the menu...")
     print()
-    time.sleep(5)
-    Menu()
+    Menu1()
 
-
-def AdvRand():
+def Menu1():
     clear()
-    section("RANDOMISED ENCRYPTION")
+    section("MENU")
+    print("What would you like to do today?")
+    print()
+    print("1. Encrypt a Journal Entry")
+    print("2. Decrypt a Journal Entry")
+    print("3. Guide")
+    print("4. Exit")
+    divider()
+    ques4 = int(input("1 OR 2 OR 3 OR 4 : ").strip())
+
+    try:
+        ch = int(ques4)
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        Menu1()
+        return
+    print()
+    print()
+
+    if ch == 1:
+        En()
+    elif ch == 2:
+
+        if status == 1:
+            De1()
+        else:
+            De2()
+
+    elif ch == 3:
+        guide()
+    elif ch ==4:
+        exit()
+    else:
+        print("Invalid Choice!")
+        print()
+        time.sleep(1)
+        Menu1()
+
+def Menu2():
+    clear()
+    section("MENU")
+    print("What would you like to do today?")
+    print()
+    print("1. Encrypt a Journal Entry")
+    print("2. Decrypt a Journal Entry")
+    print("3. Guide")
+    print("4. Exit")
+    divider()
+    raw = input("1 OR 2 OR 3 OR 4 : ").strip()
+    try:
+        ch = int(raw)
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        Menu2()
+        return
+    print()
+    print()
+
+    if ch == 1:
+        En()
+    elif ch == 2:
+        if status == 1:
+            De1()
+        else:
+            De2()
+
+    elif ch == 3:
+        guide()
+    elif ch == 4:
+        exit()
+    else:
+        print("Invalid Choice!")
+        print()
+        time.sleep(1)
+        Menu2()
+
+def feed():
+    global journal
+    global j_name
+    journal = input("Please feed the Journal for Encryption : ").strip()
+
     if status == 1:
+        j_name = input("Please name your Journal : ").strip()
 
-        enlist = []
-        cover_dict = {}
+def coverr():
+    print("What should be the cover for", x, "?")
+    global cover
+    cover = input("Cover = ").strip()
 
-        feed()
-
-        if not journal:
-            print("Empty Journal!")
-            feed()
-        else:
-            print("Journal Uploaded!")
-
+    if cover not in trackHEH:
         print()
+        cover = cover + " "
+        cover_dict[x] = cover
+        en_list.append(cover)
+        trackHEH.append(cover)
+    else:
+        print("2 letters can't have the same cover hon! ")
+        coverr()
 
-        trackHEH = []
-
-        for x in journal:
-            if x.isalpha() and x not in cover_dict:
-
-                cover = "".join(random.choices(
-                    string.ascii_letters + string.digits,
-                    k=6
-                ))
-                print()
-                cover = cover + " "
-                cover_dict[x] = cover
-                enlist.append(cover)
-                trackHEH.append(cover)
-
-            elif x in cover_dict:
-                cover = cover_dict[x]
-                enlist.append(cover)
-                trackHEH.append(cover)
-            else:
-                enlist.append(x)
-
+def which_j():
+    try:
+        Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ").strip()
+    except ValueError:
         print()
-        print("Encrypting...")
-        time.sleep(1)
-
-        journal_name = j_name
-
-        encryption_key = json.dumps(cover_dict)
-        encryption_date = str(date.today())
-
-        cursor.execute(
-            """
-            INSERT INTO journal_details
-            (user_id, journal_name, encryption_key, encryption_date)
-            VALUES (?, ?, ?, ?)
-            """,
-            (user_id, journal_name, encryption_key, encryption_date))
-        mycon.commit()
-
-        finalenlist = "".join(enlist)
-        print()
-        print("Successfully Encrypted!")
-        print()
+        print("Invalid Choice! Please enter the journal name.")
         print()
         time.sleep(1)
-        clear()
-        show_output("Here's your Encrypted text", finalenlist)
-        print()
-        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
-        print()
-        print("You'll be redirected to the menu shortly.")
-        print()
-        print()
-        time.sleep(8)
+        which_j()
+        return
+    print()
 
-        Menu()
+    if Ch not in j_name:
+        print("Journal not found. Check the name again!")
+        which_j()
 
     else:
-        enlist = []
-        cover_dict = {}
+        for i in range(len(j_name)):
 
-        feed()
-
-        if not journal:
-            print("Empty Journal!")
-            feed()
-        else:
-            print("Journal Uploaded!")
-
-        print()
-
-        trackHEH = []
-
-        for x in journal:
-            if x.isalpha() and x not in cover_dict:
-
-                cover = "".join(random.choices(
-                    string.ascii_letters + string.digits,
-                    k=6
-                ))
-
-                print()
-                cover = cover + " "
-                cover_dict[x] = cover
-                enlist.append(cover)
-                trackHEH.append(cover)
-
-
-            elif x in cover_dict:
-                cover = cover_dict[x]
-                enlist.append(cover)
-                trackHEH.append(cover)
+            if j_name[i] == Ch:
+                global EN_KEY
+                EN_KEY = en_key[i]
             else:
-                enlist.append(x)
-
-        print()
-        print("Encrypting...")
-        time.sleep(1)
-
-        finalenlist = "".join(enlist)
-        print()
-        print("Successfully Encrypted!")
-        print()
-        print()
-        time.sleep(1)
-        clear()
-        show_output("Here's your Encrypted text", finalenlist)
-        print()
-        print("Please copy this and paste it somewhere, you'll need it while decrypting!")
-        print()
-        print()
-        print("Here's the Encryption Key : ",json.dumps(cover_dict))
-        print()
-        print("Please copy this key too! It's important! Since you don't have an account.")
-        print()
-        print("You'll be redirected to the menu shortly in 10 seconds.")
-        print()
-
-        time.sleep(10)
-        Menu()
-
-def choice():
-
-    Ch21 = int(input(" 1 OR 2 OR 3 : "))
-
-    if Ch21 == 1:
-            signup()
-    elif Ch21 == 2:
-            login()
-    elif Ch21 == 3:
-            Menu()
-    elif Ch21 == 4:
-            exit()
-    else:
-        print("Invalid choice!")
-        choice()
+                continue
 
 def which_mode():
     print("1. Mark 1 (A to Z from 1 to 26 respectively, and a to z from 27 to 52 respectively.)")
@@ -1607,7 +1818,7 @@ def which_mode():
     print()
     global Ch4
     try:
-        Ch4 = int(input("Which encryption mode out of these did your journal have? (1-5) : "))
+        Ch4 = int(input("Which encryption mode out of these did your journal have? (1-5) : ").strip())
         print()
     except ValueError:
         print()
@@ -1616,174 +1827,6 @@ def which_mode():
         time.sleep(1)
         which_mode()
         return
-
-def guide():
-    clear()
-    section("GUIDE")
-    print("""
-    Welcome to the Privournal Guide!
-    Here's everything you need to know before diving in.
-    """)
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  WHAT IS PRIVOURNAL?
-──────────────────────────────────────────────────────────────────────────────
-
-  Privournal is a private journal encryption tool.
-  It converts your journal text into an unreadable encrypted form,
-  and only you can decrypt it back using the right key.
-
-  Privournal stores NOTHING except your account details.
-  Your journal content never gets saved anywhere — only the encryption
-  key is stored (in your account), not the journal itself.
-""")
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  DO I NEED AN ACCOUNT?
-──────────────────────────────────────────────────────────────────────────────
-
-  No, but having one makes life much easier.
-
-  WITHOUT an account:
-    - You can still encrypt and decrypt journals.
-    - BUT you must manually save and provide the Encryption Key yourself.
-    - Swiption is NOT available.
-
-  WITH an account:
-    - Your encryption keys are saved automatically.
-    - You can look up past journals by name.
-    - Swiption is available.
-""")
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  ENCRYPTION MODES
-──────────────────────────────────────────────────────────────────────────────
-""")
-
-    print("""  1. BASIC ENCRYPTION
-  ───────────────────
-  Simple and fast. Each letter is mapped to a number or another letter.
-  Good enough if you just want casual privacy.
-
-  There are 5 Basic modes:
-
-    Mark 1     → A-Z maps to 1-26,  a-z maps to 27-52
-    ASCII      → Each letter maps to its ASCII number (A=65, B=66... z=122)
-    Mark 2     → A-Z maps to 26-1,  a-z maps to 52-27  (reverse of Mark 1)
-    Mark 3     → A-Z maps to 2,4,6...52 (even),  a-z maps to 1,3,5...51 (odd)
-    Mark 4     → A maps to Z, B maps to Y... (mirror alphabet)
-
-  Remember which mode you used — you'll need to pick the same one to decrypt!
-""")
-    time.sleep(2)
-
-    print("""  2. ADVANCED ENCRYPTION
-  ──────────────────────
-  Much stronger. You (or the system) assigns a unique "cover" to each letter.
-  The cover is what appears in the encrypted text instead of the letter.
-
-  There are 2 Advanced modes:
-
-    Manual     → You type the cover for each letter yourself.
-                 e.g. You decide A = "apple", B = "mango", etc.
-                 Every letter must have a UNIQUE cover.
-
-    Randomised → The system auto-generates a random 6-character cover
-                 for each letter. Fast and very secure.
-
-  The Encryption Key (a dictionary mapping letters to their covers)
-  is what you need to decrypt. Save it if you don't have an account!
-""")
-    time.sleep(2)
-
-    print("""  3. SWIPTION ENCRYPTION  ★ Most Secure ★
-  ────────────────────────────────────────
-  Swiption is Privournal's most powerful feature. It requires an account.
-
-  The idea: a letter's cover CHANGES after it appears a certain number
-  of times. That number is called the LIFE.
-
-  Example with Life = 2:
-    - First 2 times 'A' appears → it gets Cover 1
-    - Next 2 times 'A' appears  → it gets a brand new Cover 2
-    - And so on...
-
-  This means even if someone notices a pattern, the pattern keeps changing!
-
-  Life = 1  → Cover changes every single occurrence (maximum rotation)
-  Life = 3  → Cover stays for 3 occurrences, then changes
-  Life = 10 → Cover stays for 10 occurrences before changing
-
-  Swiption always uses Randomised covers (auto-generated).
-  Your Swiption key and Life value are saved to your account automatically.
-""")
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  HOW TO ENCRYPT
-──────────────────────────────────────────────────────────────────────────────
-
-  Step 1 → Go to "Encrypt a Journal Entry" from the Menu.
-  Step 2 → Login or choose to proceed without an account.
-  Step 3 → Choose Basic or Advanced encryption.
-  Step 4 → If Advanced, choose Manual, Randomised, or Swiption.
-  Step 5 → Paste or type your journal when prompted.
-  Step 6 → Name your journal (if logged in).
-  Step 7 → Copy the encrypted output and save it somewhere safe!
-            If you don't have an account, copy the Encryption Key too!
-""")
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  HOW TO DECRYPT
-──────────────────────────────────────────────────────────────────────────────
-
-  Step 1 → Go to "Decrypt a Journal Entry" from the Menu.
-  Step 2 → Login (if you have an account) or proceed without one.
-
-  WITH an account:
-    - Choose whether it's a Swiption journal or a regular one.
-    - Your journals will be listed by name.
-    - Enter the journal name, then paste your encrypted text.
-    - Done!
-
-  WITHOUT an account:
-    - Choose Basic or Advanced.
-    - For Basic: paste encrypted text, then pick the same Mark/mode used.
-    - For Advanced: paste encrypted text AND provide your saved Key.
-    - Done!
-""")
-    time.sleep(2)
-
-    print("""
-──────────────────────────────────────────────────────────────────────────────
-  TIPS
-──────────────────────────────────────────────────────────────────────────────
-
-  ★ Always copy and save your encrypted journal text after encrypting.
-    Privournal does not store your journal content — only the key.
-
-  ★ If you don't have an account, save your Encryption Key somewhere safe.
-    Without it, there is NO way to decrypt your journal.
-
-  ★ For maximum security, use Swiption with a Life of 1 or 2.
-
-  ★ For quick casual use, Basic Mark 4 is simple and easy to remember.
-
-──────────────────────────────────────────────────────────────────────────────
-""")
-    time.sleep(1)
-
-    input("Press Enter to go back to the Menu...")
-    Menu()
 
 def banner():
     print('''
@@ -1804,19 +1847,4 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
-
-                        print()
-                        print("Succesfully Encrypted!")
-                        print()
-                        print()
-                        time.sleep(1)
-                        clear()
-                        show_output("Here's your Encrypted text", encrypted)
-                        print()
-                        print("Please copy this and paste it somewhere, you'll need it while decrypting.")
-                        print()
-                        print("Thank you for using Privournal! ")
-                        print("Be sure to make an account for smoother experience in future :) ")
-                        print()
-                        input("Press enter to return to the menu...")
 
