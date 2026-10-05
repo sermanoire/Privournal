@@ -1822,7 +1822,7 @@ def which_mode():
         print()
     except ValueError:
         print()
-        print("Invalid Choice! Please enter a number.")
+        print("Invalid Choice! Please enter a number. ")
         print()
         time.sleep(1)
         which_mode()
