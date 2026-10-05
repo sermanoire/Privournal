@@ -1788,6 +1788,7 @@ def which_j():
         Ch = input("Which Journal do you want to Decrypt? (Enter Journal name) : ").strip()
     except ValueError:
         print()
+
         print("Invalid Choice! Please enter the journal name.")
         print()
         time.sleep(1)
