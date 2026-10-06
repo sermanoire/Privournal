@@ -123,8 +123,8 @@ CREATE TABLE IF NOT EXISTS journal_details (
     journal_id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
     journal_name TEXT,
-    encryption_key TEXT,
-    encryption_date TEXT
+    encryption_date TEXT,
+    encryption_key TEXT
 )
 """)
     cursor.execute("""
@@ -684,7 +684,7 @@ def En():
                         print("Advanced Encryption it is then!")
                         print()
                         print()
-                        AdvEn2()
+                        AdvEn1()
 
         else:
 
@@ -779,7 +779,7 @@ def En():
                 cursor.execute(
                     """
                     INSERT INTO journal_details
-                    (user_id, journal_name, encryption_key, encryption_date)
+                    (user_id, journal_name, encryption_date, encryption_key)
                     VALUES (?, ?, ?, ?)
                     """,
                     (user_id, journal_name, encryption_key, encryption_date))
@@ -809,7 +809,6 @@ def En():
                 print("Advanced Encryption it is then!")
                 print()
                 print()
-
                 AdvEn2()
 
                 swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ").strip()
@@ -890,7 +889,7 @@ def AdvEn1():
             cursor.execute(
                 """
                 INSERT INTO journal_details
-                (user_id, journal_name, encryption_key, encryption_date)
+                (user_id, journal_name, encryption_date, encryption_key)
                 VALUES (?, ?, ?, ?)
                 """,
                 (user_id, journal_name, encryption_key, encryption_date))
@@ -1036,7 +1035,7 @@ def AdvRand():
         cursor.execute(
             """
             INSERT INTO journal_details
-            (user_id, journal_name, encryption_key, encryption_date)
+            (user_id, journal_name, encryption_date, encryption_key)
             VALUES (?, ?, ?, ?)
             """,
             (user_id, journal_name, encryption_key, encryption_date))
@@ -1399,40 +1398,8 @@ def De1():
 
         j_data = cursor.fetchall()  # Fetching Journal Data
 
-        global user_id
-        user_id = (j_data[0][1])
-        print("User_ID is", user_id)
-        print()
-
-        global j_id
-        j_id = []
-        for i in range(len(j_data)):
-            j_id.append((j_data[i][0]))
-        print("Journal_IDs : ", j_id)
-        print()
-
-        global j_name
-        j_name = []
-        for i in range(len(j_data)):
-            j_name.append(j_data[i][2])
-        print("Journal_Names : ", j_name)
-        print()
-
-        global en_key
-        en_key = []
-        for i in range(len(j_data)):
-            en_key.append(j_data[i][3])
-        for t in en_key:
-            print("Encryption Key : ", t)
-            print()
-
-        global en_date
-        en_date = []
-        for i in range(len(j_data)):
-            en_date.append(j_data[i][4])
-        for t in en_date:
-            print("Date Created : ", t)
-            print()
+        headers = ["Journal ID", "User ID", "Journal Name", "Date", "Encryption Key"]
+        table(headers, j_data)
 
         which_j()
 
@@ -1559,49 +1526,8 @@ def SwipDe():
 
     j_data = cursor.fetchall()
 
-    print("User_ID is", user_id)
-
-    print()
-
-    global s_id
-    s_id = []
-    for i in range(len(j_data)):
-        s_id.append(j_data[i][0])
-
-    print("Swiption_IDs :", s_id)
-
-    print()
-
-    global j_name
-    j_name = []
-    for i in range(len(j_data)):
-        j_name.append(j_data[i][2])
-
-    print("Journal_Names :", j_name)
-    print()
-
-    global en_date
-    en_date = []
-    for i in range(len(j_data)):
-        en_date.append(j_data[i][3])
-
-    for j in en_date:
-        print("Date Created :", j)
-        print()
-
-    global en_key
-    en_key = []
-    for i in range(len(j_data)):
-        en_key.append(j_data[i][4])
-
-    for t in en_key:
-        print(t)
-        print()
-
-    global life
-    life = []
-    for i in range(len(j_data)):
-        life.append(j_data[i][5])
+    headers = ["Journal ID","User ID","Journal Name","Date","Encryption Key"]
+    table(headers,j_data)
 
     print("Life Values :", life)
     print()
@@ -1828,6 +1754,33 @@ def which_mode():
         time.sleep(1)
         which_mode()
         return
+
+def table(headers,rows):
+    if not rows:
+        print("Ntg to show!")
+        return
+    rows = [[str(cell) for cell in row] for row in rows]
+
+    #So that the width size is made such that it can contain the largest cell data.
+    widths = [len(h) for h in headers]
+
+    for row in rows:
+        for i, cell in enumerate(row):
+            widths[i] = max(widths[i], len(cell))
+
+    def border(left, mid, right):
+        return left + mid.join("─" * (w + 2) for w in widths) + right
+
+    def line(cells):
+        return "│" + "│".join(f" {c:<{w}} " for c, w in zip(cells, widths)) + "│"
+
+    print(border("┌", "┬", "┐"))
+    print(line(headers))
+    print(border("├", "┼", "┤"))
+
+    for row in rows:
+        print(line(row))
+    print(border("└", "┴", "┘"))
 
 def banner():
     print('''
