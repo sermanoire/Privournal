@@ -707,7 +707,7 @@ def En():
             if ques7 == 1:
                 clear()
                 section("Basic Encryption")
-
+                AdvEn1()
                 print("Welcome!")
                 print()
 
@@ -802,32 +802,27 @@ def En():
                 input("Press enter to return to the menu...")
                 Menu1()
 
+
             elif ques7 == 2:
                 print()
                 print()
                 divider()
+
                 print("Advanced Encryption it is then!")
                 print()
                 print()
-                AdvEn1()
-
-                swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ").strip()
-
+                swiption = input("Do you want to enable Swiption for stronger Encryption? (y/n) : ").strip().lower()
                 print()
-                if swiption == "Y" or swiption == "y":
+
+                if swiption == "y":
                     Swiption()
-
-                elif swiption == "N" or swiption == "n":
+                elif swiption == "n":
                     AdvEn1()
-
                 else:
-                    print("Invalid Choice! Please enter a number.")
+                    print("Invalid Choice! Please enter Y or N.")
                     print()
                     time.sleep(1)
                     En()
-            else:
-                print("Invalid input!").strip()
-                AdvEn1()
 
 def AdvEn1():
 
