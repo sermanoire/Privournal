@@ -1507,6 +1507,7 @@ def basicDe():
         Menu2()
 
 def SwipDe():
+
     clear()
     cursor.execute(
         '''
@@ -1521,7 +1522,11 @@ def SwipDe():
 
     j_data = cursor.fetchall()
 
-    headers = ["Journal ID","User ID","Journal Name","Date","Encryption Key"]
+    j_name = [row[2] for row in j_data]
+    en_key = [row[4] for row in j_data]
+    life = [row[5] for row in j_data]
+
+    headers = ["Journal ID","User ID","Journal Name","Date","Encryption Key","Life"]
     table(headers,j_data)
 
     print("Life Values :", life)
