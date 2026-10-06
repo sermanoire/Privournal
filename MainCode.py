@@ -684,7 +684,7 @@ def En():
                         print("Advanced Encryption it is then!")
                         print()
                         print()
-                        AdvEn1()
+                        AdvEn2()
 
         else:
 
@@ -809,7 +809,7 @@ def En():
                 print("Advanced Encryption it is then!")
                 print()
                 print()
-                AdvEn2()
+                AdvEn1()
 
                 swiption = input("Do you want to enable Swiption for a stronger Encryption? (y/n) : ").strip()
 
