@@ -70,8 +70,8 @@ dakey = {}
 # Mark 1!
 mark1 = {}
 for i in range(26):
-    mark1[chr(65 + i)] = " "
-    mark1[chr(97 + i)] = " "
+    mark1[chr(65 + i)] = str(i + 1) + " "
+    mark1[chr(97 + i)] = str(i + 27) + " "
 
 # ASCII Version!
 asciiv = {}
@@ -97,6 +97,8 @@ mark4 = {}
 for i in range(26):
     mark4[chr(65 + i)] = chr(90 - i) + " "
     mark4[chr(97 + i)] = chr(122 - i) + " "
+
+modes = {1: mark1, 2: asciiv, 3: mark2, 4: mark3, 5: mark4}
 
 # DB_CONNECTION
 import sqlite3
@@ -160,14 +162,33 @@ def startup():
     print("2. Without an account")
     print()
 
-    ques1 = int(input("Enter Choice (1 or 2) : ").strip())
+    raw1 = input("Enter Choice (1 or 2) : ").strip()
+    try:
+        ques1 = int(raw1)
+    except ValueError:
+        print()
+        print("Invalid Choice! Please enter a number.")
+        print()
+        time.sleep(1)
+        startup()
+        return
 
     if ques1 == 1:
         print()
         divider()
         print("1.Log in")
         print("2.Sign up")
-        ques2 = int(input("Enter Choice (1 or 2) : ").strip())
+        raw2 = input("Enter Choice (1 or 2) : ").strip()
+        try:
+            ques2 = int(raw2)
+        except ValueError:
+            print()
+            print("Invalid Choice! Please enter a number.")
+            print()
+            time.sleep(1)
+            startup()
+            return
+
         if ques2 == 1:
             login()
 
@@ -178,8 +199,9 @@ def startup():
             print()
             print("Invalid Choice!")
             startup()
+            return
 
-    if ques1 == 2:
+    elif ques1 == 2:
 
         print()
         print()
@@ -205,6 +227,14 @@ def startup():
         else:
             print("Invalid Choice!")
             startup()
+
+    else:
+        print()
+        print("Invalid Choice!")
+        print()
+        time.sleep(1)
+        startup()
+        return
 
 def Noacc_exp():
     print()
@@ -234,6 +264,7 @@ def login():
         print("No such Username found in the database!")
         time.sleep(1)
         login()
+        return
 
     else:
         if pswd == acc_details[0][0]:
@@ -293,11 +324,17 @@ def login():
                 print("Redirecting to login page...")
                 time.sleep(2)
                 login()
+                return
             else:
                 print("Invalid Choice!")
                 print()
                 time.sleep(1)
                 login()
+                return
+
+def username_taken(name):
+    cursor.execute("SELECT 1 FROM user_records WHERE username = ?", (name,))
+    return cursor.fetchone() is not None
 
 def signup():
 
@@ -317,6 +354,7 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
 
     elif " " in temp_username:
         print("Spaces not allowed!")
@@ -324,6 +362,7 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
 
     elif len(temp_username) < 6:
         print("Should be atleast 6 characters long!")
@@ -331,6 +370,13 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
+
+    elif username_taken(temp_username):
+        print("That username is already taken, try another one!")
+        time.sleep(1)
+        signup()
+        return
 
     else:
         global username
@@ -345,6 +391,7 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
 
     elif " " in temp_pswd:
         print("Spaces not allowed!")
@@ -352,6 +399,7 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
 
     elif len(temp_pswd) < 6:
         print("Should be atleast 6 characters long!")
@@ -359,11 +407,13 @@ def signup():
         print()
         time.sleep(1)
         signup()
+        return
 
     elif temp_pswd == username:
         print("Username and password cannot be same!")
         time.sleep(1)
         signup()
+        return
 
     else:
         t_conf_pswd = input("Confirm password : ").strip()
@@ -403,6 +453,7 @@ def signup():
         else:
             print("The passwords don't match.")
             signup()
+            return
 
 def guide():
     clear()
@@ -621,26 +672,16 @@ def En():
                         print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
                         print()
 
-                        try:
-                            ques6 = int(input("Which mode? (1-5) ").strip())
-                        except ValueError:
-                            print("Invalid Choice!")
-                            time.sleep(1)
-                            En()
-                            return
-
-                        if ques6 == 1:
-                            dakey = mark1
-                        elif ques6 == 2:
-                            dakey = asciiv
-                        elif ques6 == 3:
-                            dakey = mark2
-                        elif ques6 == 4:
-                            dakey = mark3
-                        elif ques6 == 5:
-                            dakey = mark4
-                        else:
-                            print("Invalid Option!")
+                        while True:
+                            try:
+                                ques6 = int(input("Which mode? (1-5) : ").strip())
+                            except ValueError:
+                                print("Invalid Choice! Please enter a number.")
+                                continue
+                            if ques6 in modes:
+                                dakey = modes[ques6]
+                                break
+                            print("Invalid Choice! Pick a number from 1 to 5.")
 
                         global j
                         j = input("Please feed the Journal for Encryption : ").strip()
@@ -707,7 +748,6 @@ def En():
             if ques7 == 1:
                 clear()
                 section("Basic Encryption")
-                AdvEn1()
                 print("Welcome!")
                 print()
 
@@ -727,6 +767,7 @@ def En():
                         print("Invalid Choice!")
                         time.sleep(1)
                         En()
+                        return
 
                 except ValueError:
                     print("Invalid Choice! Please enter a number.")
@@ -782,7 +823,7 @@ def En():
                     (user_id, journal_name, encryption_date, encryption_key)
                     VALUES (?, ?, ?, ?)
                     """,
-                    (user_id, journal_name, encryption_key, encryption_date))
+                    (user_id, journal_name, encryption_date, encryption_key))
 
                 mycon.commit()
 
@@ -823,11 +864,11 @@ def En():
                     print()
                     time.sleep(1)
                     En()
+                    return
 
 def AdvEn1():
 
-    global journal
-    global en_list
+    global journal, en_list, cover_dict, x
 
     Ch_rand = input("Do you want to enable Randomised Encryption for more ease and security? (y/n) ").strip()
     print()
@@ -859,15 +900,9 @@ def AdvEn1():
 
             for x in journal:
                 if x.isalpha() and x not in cover_dict:
-                    print("What should be the cover for", x, "?")
-                    print()
-                    cover = input("Cover = ").strip()
-                    cover = cover + " "
-                    cover_dict[x] = cover
-                    en_list.append(cover)
+                    coverr()
                 elif x in cover_dict:
-                    cover = cover_dict[x]
-                    en_list.append(cover)
+                    en_list.append(cover_dict[x])
                 else:
                     en_list.append(x)
 
@@ -887,7 +922,7 @@ def AdvEn1():
                 (user_id, journal_name, encryption_date, encryption_key)
                 VALUES (?, ?, ?, ?)
                 """,
-                (user_id, journal_name, encryption_key, encryption_date))
+                (user_id, journal_name, encryption_date, encryption_key))
             mycon.commit()
 
             print()
@@ -908,6 +943,7 @@ def AdvEn1():
     else:
         print("Invalid input!")
         AdvEn1()
+        return
 
 def AdvEn2():
 
@@ -1033,7 +1069,8 @@ def AdvRand():
             (user_id, journal_name, encryption_date, encryption_key)
             VALUES (?, ?, ?, ?)
             """,
-            (user_id, journal_name, encryption_key, encryption_date))
+            (user_id, journal_name, encryption_date, encryption_key))
+
         mycon.commit()
 
         finalenlist = "".join(en_list)
@@ -1157,6 +1194,7 @@ def Swiption():
     if not j:
         print("Empty Journal!")
         Swiption()
+        return
     else:
         print("Journal Uploaded!")
 
@@ -1269,13 +1307,13 @@ def De2():
     print()
 
     try:
-        Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2) : ").strip())
+        Ch3 = int(input("Which Encryption does your Journal have? (1 OR 2 OR 3) : ").strip())
     except ValueError:
         print()
         print("Invalid Choice! Please enter a number.")
         print()
         time.sleep(1)
-        De()
+        De2()
         return
     print()
     if Ch3 == 1:
@@ -1305,7 +1343,7 @@ def De2():
                 print(
                     "That doesn't look like a valid Encryption Key. Please check and paste it exactly as given.")
                 print()
-                De()
+                De2()
                 return
 
             print()
@@ -1362,19 +1400,24 @@ def De2():
             print("Invalid Choice!")
             print()
             time.sleep(1)
-            De()
+            De2()
+            return
 
     elif Ch3 == 3:
         exit()
+
     else:
         print("Invalid Choice!")
         time.sleep(1)
-        De()
+        De2()
+        return
 
 def De1():
     clear()
     section("DECRYPTION")
     print()
+
+    global j_name, en_key
 
     CH = input("Do you want to Decrypt a Swiption based Journal? (y/n) : ").strip()
     print()
@@ -1393,8 +1436,20 @@ def De1():
 
         j_data = cursor.fetchall()  # Fetching Journal Data
 
-        headers = ["Journal ID", "User ID", "Journal Name", "Date", "Encryption Key"]
-        table(headers, j_data)
+        j_name = [row[2] for row in j_data]
+        en_key = [row[4] for row in j_data]
+
+        headers = ["Journal ID", "Journal Name", "Date"]
+        display_rows = [(row[0], row[2], row[3]) for row in j_data]
+        table(headers, display_rows)
+
+        if not j_data:
+            print("You don't have any saved journals yet!")
+            input("Press Enter to return to the menu...")
+            Menu1()
+            return
+
+
 
         which_j()
 
@@ -1451,6 +1506,7 @@ def De1():
         print()
         time.sleep(1)
         De1()
+        return
 
 def basicDe():
     dakey = {}
@@ -1468,6 +1524,7 @@ def basicDe():
     else:
         print("Invalid Option!")
         basicDe()
+        return
 
     print()
     print("Decrypting...")
@@ -1522,12 +1579,19 @@ def SwipDe():
 
     j_data = cursor.fetchall()
 
+    if not j_data:
+        print("You don't have any Swiption Journals yet!")
+        input("Press Enter to return to the menu...")
+        Menu1()
+        return
+
     j_name = [row[2] for row in j_data]
     en_key = [row[4] for row in j_data]
     life = [row[5] for row in j_data]
 
-    headers = ["Journal ID","User ID","Journal Name","Date","Encryption Key","Life"]
-    table(headers,j_data)
+    headers = ["Journal ID", "Journal Name", "Date", "Life"]
+    display_rows = [(row[0], row[2], row[3], row[5]) for row in j_data]
+    table(headers, display_rows)
 
     print("Life Values :", life)
     print()
@@ -1538,6 +1602,7 @@ def SwipDe():
         print("Journal not found. Check the ID again!")
         time.sleep(1)
         SwipDe()
+        return
 
     else:
         global l
@@ -1609,13 +1674,14 @@ def Menu1():
     print()
     print("1. Encrypt a Journal Entry")
     print("2. Decrypt a Journal Entry")
-    print("3. Guide")
-    print("4. Exit")
+    print("3. View Account Details")
+    print("4. View Saved Keys")
+    print("5. Guide")
+    print("6. Exit")
     divider()
-    ques4 = int(input("1 OR 2 OR 3 OR 4 : ").strip())
-
+    raw = input("Enter choice (1-6) : ").strip()
     try:
-        ch = int(ques4)
+        ch = int(raw)
     except ValueError:
         print()
         print("Invalid Choice! Please enter a number.")
@@ -1629,15 +1695,16 @@ def Menu1():
     if ch == 1:
         En()
     elif ch == 2:
-
-        if status == 1:
-            De1()
-        else:
-            De2()
-
+        De1()
     elif ch == 3:
+        view_account()
+    elif ch == 4:
+        show_keys()
+        input("Press Enter to return to the menu...")
+        Menu1()
+    elif ch == 5:
         guide()
-    elif ch ==4:
+    elif ch == 6:
         exit()
     else:
         print("Invalid Choice!")
@@ -1685,6 +1752,7 @@ def Menu2():
         print()
         time.sleep(1)
         Menu2()
+        return
 
 def feed():
     global journal
@@ -1695,19 +1763,19 @@ def feed():
         j_name = input("Please name your Journal : ").strip()
 
 def coverr():
-    print("What should be the cover for", x, "?")
     global cover
-    cover = input("Cover = ").strip()
-
-    if cover not in trackHEH:
-        print()
-        cover = cover + " "
-        cover_dict[x] = cover
-        en_list.append(cover)
-        trackHEH.append(cover)
-    else:
-        print("2 letters can't have the same cover hon! ")
-        coverr()
+    while True:
+        print("What should be the cover for", x, "?")
+        cover = input("Cover = ").strip()
+        if cover == "" or " " in cover:
+            print("Cover can't be empty or contain spaces!")
+        elif cover + " " in cover_dict.values():
+            print("2 letters can't have the same cover hon!")
+        else:
+            break
+    cover = cover + " "
+    cover_dict[x] = cover
+    en_list.append(cover)
 
 def which_j():
     try:
@@ -1725,6 +1793,7 @@ def which_j():
     if Ch not in j_name:
         print("Journal not found. Check the name again!")
         which_j()
+        return
 
     else:
         for i in range(len(j_name)):
@@ -1744,16 +1813,16 @@ def which_mode():
     print("5. Mark 4 (A to Z from Z to A respectively and a to z from z to a respectively.)")
     print()
     global Ch4
-    try:
-        Ch4 = int(input("Which encryption mode out of these did your journal have? (1-5) : ").strip())
-        print()
-    except ValueError:
-        print()
-        print("Invalid Choice! Please enter a number. ")
-        print()
-        time.sleep(1)
-        which_mode()
-        return
+    while True:
+        try:
+            Ch4 = int(input("Which encryption mode out of these did your journal have? (1-5) : ").strip())
+        except ValueError:
+            print("Invalid Choice! Please enter a number.")
+            continue
+        if Ch4 in [1, 2, 3, 4, 5]:
+            break
+        print("Invalid Choice! Pick a number from 1 to 5.")
+    print()
 
 def table(headers,rows):
     if not rows:
@@ -1782,6 +1851,64 @@ def table(headers,rows):
         print(line(row))
     print(border("└", "┴", "┘"))
 
+def view_account():
+    clear()
+    section("ACCOUNT DETAILS")
+    print()
+
+    cursor.execute(
+        "SELECT first_name, username, email, account_created, password "
+        "FROM user_records WHERE user_id = ?", (user_id,)
+    )
+    first_name, uname, mail, created, pw = cursor.fetchone()
+
+    cursor.execute("SELECT COUNT(*) FROM journal_details WHERE user_id = ?", (user_id,))
+    regular_count = cursor.fetchone()[0]
+
+    cursor.execute("SELECT COUNT(*) FROM swiption_details WHERE user_id = ?", (user_id,))
+    swiption_count = cursor.fetchone()[0]
+
+    headers = ["Account", "Details :)"]
+    rows = [
+        ("Name", first_name),
+        ("Username", uname),
+        ("Email", mail),
+        ("Account Created", created),
+        ("Password", "*" * len(pw)),
+        ("Regular Journals", regular_count),
+        ("Swiption Journals", swiption_count),
+    ]
+    table(headers, rows)
+    print()
+    input("Press Enter to return to the menu...")
+    Menu1()
+
+def show_keys():
+    cursor.execute(
+        "SELECT journal_name, encryption_key FROM journal_details WHERE user_id = ?",
+        (user_id,)
+    )
+
+    normal = cursor.fetchall()
+
+    cursor.execute(
+        "SELECT journal_name, encryption_key FROM swiption_details WHERE user_id =?",
+        (user_id,)
+    )
+    swip = cursor.fetchall()
+
+    if not normal and not swip:
+        print("No journals saved yet!")
+        return
+
+    for title, rows in (("REGULAR JOURNALS", normal), ("SWIPTION JOURNALS", swip)):
+        if rows:
+            print(title)
+            for name, key in rows:
+                print("Name : ",name)
+                print("Key  : ",key)
+                print()
+
 def banner():
     print('''
     ██████╗ ██████╗ ██╗██╗   ██╗ ██████╗ ██╗   ██╗██████╗ ███╗   ██╗ █████╗ ██╗
@@ -1801,4 +1928,3 @@ if __name__ == "__main__":
 
     cursor.close()
     mycon.close()
-
