@@ -6,6 +6,7 @@ NOTE : ENCRYPTED TEXT HAS TO BE GIVEN BY USER IN CASE OF NO ACCOUNT'''
 # FOR MY REFENECE - DATA Fetchall -> List of different records and each column's info in a tuple.
 # THANK YOU
 # Imports!
+#Final Fixed Version!
 
 import random
 import string
